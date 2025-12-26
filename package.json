@@ -1,0 +1,36 @@
+{
+  "name": "kaiser-von-deutschland",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Kaiser von Deutschland - Historical Kingdom Simulator with extensive role-playing from year 0 to the future",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "localforage": "^1.10.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/uuid": "^9.0.7",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vitest": "^1.0.4"
+  },
+  "keywords": [
+    "game",
+    "simulation",
+    "strategy",
+    "kingdom",
+    "historical",
+    "kaiser",
+    "germany"
+  ],
+  "author": "Kaiser Development Team",
+  "license": "MIT"
+}

@@ -463,6 +463,286 @@ body {
   margin-bottom: 0.3rem;
 }
 
+/* Enhanced Game-like Effects */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(125, 211, 252, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(125, 211, 252, 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.building-icon {
+  font-size: 2rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.gold-value {
+  color: #FFD700;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.prestige-value {
+  color: #9370DB;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+}
+
+.population-value {
+  color: #34d399;
+  font-weight: 700;
+}
+
+/* Animated Background for Game Container */
+.game-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(167, 139, 250, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(125, 211, 252, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Tech Tree Visualization */
+.tech-node {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  transition: all var(--transition);
+}
+
+.tech-node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(125, 211, 252, 0.4);
+}
+
+.tech-node.researched {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(52, 211, 153, 0.1));
+  border-color: var(--success);
+}
+
+.tech-node.locked {
+  opacity: 0.5;
+  filter: grayscale(80%);
+}
+
+/* Role Badge Styles */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #042029;
+  box-shadow: 0 4px 12px rgba(125, 211, 252, 0.3);
+}
+
+.role-badge.imperial {
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.role-badge.royal {
+  background: linear-gradient(90deg, #9370DB, #BA55D3);
+  box-shadow: 0 4px 12px rgba(147, 112, 219, 0.4);
+}
+
+.role-badge.religious {
+  background: linear-gradient(90deg, #87CEEB, #4682B4);
+  box-shadow: 0 4px 12px rgba(135, 206, 235, 0.4);
+}
+
+/* Historical Timeline */
+.timeline-container {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline-event {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  transition: all var(--transition);
+}
+
+.timeline-event:hover {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+  transform: translateX(10px);
+}
+
+.timeline-event::before {
+  content: '📜';
+  position: absolute;
+  left: -2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+}
+
+.timeline-year {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+
+/* Building Cards */
+.building-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.building-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  border-color: var(--accent);
+}
+
+.building-card.affordable {
+  border-color: var(--success);
+  box-shadow: 0 0 15px rgba(52, 211, 153, 0.2);
+}
+
+.building-card.expensive {
+  opacity: 0.6;
+  filter: grayscale(50%);
+}
+
+/* Progress Bars */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(125, 211, 252, 0.5);
+}
+
+/* Stats Display */
+.stat-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.stat-icon {
+  font-size: 1.2rem;
+}
+
+.stat-value {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-change {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.stat-change.positive {
+  color: var(--success);
+}
+
+.stat-change.negative {
+  color: var(--danger);
+}
+
+/* Modal/Dialog Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--bg-1);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  background: var(--bg-1);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  z-index: 999;
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(125, 211, 252, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Responsive */
 @media (max-width: 1100px) {
   .game-content { grid-template-columns: 1fr; }
@@ -477,4 +757,6 @@ body {
   .ui-actions { flex-direction: column; gap: 8px; }
   .view-kingdom-btn, .btn-primary { width: 100%; }
   #kingdom-map { height: 40vh; }
+  .modal-content { padding: 1rem; }
+  .building-card { padding: 0.75rem; }
 }
