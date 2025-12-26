@@ -760,3 +760,420 @@ body {
   .modal-content { padding: 1rem; }
   .building-card { padding: 0.75rem; }
 }
+/* === New Features Panel Styles === */
+
+.new-features-panel {
+  background: var(--bg-1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.features-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(125, 211, 252, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.tab-btn:hover {
+  background: rgba(125, 211, 252, 0.1);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: var(--bg-0);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Policy Styles */
+
+.policies-header {
+  margin-bottom: 1.5rem;
+}
+
+.active-policies {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.policy-card {
+  background: var(--bg-2);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.policy-card.active {
+  border-color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.policy-card.available {
+  border-color: rgba(125, 211, 252, 0.3);
+}
+
+.policy-card.unavailable {
+  opacity: 0.6;
+}
+
+.policy-card.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.policy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.policy-year {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: rgba(125, 211, 252, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.policy-description {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.policy-effects {
+  margin-bottom: 0.75rem;
+}
+
+.effects-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.effect-badge {
+  background: rgba(125, 211, 252, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+.policy-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.policy-impact {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.policy-impact.positive {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.policy-impact.negative {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+
+.policy-impact.mixed {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.policy-impact.neutral {
+  background: rgba(156, 163, 175, 0.2);
+  color: var(--muted);
+}
+
+.policy-requirements {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--danger);
+}
+
+.policy-category summary {
+  cursor: pointer;
+  padding: 0.75rem;
+  background: rgba(125, 211, 252, 0.05);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.policy-category summary:hover {
+  background: rgba(125, 211, 252, 0.1);
+}
+
+.policies-list {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+}
+
+/* Ollama Styles */
+
+.ollama-panel {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.model-selector {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.model-selector select {
+  flex: 1;
+  padding: 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.ollama-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.ollama-chat {
+  background: var(--bg-2);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.chat-history {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--bg-0);
+  border-radius: 8px;
+}
+
+.chat-message {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background: rgba(125, 211, 252, 0.05);
+}
+
+.chat-message.system {
+  background: rgba(156, 163, 175, 0.1);
+  font-style: italic;
+}
+
+.chat-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input-group input {
+  flex: 1;
+  padding: 0.75rem;
+  background: var(--bg-0);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.response-area {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-2);
+  border-radius: 8px;
+  min-height: 100px;
+}
+
+.ai-response {
+  padding: 1rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid var(--success);
+  border-radius: 6px;
+}
+
+.ollama-info {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(125, 211, 252, 0.1);
+  border-radius: 8px;
+}
+
+.ollama-info h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ollama-info code {
+  background: var(--bg-0);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Multiplayer Styles */
+
+.multiplayer-session {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.player-card {
+  background: var(--bg-2);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 2px solid rgba(125, 211, 252, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.player-card.ai_ollama {
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+.player-card.ai_basic {
+  border-color: rgba(251, 191, 36, 0.5);
+}
+
+.player-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.player-type {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.badge {
+  background: var(--accent);
+  color: var(--bg-0);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge.ready {
+  background: var(--success);
+}
+
+.lobby-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.multiplayer-chat {
+  background: var(--bg-2);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+/* Wiki Styles */
+
+.wiki-panel {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.wiki-search {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.wiki-search input {
+  flex: 1;
+  padding: 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.wiki-results {
+  display: grid;
+  gap: 1rem;
+}
+
+.wiki-result {
+  background: var(--bg-2);
+  border-radius: 12px;
+  padding: 1rem;
+  border-left: 3px solid var(--accent);
+}
+
+.wiki-result h4 {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.wiki-suggestions {
+  background: var(--bg-2);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+/* Utility Classes */
+
+.info-text {
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: var(--danger);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
