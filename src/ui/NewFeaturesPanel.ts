@@ -421,10 +421,12 @@ export class NewFeaturesPanel {
     );
     
     if (success) {
-      alert('Politik erfolgreich eingeführt!');
+      // TODO: Replace with proper notification system
+      console.log('Politik erfolgreich eingeführt!');
       this.render();
     } else {
-      alert('Politik konnte nicht eingeführt werden.');
+      // TODO: Replace with proper error UI
+      console.warn('Politik konnte nicht eingeführt werden.');
     }
   }
 
@@ -439,7 +441,8 @@ export class NewFeaturesPanel {
     );
     
     if (success) {
-      alert('Politik erfolgreich widerrufen!');
+      // TODO: Replace with proper notification system
+      console.log('Politik erfolgreich widerrufen!');
       this.render();
     }
   }

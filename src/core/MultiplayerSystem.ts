@@ -570,19 +570,19 @@ export class MultiplayerSystem {
    * Generate unique IDs
    */
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private generatePlayerId(): string {
-    return `player_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `player_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private generateMessageId(): string {
-    return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `msg_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private generateActionId(): string {
-    return `action_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `action_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   /**
