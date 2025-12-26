@@ -12,7 +12,10 @@ export default defineConfig({
     }
   },
   server: {
-    port: parseInt(process.env.PORT || '4100'),
+    port: (() => {
+      const port = parseInt(process.env.PORT || '4100', 10);
+      return isNaN(port) ? 4100 : port;
+    })(),
     host: true,
     open: true
   },

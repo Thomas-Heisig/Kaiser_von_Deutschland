@@ -143,8 +143,9 @@ export class TechnologySystem {
       missing.push(`Gold: ${resources.gold}/${tech.cost.gold}`);
     }
     
-    if (resources.research < tech.cost.research) {
-      missing.push(`Forschungspunkte: ${resources.research || 0}/${tech.cost.research}`);
+    const currentResearch = resources.research ?? 0;
+    if (currentResearch < tech.cost.research) {
+      missing.push(`Forschungspunkte: ${currentResearch}/${tech.cost.research}`);
     }
     
     return {
@@ -189,7 +190,7 @@ export class TechnologySystem {
     this.currentResearch.progress += daysElapsed * researchRate;
     
     if (this.currentResearch.progress >= tech.researchTime) {
-      this.completResearch(tech.id);
+      this.completeResearch(tech.id);
       return true;
     }
     
@@ -199,7 +200,7 @@ export class TechnologySystem {
   /**
    * Schließt die Erforschung einer Technologie ab
    */
-  private static completResearch(techId: string): void {
+  private static completeResearch(techId: string): void {
     this.researchedTechs.add(techId);
     this.currentResearch = null;
   }
