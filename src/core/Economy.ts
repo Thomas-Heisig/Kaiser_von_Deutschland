@@ -1,5 +1,5 @@
 // src/core/Economy.ts
-import { Kingdom, ClimateType, KingdomResources, KingdomPopulation } from './Kingdom';
+import { Kingdom, ClimateType, KingdomResources } from './Kingdom';
 
 export interface HarvestResult {
   foodProduced: number;
@@ -103,7 +103,7 @@ export class EconomySystem {
   /**
    * Führt eine volle Wirtschaftssimulation für ein Jahr durch
    */
-  public updateEconomy(kingdom: Kingdom, harvest: HarvestResult): EconomyUpdate {
+  public updateEconomy(kingdom: Kingdom, _harvest: HarvestResult): EconomyUpdate {
     const foodConsumption = this.calculateTotalFoodConsumption(kingdom);
     const foodDeficit = Math.max(0, foodConsumption - kingdom.resources.food);
     
@@ -366,7 +366,7 @@ export class EconomySystem {
   /**
    * Generiert neue Handelsmöglichkeiten
    */
-  private generateTradeOpportunities(kingdom: Kingdom): void {
+  private generateTradeOpportunities(_kingdom: Kingdom): void {
     // Alte Gelegenheiten entfernen (basierend auf maximaler Lebensdauer)
     const maxAge = 5;
     if (this.tradeOpportunities.length > maxAge) {

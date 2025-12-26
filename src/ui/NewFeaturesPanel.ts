@@ -1,7 +1,7 @@
 // src/ui/NewFeaturesPanel.ts
 import { GameEngine } from '../core/GameEngine';
 import { Player } from '../core/Player';
-import { PolicySystem, Policy, PolicyCategory } from '../core/PolicySystem';
+import { Policy, PolicyCategory } from '../core/PolicySystem';
 import { NotificationSystem } from './NotificationSystem';
 
 export class NewFeaturesPanel {
