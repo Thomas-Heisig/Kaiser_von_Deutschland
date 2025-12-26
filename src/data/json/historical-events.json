@@ -359,6 +359,226 @@
       },
       "globalEvent": true,
       "future": true
+    },
+    {
+      "id": "peasants_war",
+      "year": 1524,
+      "name": "Deutscher Bauernkrieg",
+      "description": "Großer Aufstand der Bauern gegen Adel und Klerus",
+      "category": "social",
+      "impact": {
+        "stability": -40,
+        "population": -15,
+        "authority": -30,
+        "peasantRights": 10
+      },
+      "duration": 2,
+      "region": "germany"
+    },
+    {
+      "id": "revolution_1848",
+      "year": 1848,
+      "name": "Märzrevolution",
+      "description": "Bürgerliche Revolution fordert Verfassung und Freiheitsrechte",
+      "category": "political",
+      "impact": {
+        "stability": -35,
+        "authority": -25,
+        "popularity": 30,
+        "democracy": 20
+      },
+      "region": "germany"
+    },
+    {
+      "id": "unification_wars",
+      "year": 1864,
+      "name": "Deutsche Einigungskriege",
+      "description": "Kriege zur deutschen Einigung unter preußischer Führung",
+      "category": "war",
+      "impact": {
+        "militaryStrength": 40,
+        "prestige": 60,
+        "stability": -20,
+        "unificationProgress": 50
+      },
+      "duration": 7,
+      "region": "germany",
+      "choices": [
+        {
+          "id": "kleindeutsch",
+          "name": "Kleindeutsche Lösung",
+          "description": "Deutsche Einigung ohne Österreich",
+          "impact": {
+            "prestige": 50,
+            "prussianPower": 60
+          }
+        },
+        {
+          "id": "grossdeutsch",
+          "name": "Großdeutsche Lösung",
+          "description": "Deutsche Einigung mit Österreich",
+          "impact": {
+            "prestige": 40,
+            "austrianInfluence": 50,
+            "complexity": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "colonial_scramble",
+      "year": 1884,
+      "name": "Wettlauf um Afrika",
+      "description": "Kolonialwettlauf und Berliner Kongokonferenz",
+      "category": "colonial",
+      "impact": {
+        "prestige": 70,
+        "tradePower": 50,
+        "colonialPower": 80,
+        "gold": 30000
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "weimar_hyperinflation",
+      "year": 1923,
+      "name": "Hyperinflation",
+      "description": "Verheerende Hyperinflation in der Weimarer Republik",
+      "category": "economic",
+      "impact": {
+        "gold": -80000,
+        "stability": -50,
+        "happiness": -40,
+        "economicCrisis": 100
+      },
+      "region": "germany"
+    },
+    {
+      "id": "economic_miracle",
+      "year": 1955,
+      "name": "Wirtschaftswunder",
+      "description": "Rascher wirtschaftlicher Wiederaufbau nach dem Krieg",
+      "category": "economic",
+      "impact": {
+        "gold": 100000,
+        "stability": 50,
+        "tradePower": 60,
+        "happiness": 40,
+        "populationGrowth": 30
+      },
+      "region": "germany",
+      "duration": 20
+    },
+    {
+      "id": "internet_revolution",
+      "year": 1995,
+      "name": "Internet-Revolution",
+      "description": "Das World Wide Web verändert Kommunikation und Wirtschaft",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 50,
+        "tradePower": 40,
+        "culturalInfluence": 35,
+        "literacyRate": 25
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "cyberpunk_era",
+      "year": 2055,
+      "name": "Cyberpunk-Ära",
+      "description": "Megakonzerne rivalisieren mit Regierungen um Macht",
+      "category": "societal",
+      "impact": {
+        "technologicalLevel": 80,
+        "corporatePower": 70,
+        "authority": -30,
+        "inequality": 50
+      },
+      "globalEvent": true,
+      "future": true
+    },
+    {
+      "id": "transhumanism",
+      "year": 2060,
+      "name": "Transhumanistische Revolution",
+      "description": "Mensch-Maschine-Integration wird Realität",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 100,
+        "health": 60,
+        "lifeExpectancy": 50,
+        "socialChange": 80
+      },
+      "globalEvent": true,
+      "future": true
+    },
+    {
+      "id": "european_federation",
+      "year": 2070,
+      "name": "Europäische Föderation 2.0",
+      "description": "Vollständige politische Integration Europas",
+      "category": "political",
+      "impact": {
+        "stability": 60,
+        "tradePower": 80,
+        "authority": -20,
+        "prestige": 90
+      },
+      "region": "europe",
+      "globalEvent": true,
+      "future": true
+    },
+    {
+      "id": "asteroid_mining",
+      "year": 2065,
+      "name": "Weltraum-Mining",
+      "description": "Kommerzielle Ausbeutung von Asteroiden beginnt",
+      "category": "exploration",
+      "impact": {
+        "gold": 200000,
+        "technologicalLevel": 85,
+        "resources": 150,
+        "prestige": 100
+      },
+      "globalEvent": true,
+      "future": true
+    },
+    {
+      "id": "ai_singularity",
+      "year": 2075,
+      "name": "KI-Singularität",
+      "description": "Künstliche Superintelligenz übertrifft menschliche Fähigkeiten",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 120,
+        "stability": -40,
+        "economicChange": 100,
+        "uncertainty": 80
+      },
+      "globalEvent": true,
+      "future": true,
+      "choices": [
+        {
+          "id": "cooperate_ai",
+          "name": "Mit KI kooperieren",
+          "description": "Zusammenarbeit mit der KI suchen",
+          "impact": {
+            "technologicalLevel": 150,
+            "stability": 30
+          }
+        },
+        {
+          "id": "regulate_ai",
+          "name": "KI regulieren",
+          "description": "Strenge Kontrolle über KI durchsetzen",
+          "impact": {
+            "authority": 40,
+            "technologicalLevel": -20,
+            "stability": 20
+          }
+        }
+      ]
     }
   ],
   "eventTemplates": [
@@ -460,13 +680,13 @@
     }
   ],
   "metadata": {
-    "version": "2.0.0",
+    "version": "2.1.0",
     "lastUpdated": "2024-12-26",
-    "totalHistoricalEvents": 27,
+    "totalHistoricalEvents": 39,
     "totalEventTemplates": 8,
     "timespan": {
       "start": 0,
-      "end": 2050,
+      "end": 2100,
       "current": 2024
     }
   }

@@ -391,12 +391,304 @@
         "prestige": 20,
         "piety": 70
       }
+    },
+    {
+      "id": "diplomat",
+      "name": "Diplomat",
+      "femaleName": "Diplomatin",
+      "rank": 6,
+      "category": "diplomatic",
+      "description": "Botschafter für internationale Beziehungen und Handelsabkommen",
+      "startingResources": {
+        "gold": 8000,
+        "land": 1000,
+        "population": 2000
+      },
+      "abilities": [
+        "negotiate_treaties",
+        "establish_embassies",
+        "trade_agreements",
+        "cultural_exchange",
+        "prevent_wars"
+      ],
+      "requirements": {
+        "prestige": 1200,
+        "diplomacy": 75,
+        "learning": 60
+      }
+    },
+    {
+      "id": "spion",
+      "name": "Spion",
+      "femaleName": "Spionin",
+      "rank": 5,
+      "category": "espionage",
+      "description": "Meisterspion für Geheimoperationen, Sabotage und Informationsbeschaffung",
+      "startingResources": {
+        "gold": 5000,
+        "land": 0,
+        "population": 100
+      },
+      "abilities": [
+        "gather_intelligence",
+        "sabotage_operations",
+        "assassination",
+        "steal_technology",
+        "uncover_plots",
+        "disguise"
+      ],
+      "requirements": {
+        "prestige": 800,
+        "intrigue": 80,
+        "stealth": 75
+      }
+    },
+    {
+      "id": "architekt",
+      "name": "Architekt",
+      "femaleName": "Architektin",
+      "rank": 4,
+      "category": "construction",
+      "description": "Stadtplaner mit speziellen Gebäudeboni und Stadtlayout-Optimierung",
+      "startingResources": {
+        "gold": 6000,
+        "land": 500,
+        "population": 1000
+      },
+      "abilities": [
+        "design_buildings",
+        "optimize_city_layout",
+        "reduce_construction_cost",
+        "improve_aesthetics",
+        "plan_infrastructure"
+      ],
+      "requirements": {
+        "prestige": 600,
+        "learning": 70,
+        "stewardship": 65
+      },
+      "bonuses": {
+        "buildingCostReduction": 15,
+        "buildingTimeReduction": 20,
+        "cityEfficiency": 10
+      }
+    },
+    {
+      "id": "medicus",
+      "name": "Medicus",
+      "femaleName": "Medica",
+      "rank": 4,
+      "category": "medical",
+      "description": "Arzt für Bevölkerungsgesundheit und Seuchenbekämpfung",
+      "startingResources": {
+        "gold": 4000,
+        "land": 200,
+        "population": 500
+      },
+      "abilities": [
+        "heal_sick",
+        "combat_plagues",
+        "improve_sanitation",
+        "train_physicians",
+        "research_medicine"
+      ],
+      "requirements": {
+        "prestige": 500,
+        "learning": 75,
+        "medicine": 80
+      },
+      "bonuses": {
+        "healthBonus": 25,
+        "plagueResistance": 40,
+        "populationGrowth": 10
+      }
+    },
+    {
+      "id": "kunstmaezen",
+      "name": "Kunstmäzen",
+      "femaleName": "Kunstmäzenin",
+      "rank": 5,
+      "category": "cultural",
+      "description": "Förderer kultureller Entwicklung und Prestige durch Kunstwerke",
+      "startingResources": {
+        "gold": 15000,
+        "land": 1000,
+        "population": 2000
+      },
+      "abilities": [
+        "commission_artworks",
+        "host_exhibitions",
+        "patronize_artists",
+        "build_museums",
+        "cultural_festivals"
+      ],
+      "requirements": {
+        "prestige": 1000,
+        "wealth": 10000,
+        "culturalInfluence": 50
+      },
+      "bonuses": {
+        "prestigeBonus": 30,
+        "culturalInfluence": 40,
+        "happiness": 15
+      }
+    },
+    {
+      "id": "bergbauingenieur",
+      "name": "Bergbauingenieur",
+      "femaleName": "Bergbauingenieurin",
+      "rank": 4,
+      "category": "industrial",
+      "description": "Spezialist für Ressourcen-Extraktionsboni im Bergbau",
+      "startingResources": {
+        "gold": 7000,
+        "land": 2000,
+        "population": 3000
+      },
+      "abilities": [
+        "optimize_mining",
+        "discover_veins",
+        "improve_extraction",
+        "manage_miners",
+        "geological_survey"
+      ],
+      "requirements": {
+        "prestige": 700,
+        "learning": 65,
+        "stewardship": 60
+      },
+      "bonuses": {
+        "miningEfficiency": 35,
+        "resourceProduction": 25,
+        "mineralDiscovery": 20
+      }
+    },
+    {
+      "id": "rechtsgelehrter",
+      "name": "Rechtsgelehrter",
+      "femaleName": "Rechtsgelehrte",
+      "rank": 5,
+      "category": "legal",
+      "description": "Jurist für Gesetzesreformen und das Gerichtssystem",
+      "startingResources": {
+        "gold": 6000,
+        "land": 500,
+        "population": 1000
+      },
+      "abilities": [
+        "draft_laws",
+        "reform_justice",
+        "arbitrate_disputes",
+        "establish_courts",
+        "codify_laws"
+      ],
+      "requirements": {
+        "prestige": 900,
+        "learning": 80,
+        "justice": 75
+      },
+      "bonuses": {
+        "stability": 20,
+        "authority": 15,
+        "corruptionReduction": 25
+      }
+    },
+    {
+      "id": "hofnarr",
+      "name": "Hofnarr",
+      "femaleName": "Hofnärrin",
+      "rank": 3,
+      "category": "entertainment",
+      "description": "Unterhalter mit einzigartigen Interaktionsmöglichkeiten am Hof",
+      "startingResources": {
+        "gold": 1000,
+        "land": 0,
+        "population": 10
+      },
+      "abilities": [
+        "entertain_court",
+        "speak_truth",
+        "lift_spirits",
+        "mock_enemies",
+        "unique_insights"
+      ],
+      "requirements": {
+        "prestige": 100,
+        "charisma": 70,
+        "wit": 80
+      },
+      "bonuses": {
+        "courtHappiness": 20,
+        "stressReduction": 30,
+        "uniqueEvents": 15
+      }
+    },
+    {
+      "id": "revolutionsfuehrer",
+      "name": "Revolutionsführer",
+      "femaleName": "Revolutionsführerin",
+      "rank": 4,
+      "category": "revolutionary",
+      "description": "Anführer von Aufständen mit alternativer Spielweise",
+      "startingResources": {
+        "gold": 2000,
+        "land": 0,
+        "population": 5000
+      },
+      "abilities": [
+        "incite_rebellion",
+        "organize_protests",
+        "spread_ideology",
+        "recruit_followers",
+        "overthrow_government"
+      ],
+      "requirements": {
+        "prestige": 400,
+        "charisma": 75,
+        "radicalism": 70
+      },
+      "bonuses": {
+        "rebellionChance": 40,
+        "followerLoyalty": 35,
+        "popularSupport": 30
+      }
+    },
+    {
+      "id": "umweltaktivist",
+      "name": "Umweltaktivist",
+      "femaleName": "Umweltaktivistin",
+      "rank": 3,
+      "category": "environmental",
+      "description": "Verfechter von Nachhaltigkeitsmechaniken für spätere Epochen",
+      "startingResources": {
+        "gold": 3000,
+        "land": 1000,
+        "population": 2000
+      },
+      "abilities": [
+        "promote_sustainability",
+        "protect_nature",
+        "renewable_energy",
+        "environmental_laws",
+        "green_technology"
+      ],
+      "requirements": {
+        "prestige": 300,
+        "learning": 65,
+        "environmentalism": 80,
+        "minYear": 1970
+      },
+      "bonuses": {
+        "sustainability": 50,
+        "publicApproval": 25,
+        "longTermStability": 20
+      }
     }
   ],
   "metadata": {
-    "version": "2.0.0",
+    "version": "2.1.0",
     "lastUpdated": "2024-12-26",
-    "totalRoles": 15,
+    "totalRoles": 25,
     "categories": [
       "imperial",
       "royal",
@@ -407,7 +699,17 @@
       "economic",
       "academic",
       "agricultural",
-      "labor"
+      "labor",
+      "diplomatic",
+      "espionage",
+      "construction",
+      "medical",
+      "cultural",
+      "industrial",
+      "legal",
+      "entertainment",
+      "revolutionary",
+      "environmental"
     ]
   }
 }
