@@ -29,8 +29,45 @@ export interface RoleDefinition {
     education?: string;
     skill?: number;
     land?: number;
+    diplomacy?: number;
+    intrigue?: number;
+    stealth?: number;
+    medicine?: number;
+    culturalInfluence?: number;
+    justice?: number;
+    charisma?: number;
+    wit?: number;
+    radicalism?: number;
+    environmentalism?: number;
+    minYear?: number;
   };
   specializations?: string[];
+  bonuses?: {
+    buildingCostReduction?: number;
+    buildingTimeReduction?: number;
+    cityEfficiency?: number;
+    healthBonus?: number;
+    plagueResistance?: number;
+    populationGrowth?: number;
+    prestigeBonus?: number;
+    culturalInfluence?: number;
+    happiness?: number;
+    miningEfficiency?: number;
+    resourceProduction?: number;
+    mineralDiscovery?: number;
+    stability?: number;
+    authority?: number;
+    corruptionReduction?: number;
+    courtHappiness?: number;
+    stressReduction?: number;
+    uniqueEvents?: number;
+    rebellionChance?: number;
+    followerLoyalty?: number;
+    popularSupport?: number;
+    sustainability?: number;
+    publicApproval?: number;
+    longTermStability?: number;
+  };
 }
 
 export class RoleSystem {
@@ -122,6 +159,51 @@ export class RoleSystem {
     
     if (role.requirements.land && playerStats.land < role.requirements.land) {
       missing.push(`Land: ${playerStats.land}/${role.requirements.land}`);
+    }
+    
+    // New requirement checks for expanded roles
+    if (role.requirements.diplomacy && playerStats.diplomacy < role.requirements.diplomacy) {
+      missing.push(`Diplomatie: ${playerStats.diplomacy}/${role.requirements.diplomacy}`);
+    }
+    
+    if (role.requirements.intrigue && playerStats.intrigue < role.requirements.intrigue) {
+      missing.push(`Intrige: ${playerStats.intrigue}/${role.requirements.intrigue}`);
+    }
+    
+    if (role.requirements.stealth && playerStats.stealth < role.requirements.stealth) {
+      missing.push(`Heimlichkeit: ${playerStats.stealth}/${role.requirements.stealth}`);
+    }
+    
+    if (role.requirements.medicine && playerStats.medicine < role.requirements.medicine) {
+      missing.push(`Medizin: ${playerStats.medicine}/${role.requirements.medicine}`);
+    }
+    
+    if (role.requirements.culturalInfluence && playerStats.culturalInfluence < role.requirements.culturalInfluence) {
+      missing.push(`Kultureller Einfluss: ${playerStats.culturalInfluence}/${role.requirements.culturalInfluence}`);
+    }
+    
+    if (role.requirements.justice && playerStats.justice < role.requirements.justice) {
+      missing.push(`Gerechtigkeit: ${playerStats.justice}/${role.requirements.justice}`);
+    }
+    
+    if (role.requirements.charisma && playerStats.charisma < role.requirements.charisma) {
+      missing.push(`Charisma: ${playerStats.charisma}/${role.requirements.charisma}`);
+    }
+    
+    if (role.requirements.wit && playerStats.wit < role.requirements.wit) {
+      missing.push(`Geist: ${playerStats.wit}/${role.requirements.wit}`);
+    }
+    
+    if (role.requirements.radicalism && playerStats.radicalism < role.requirements.radicalism) {
+      missing.push(`Radikalismus: ${playerStats.radicalism}/${role.requirements.radicalism}`);
+    }
+    
+    if (role.requirements.environmentalism && playerStats.environmentalism < role.requirements.environmentalism) {
+      missing.push(`Umweltbewusstsein: ${playerStats.environmentalism}/${role.requirements.environmentalism}`);
+    }
+    
+    if (role.requirements.minYear && playerStats.currentYear < role.requirements.minYear) {
+      missing.push(`Mindestjahr: ${playerStats.currentYear}/${role.requirements.minYear}`);
     }
     
     return {
@@ -219,7 +301,59 @@ export class RoleSystem {
       ['copy_manuscripts', 'Manuskripte kopieren'],
       ['brew_beer', 'Bier brauen'],
       ['provide_charity', 'Wohltätigkeit leisten'],
-      ['teach', 'Unterrichten']
+      ['teach', 'Unterrichten'],
+      // New abilities for expanded roles
+      ['negotiate_treaties', 'Verträge aushandeln'],
+      ['establish_embassies', 'Botschaften errichten'],
+      ['trade_agreements', 'Handelsabkommen schließen'],
+      ['cultural_exchange', 'Kulturaustausch fördern'],
+      ['prevent_wars', 'Kriege verhindern'],
+      ['gather_intelligence', 'Informationen sammeln'],
+      ['sabotage_operations', 'Sabotageaktionen durchführen'],
+      ['assassination', 'Attentate ausführen'],
+      ['steal_technology', 'Technologie stehlen'],
+      ['uncover_plots', 'Verschwörungen aufdecken'],
+      ['disguise', 'Verkleiden'],
+      ['design_buildings', 'Gebäude entwerfen'],
+      ['optimize_city_layout', 'Stadtlayout optimieren'],
+      ['reduce_construction_cost', 'Baukosten reduzieren'],
+      ['improve_aesthetics', 'Ästhetik verbessern'],
+      ['plan_infrastructure', 'Infrastruktur planen'],
+      ['heal_sick', 'Kranke heilen'],
+      ['combat_plagues', 'Seuchen bekämpfen'],
+      ['improve_sanitation', 'Hygiene verbessern'],
+      ['train_physicians', 'Ärzte ausbilden'],
+      ['research_medicine', 'Medizin erforschen'],
+      ['commission_artworks', 'Kunstwerke in Auftrag geben'],
+      ['host_exhibitions', 'Ausstellungen veranstalten'],
+      ['patronize_artists', 'Künstler fördern'],
+      ['build_museums', 'Museen errichten'],
+      ['cultural_festivals', 'Kulturfestivals organisieren'],
+      ['optimize_mining', 'Bergbau optimieren'],
+      ['discover_veins', 'Erzadern entdecken'],
+      ['improve_extraction', 'Förderung verbessern'],
+      ['manage_miners', 'Bergleute verwalten'],
+      ['geological_survey', 'Geologische Untersuchungen'],
+      ['draft_laws', 'Gesetze entwerfen'],
+      ['reform_justice', 'Justiz reformieren'],
+      ['arbitrate_disputes', 'Streitigkeiten schlichten'],
+      ['establish_courts', 'Gerichte einrichten'],
+      ['codify_laws', 'Gesetze kodifizieren'],
+      ['entertain_court', 'Hof unterhalten'],
+      ['speak_truth', 'Wahrheit sprechen'],
+      ['lift_spirits', 'Stimmung heben'],
+      ['mock_enemies', 'Feinde verspotten'],
+      ['unique_insights', 'Einzigartige Einsichten'],
+      ['incite_rebellion', 'Aufstände anstiften'],
+      ['organize_protests', 'Proteste organisieren'],
+      ['spread_ideology', 'Ideologie verbreiten'],
+      ['recruit_followers', 'Anhänger rekrutieren'],
+      ['overthrow_government', 'Regierung stürzen'],
+      ['promote_sustainability', 'Nachhaltigkeit fördern'],
+      ['protect_nature', 'Natur schützen'],
+      ['renewable_energy', 'Erneuerbare Energien'],
+      ['environmental_laws', 'Umweltgesetze'],
+      ['green_technology', 'Grüne Technologie']
     ]);
     
     const role = this.roles.get(roleId);

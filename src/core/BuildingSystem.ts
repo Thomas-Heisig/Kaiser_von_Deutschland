@@ -17,6 +17,12 @@ export interface BuildingProduction {
   research?: number;
   power?: number;
   soldiers?: number;
+  iron?: number;
+  stone?: number;
+  coal?: number;
+  weapons?: number;
+  exoticGoods?: number;
+  exoticResources?: number;
 }
 
 export interface BuildingEffects {
@@ -34,6 +40,20 @@ export interface BuildingEffects {
   defense?: number;
   tradePower?: number;
   authority?: number;
+  internationalRelations?: number;
+  noblesSatisfaction?: number;
+  socialCohesion?: number;
+  equipmentQuality?: number;
+  communicationSpeed?: number;
+  publicOpinion?: number;
+  propagandaPower?: number;
+  colonialPower?: number;
+  efficiency?: number;
+  automation?: number;
+  environmentalStability?: number;
+  sustainability?: number;
+  disasterPrevention?: number;
+  spaceColonies?: number;
 }
 
 export interface BuildingRequirements {
@@ -43,6 +63,7 @@ export interface BuildingRequirements {
   buildings?: Record<string, number>;
   era?: string;
   rank?: number;
+  minYear?: number;
 }
 
 export interface BuildingDefinition {

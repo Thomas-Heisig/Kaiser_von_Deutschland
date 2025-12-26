@@ -617,6 +617,438 @@
         "era": "digital"
       },
       "upgrades": ["ai_center", "quantum_computer"]
+    },
+    {
+      "id": "hansekontor",
+      "name": "Hansekontor",
+      "category": "economic",
+      "description": "Handelskontor der Hanse für internationalen Handel",
+      "cost": {
+        "gold": 8000,
+        "wood": 600,
+        "stone": 400,
+        "land": 400
+      },
+      "buildTime": 100,
+      "maintenance": 350,
+      "production": {
+        "gold": 600,
+        "tradePower": 30
+      },
+      "effects": {
+        "tradePower": 25,
+        "prestige": 20,
+        "internationalRelations": 15
+      },
+      "employment": 60,
+      "requirements": {
+        "minTech": 30,
+        "terrain": ["coastal"],
+        "minPopulation": 8000
+      },
+      "upgrades": ["trade_empire"]
+    },
+    {
+      "id": "deep_mine",
+      "name": "Tiefbaumine",
+      "category": "industrial",
+      "description": "Fortgeschrittenes Bergwerk mit Tiefbausystem über Generationen",
+      "cost": {
+        "gold": 15000,
+        "wood": 800,
+        "stone": 600,
+        "iron": 400,
+        "land": 600
+      },
+      "buildTime": 200,
+      "maintenance": 600,
+      "production": {
+        "iron": 120,
+        "stone": 200,
+        "gold": 300,
+        "coal": 80
+      },
+      "employment": 150,
+      "requirements": {
+        "minTech": 50,
+        "terrain": ["mountains", "hills"],
+        "buildings": {
+          "mine": 1
+        }
+      },
+      "upgrades": ["mega_mine"]
+    },
+    {
+      "id": "fortress",
+      "name": "Festung",
+      "category": "defensive",
+      "description": "Massive Festungsanlage mit Verteidigungsbonus und Garnison",
+      "cost": {
+        "gold": 25000,
+        "wood": 1000,
+        "stone": 3000,
+        "land": 1500
+      },
+      "buildTime": 300,
+      "maintenance": 800,
+      "effects": {
+        "defense": 60,
+        "militaryStrength": 30,
+        "stability": 25,
+        "prestige": 35
+      },
+      "production": {
+        "soldiers": 50
+      },
+      "employment": 200,
+      "requirements": {
+        "minTech": 40,
+        "minPopulation": 15000,
+        "buildings": {
+          "walls": 1,
+          "barracks": 2
+        }
+      },
+      "upgrades": ["star_fortress", "modern_fortress"]
+    },
+    {
+      "id": "botanical_garden",
+      "name": "Botanischer Garten",
+      "category": "scientific",
+      "description": "Forschungsgarten für Botanik mit Prestige-Bonus",
+      "cost": {
+        "gold": 10000,
+        "wood": 400,
+        "stone": 300,
+        "land": 800
+      },
+      "buildTime": 120,
+      "maintenance": 400,
+      "effects": {
+        "prestige": 30,
+        "culturalInfluence": 20,
+        "health": 10
+      },
+      "production": {
+        "research": 35,
+        "food": 50
+      },
+      "employment": 40,
+      "requirements": {
+        "minTech": 45,
+        "minPopulation": 10000
+      },
+      "upgrades": ["research_garden"]
+    },
+    {
+      "id": "opera_house",
+      "name": "Opernhaus",
+      "category": "cultural",
+      "description": "Prachtvolle Oper für Kultur und Adel-Zufriedenheit",
+      "cost": {
+        "gold": 30000,
+        "wood": 1500,
+        "stone": 2000,
+        "land": 1000
+      },
+      "buildTime": 250,
+      "maintenance": 900,
+      "effects": {
+        "culturalInfluence": 50,
+        "prestige": 45,
+        "happiness": 20,
+        "noblesSatisfaction": 35
+      },
+      "employment": 120,
+      "requirements": {
+        "minTech": 55,
+        "era": "renaissance",
+        "minPopulation": 25000
+      },
+      "unique": true
+    },
+    {
+      "id": "manufactory",
+      "name": "Manufaktur",
+      "category": "industrial",
+      "description": "Spezialisierte Handwerks-Produktionsstätte",
+      "cost": {
+        "gold": 8000,
+        "wood": 600,
+        "stone": 400,
+        "land": 500
+      },
+      "buildTime": 120,
+      "maintenance": 350,
+      "production": {
+        "gold": 400,
+        "goods": 100
+      },
+      "effects": {
+        "tradePower": 12
+      },
+      "employment": 80,
+      "requirements": {
+        "minTech": 50,
+        "era": "renaissance"
+      },
+      "upgrades": ["factory"]
+    },
+    {
+      "id": "bathhouse",
+      "name": "Badehaus",
+      "category": "social",
+      "description": "Öffentliches Bad für Gesundheit und sozialen Treffpunkt",
+      "cost": {
+        "gold": 4000,
+        "wood": 300,
+        "stone": 500,
+        "land": 300
+      },
+      "buildTime": 80,
+      "maintenance": 200,
+      "effects": {
+        "health": 20,
+        "happiness": 15,
+        "socialCohesion": 10
+      },
+      "employment": 20,
+      "requirements": {
+        "minTech": 25,
+        "minPopulation": 5000
+      }
+    },
+    {
+      "id": "arsenal",
+      "name": "Zeughaus",
+      "category": "military",
+      "description": "Waffenlager zur Speicherung und Verbesserung militärischer Ausrüstung",
+      "cost": {
+        "gold": 12000,
+        "wood": 500,
+        "stone": 800,
+        "iron": 400,
+        "land": 600
+      },
+      "buildTime": 150,
+      "maintenance": 450,
+      "effects": {
+        "militaryStrength": 25,
+        "equipmentQuality": 30,
+        "defense": 15
+      },
+      "production": {
+        "weapons": 50
+      },
+      "employment": 60,
+      "requirements": {
+        "minTech": 40,
+        "minPopulation": 10000,
+        "buildings": {
+          "barracks": 1
+        }
+      }
+    },
+    {
+      "id": "post_office",
+      "name": "Postamt",
+      "category": "infrastructure",
+      "description": "Postdienst zur Beschleunigung der Kommunikation zwischen Städten",
+      "cost": {
+        "gold": 6000,
+        "wood": 400,
+        "stone": 300,
+        "land": 250
+      },
+      "buildTime": 90,
+      "maintenance": 250,
+      "effects": {
+        "communicationSpeed": 40,
+        "tradePower": 10,
+        "stability": 10
+      },
+      "production": {
+        "gold": 200
+      },
+      "employment": 40,
+      "requirements": {
+        "minTech": 45,
+        "minPopulation": 8000
+      }
+    },
+    {
+      "id": "printing_press",
+      "name": "Druckerei",
+      "category": "cultural",
+      "description": "Druckerei zur Beeinflussung der öffentlichen Meinung",
+      "cost": {
+        "gold": 7000,
+        "wood": 500,
+        "stone": 200,
+        "land": 300
+      },
+      "buildTime": 100,
+      "maintenance": 300,
+      "effects": {
+        "literacyRate": 20,
+        "culturalInfluence": 25,
+        "publicOpinion": 30,
+        "propagandaPower": 20
+      },
+      "production": {
+        "gold": 250,
+        "research": 15
+      },
+      "employment": 50,
+      "requirements": {
+        "minTech": 42,
+        "era": "renaissance"
+      }
+    },
+    {
+      "id": "colonial_office",
+      "name": "Kolonialamt",
+      "category": "administrative",
+      "description": "Verwaltung für Übersee-Kolonien in der Imperialphase",
+      "cost": {
+        "gold": 20000,
+        "wood": 800,
+        "stone": 1000,
+        "land": 600
+      },
+      "buildTime": 180,
+      "maintenance": 600,
+      "effects": {
+        "colonialPower": 50,
+        "tradePower": 30,
+        "prestige": 40
+      },
+      "production": {
+        "gold": 800,
+        "exoticGoods": 100
+      },
+      "employment": 100,
+      "requirements": {
+        "minTech": 60,
+        "era": "industrial",
+        "minPopulation": 50000
+      }
+    },
+    {
+      "id": "ai_government_center",
+      "name": "KI-Regierungszentrum",
+      "category": "technology",
+      "description": "Vollautomatisierte Verwaltung durch künstliche Intelligenz",
+      "cost": {
+        "gold": 200000,
+        "stone": 3000,
+        "iron": 8000,
+        "land": 4000
+      },
+      "buildTime": 240,
+      "maintenance": 4000,
+      "effects": {
+        "technologicalLevel": 70,
+        "efficiency": 60,
+        "automation": 80
+      },
+      "production": {
+        "gold": 5000,
+        "research": 150
+      },
+      "employment": 50,
+      "requirements": {
+        "minTech": 98,
+        "minYear": 2050
+      },
+      "unique": true
+    },
+    {
+      "id": "climate_control_center",
+      "name": "Klimamanagement-Zentrum",
+      "category": "environmental",
+      "description": "Geo-Engineering und Klimakrise-Management",
+      "cost": {
+        "gold": 250000,
+        "stone": 4000,
+        "iron": 10000,
+        "land": 5000
+      },
+      "buildTime": 300,
+      "maintenance": 5000,
+      "effects": {
+        "environmentalStability": 80,
+        "sustainability": 70,
+        "disasterPrevention": 50
+      },
+      "production": {
+        "research": 200
+      },
+      "employment": 200,
+      "requirements": {
+        "minTech": 97,
+        "minYear": 2050
+      },
+      "unique": true
+    },
+    {
+      "id": "mars_colony_hub",
+      "name": "Mars-Kolonieverwaltung",
+      "category": "spaceage",
+      "description": "Verwaltungszentrum für Mars-Kolonisierung",
+      "cost": {
+        "gold": 500000,
+        "stone": 5000,
+        "iron": 20000,
+        "land": 10000
+      },
+      "buildTime": 450,
+      "maintenance": 10000,
+      "effects": {
+        "prestige": 200,
+        "technologicalLevel": 100,
+        "spaceColonies": 1
+      },
+      "production": {
+        "gold": 10000,
+        "research": 300,
+        "exoticResources": 200
+      },
+      "employment": 500,
+      "requirements": {
+        "minTech": 99,
+        "minYear": 2060
+      },
+      "unique": true
+    },
+    {
+      "id": "quantum_lab",
+      "name": "Quantenlabor",
+      "category": "scientific",
+      "description": "Hochmodernes Quantenforschungslabor",
+      "cost": {
+        "gold": 300000,
+        "stone": 4000,
+        "iron": 15000,
+        "land": 6000
+      },
+      "buildTime": 300,
+      "maintenance": 8000,
+      "effects": {
+        "technologicalLevel": 90,
+        "prestige": 120
+      },
+      "production": {
+        "research": 500
+      },
+      "employment": 300,
+      "requirements": {
+        "minTech": 98,
+        "minYear": 2050,
+        "buildings": {
+          "research_lab": 2
+        }
+      }
     }
   ],
   "buildingCategories": {
@@ -684,6 +1116,16 @@
       "name": "Technologie",
       "icon": "💻",
       "description": "Moderne Technologiegebäude"
+    },
+    "environmental": {
+      "name": "Umwelt",
+      "icon": "🌍",
+      "description": "Umwelt- und Nachhaltigkeitsgebäude"
+    },
+    "spaceage": {
+      "name": "Weltraumzeitalter",
+      "icon": "🚀",
+      "description": "Weltraum- und Kolonisierungsgebäude"
     }
   },
   "eras": {
@@ -716,11 +1158,16 @@
       "name": "Digitales Zeitalter",
       "years": [2000, 2050],
       "techLevel": [90, 100]
+    },
+    "future": {
+      "name": "Zukunft",
+      "years": [2050, 2100],
+      "techLevel": [100, 120]
     }
   },
   "metadata": {
-    "version": "2.0.0",
+    "version": "2.1.0",
     "lastUpdated": "2024-12-26",
-    "totalBuildings": 23
+    "totalBuildings": 38
   }
 }

@@ -1,17 +1,25 @@
 // src/core/HistoricalEventSystem.ts
 import eventsData from '../data/json/historical-events.json';
 
+export interface EventChoice {
+  id: string;
+  name: string;
+  description: string;
+  impact: Partial<Record<string, number>>;
+}
+
 export interface HistoricalEvent {
   id: string;
   year: number;
   name: string;
   description: string;
   category: string;
-  impact: Record<string, number>;
+  impact: Partial<Record<string, number>>;
   globalEvent?: boolean;
   region?: string;
   duration?: number;
   future?: boolean;
+  choices?: EventChoice[];
 }
 
 export interface EventTemplate {
@@ -20,7 +28,7 @@ export interface EventTemplate {
   description: string;
   category: string;
   probability: number;
-  impact: Record<string, number>;
+  impact: Partial<Record<string, number>>;
 }
 
 export class HistoricalEventSystem {
@@ -114,7 +122,8 @@ export class HistoricalEventSystem {
   public static applyHistoricalEvent(
     event: HistoricalEvent,
     playerStats: any,
-    kingdomStats: any
+    kingdomStats: any,
+    choiceId?: string
   ): {
     messages: string[];
     impacts: Record<string, number>;
@@ -125,8 +134,22 @@ export class HistoricalEventSystem {
     messages.push(`📜 ${event.name} (${event.year})`);
     messages.push(event.description);
     
+    // Determine which impacts to apply (choice or default)
+    let impactsToApply = event.impact;
+    
+    if (choiceId && event.choices) {
+      const choice = event.choices.find(c => c.id === choiceId);
+      if (choice) {
+        messages.push(`\n🎯 Gewählte Option: ${choice.name}`);
+        messages.push(choice.description);
+        impactsToApply = { ...event.impact, ...choice.impact };
+      }
+    }
+    
     // Apply impacts
-    Object.entries(event.impact).forEach(([stat, value]) => {
+    Object.entries(impactsToApply).forEach(([stat, value]) => {
+      if (value === undefined) return;
+      
       impacts[stat] = value;
       
       // Apply to player stats if applicable
@@ -147,6 +170,26 @@ export class HistoricalEventSystem {
     this.markEventTriggered(event.id);
     
     return { messages, impacts };
+  }
+  
+  /**
+   * Prüft ob ein Ereignis Wahlmöglichkeiten hat
+   */
+  public static hasChoices(event: HistoricalEvent): boolean {
+    return !!(event.choices && event.choices.length > 0);
+  }
+  
+  /**
+   * Holt die Wahlmöglichkeiten eines Ereignisses
+   */
+  public static getEventChoices(eventId: string): EventChoice[] {
+    for (const [_, events] of this.historicalEvents) {
+      const event = events.find(e => e.id === eventId);
+      if (event && event.choices) {
+        return event.choices;
+      }
+    }
+    return [];
   }
   
   /**
@@ -185,6 +228,8 @@ export class HistoricalEventSystem {
     
     // Apply impacts
     Object.entries(template.impact).forEach(([stat, value]) => {
+      if (value === undefined) return;
+      
       impacts[stat] = value;
       
       // Apply to player stats if applicable
