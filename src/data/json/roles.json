@@ -1,0 +1,413 @@
+{
+  "roles": [
+    {
+      "id": "kaiser",
+      "name": "Kaiser",
+      "femaleName": "Kaiserin",
+      "rank": 10,
+      "category": "imperial",
+      "description": "Der höchste Herrscher des Heiligen Römischen Reiches",
+      "startingResources": {
+        "gold": 100000,
+        "land": 50000,
+        "population": 100000
+      },
+      "abilities": [
+        "appoint_kings",
+        "declare_war",
+        "call_diet",
+        "issue_imperial_decrees",
+        "crown_pope",
+        "grant_titles"
+      ],
+      "requirements": {
+        "prestige": 10000,
+        "authority": 95,
+        "kingdomScore": 100000,
+        "previousTitle": "koenig"
+      }
+    },
+    {
+      "id": "koenig",
+      "name": "König",
+      "femaleName": "Königin",
+      "rank": 9,
+      "category": "royal",
+      "description": "Herrscher eines Königreichs",
+      "startingResources": {
+        "gold": 50000,
+        "land": 25000,
+        "population": 50000
+      },
+      "abilities": [
+        "appoint_nobles",
+        "declare_war",
+        "levy_taxes",
+        "grant_lands",
+        "host_tournaments"
+      ],
+      "requirements": {
+        "prestige": 5000,
+        "authority": 85,
+        "kingdomScore": 50000,
+        "previousTitle": "herzog"
+      }
+    },
+    {
+      "id": "papst",
+      "name": "Papst",
+      "femaleName": "Päpstin",
+      "rank": 10,
+      "category": "religious",
+      "description": "Oberhaupt der Katholischen Kirche",
+      "startingResources": {
+        "gold": 75000,
+        "land": 15000,
+        "population": 30000
+      },
+      "abilities": [
+        "excommunicate",
+        "crown_emperor",
+        "call_crusade",
+        "issue_papal_bulls",
+        "canonize_saints",
+        "appoint_bishops"
+      ],
+      "requirements": {
+        "prestige": 8000,
+        "piety": 95,
+        "authority": 90,
+        "previousTitle": "kardinal"
+      }
+    },
+    {
+      "id": "herzog",
+      "name": "Herzog",
+      "femaleName": "Herzogin",
+      "rank": 8,
+      "category": "noble",
+      "description": "Hoher Adliger mit großem Herrschaftsgebiet",
+      "startingResources": {
+        "gold": 25000,
+        "land": 15000,
+        "population": 25000
+      },
+      "abilities": [
+        "appoint_counts",
+        "raise_army",
+        "levy_taxes",
+        "grant_fiefs"
+      ],
+      "requirements": {
+        "prestige": 2500,
+        "authority": 75,
+        "kingdomScore": 25000
+      }
+    },
+    {
+      "id": "minister",
+      "name": "Minister",
+      "femaleName": "Ministerin",
+      "rank": 7,
+      "category": "administrative",
+      "description": "Hoher Regierungsbeamter mit spezialisiertem Aufgabenbereich",
+      "startingResources": {
+        "gold": 10000,
+        "land": 5000,
+        "population": 5000
+      },
+      "abilities": [
+        "manage_treasury",
+        "conduct_diplomacy",
+        "oversee_military",
+        "regulate_trade",
+        "manage_infrastructure"
+      ],
+      "requirements": {
+        "prestige": 1500,
+        "stewardship": 70,
+        "authority": 60
+      },
+      "specializations": [
+        "Finanzminister",
+        "Außenminister",
+        "Kriegsminister",
+        "Innenminister",
+        "Handelsminister",
+        "Bildungsminister"
+      ]
+    },
+    {
+      "id": "bischof",
+      "name": "Bischof",
+      "femaleName": "Bischöfin",
+      "rank": 6,
+      "category": "religious",
+      "description": "Geistlicher Würdenträger einer Diözese",
+      "startingResources": {
+        "gold": 8000,
+        "land": 3000,
+        "population": 8000
+      },
+      "abilities": [
+        "bless_marriages",
+        "collect_tithes",
+        "build_churches",
+        "educate_clergy",
+        "grant_indulgences"
+      ],
+      "requirements": {
+        "prestige": 1000,
+        "piety": 80,
+        "learning": 65
+      }
+    },
+    {
+      "id": "buergermeister",
+      "name": "Bürgermeister",
+      "femaleName": "Bürgermeisterin",
+      "rank": 5,
+      "category": "administrative",
+      "description": "Gewählter Verwalter einer Stadt",
+      "startingResources": {
+        "gold": 5000,
+        "land": 2000,
+        "population": 10000
+      },
+      "abilities": [
+        "manage_city",
+        "collect_taxes",
+        "build_infrastructure",
+        "regulate_markets",
+        "maintain_order"
+      ],
+      "requirements": {
+        "prestige": 500,
+        "stewardship": 60,
+        "popularity": 70
+      }
+    },
+    {
+      "id": "gildenmeister",
+      "name": "Gildenmeister",
+      "femaleName": "Gildenmeisterin",
+      "rank": 4,
+      "category": "economic",
+      "description": "Leiter einer Handwerksgilde",
+      "startingResources": {
+        "gold": 3000,
+        "land": 500,
+        "population": 1000
+      },
+      "abilities": [
+        "train_apprentices",
+        "regulate_trade",
+        "set_prices",
+        "quality_control",
+        "protect_secrets"
+      ],
+      "requirements": {
+        "prestige": 300,
+        "stewardship": 50,
+        "wealth": 5000
+      }
+    },
+    {
+      "id": "ritter",
+      "name": "Ritter",
+      "femaleName": "Ritterin",
+      "rank": 4,
+      "category": "military",
+      "description": "Berittener Krieger von Stand",
+      "startingResources": {
+        "gold": 2000,
+        "land": 1000,
+        "population": 500
+      },
+      "abilities": [
+        "lead_cavalry",
+        "participate_tournaments",
+        "collect_taxes",
+        "administer_fief"
+      ],
+      "requirements": {
+        "prestige": 250,
+        "martial": 60,
+        "courage": 70
+      }
+    },
+    {
+      "id": "gelehrter",
+      "name": "Gelehrter",
+      "femaleName": "Gelehrte",
+      "rank": 3,
+      "category": "academic",
+      "description": "Wissenschaftler und Lehrer an einer Universität",
+      "startingResources": {
+        "gold": 1500,
+        "land": 0,
+        "population": 0
+      },
+      "abilities": [
+        "teach_students",
+        "conduct_research",
+        "write_books",
+        "advise_rulers",
+        "discover_technologies"
+      ],
+      "requirements": {
+        "prestige": 200,
+        "learning": 80,
+        "education": "university"
+      }
+    },
+    {
+      "id": "haendler",
+      "name": "Händler",
+      "femaleName": "Händlerin",
+      "rank": 3,
+      "category": "economic",
+      "description": "Wohlhabender Kaufmann",
+      "startingResources": {
+        "gold": 4000,
+        "land": 100,
+        "population": 200
+      },
+      "abilities": [
+        "trade_goods",
+        "establish_routes",
+        "negotiate_deals",
+        "invest_ventures",
+        "hire_guards"
+      ],
+      "requirements": {
+        "prestige": 150,
+        "stewardship": 55,
+        "wealth": 3000
+      }
+    },
+    {
+      "id": "handwerker",
+      "name": "Handwerker",
+      "femaleName": "Handwerkerin",
+      "rank": 2,
+      "category": "economic",
+      "description": "Ausgebildeter Facharbeiter",
+      "startingResources": {
+        "gold": 500,
+        "land": 50,
+        "population": 50
+      },
+      "abilities": [
+        "craft_goods",
+        "train_apprentice",
+        "sell_products",
+        "maintain_tools"
+      ],
+      "requirements": {
+        "prestige": 50,
+        "skill": 60
+      },
+      "specializations": [
+        "Schmied",
+        "Zimmermann",
+        "Weber",
+        "Bäcker",
+        "Schneider",
+        "Töpfer"
+      ]
+    },
+    {
+      "id": "bauer",
+      "name": "Bauer",
+      "femaleName": "Bäuerin",
+      "rank": 2,
+      "category": "agricultural",
+      "description": "Landwirt der das Land bestellt",
+      "startingResources": {
+        "gold": 300,
+        "land": 200,
+        "population": 100
+      },
+      "abilities": [
+        "farm_land",
+        "raise_livestock",
+        "harvest_crops",
+        "pay_tithes",
+        "serve_militia"
+      ],
+      "requirements": {
+        "prestige": 10,
+        "land": 100
+      }
+    },
+    {
+      "id": "arbeiter",
+      "name": "Arbeiter",
+      "femaleName": "Arbeiterin",
+      "rank": 1,
+      "category": "labor",
+      "description": "Einfacher Lohnarbeiter",
+      "startingResources": {
+        "gold": 100,
+        "land": 0,
+        "population": 10
+      },
+      "abilities": [
+        "perform_labor",
+        "earn_wages",
+        "join_guild"
+      ],
+      "requirements": {
+        "prestige": 0
+      },
+      "specializations": [
+        "Tagelöhner",
+        "Bergarbeiter",
+        "Hafenarbeiter",
+        "Bauarbeiter"
+      ]
+    },
+    {
+      "id": "moench",
+      "name": "Mönch",
+      "femaleName": "Nonne",
+      "rank": 2,
+      "category": "religious",
+      "description": "Geweihter im Klosterleben",
+      "startingResources": {
+        "gold": 200,
+        "land": 0,
+        "population": 0
+      },
+      "abilities": [
+        "pray",
+        "copy_manuscripts",
+        "brew_beer",
+        "provide_charity",
+        "teach"
+      ],
+      "requirements": {
+        "prestige": 20,
+        "piety": 70
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "lastUpdated": "2024-12-26",
+    "totalRoles": 15,
+    "categories": [
+      "imperial",
+      "royal",
+      "noble",
+      "religious",
+      "administrative",
+      "military",
+      "economic",
+      "academic",
+      "agricultural",
+      "labor"
+    ]
+  }
+}

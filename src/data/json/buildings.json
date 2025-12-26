@@ -1,0 +1,726 @@
+{
+  "buildings": [
+    {
+      "id": "farm",
+      "name": "Bauernhof",
+      "category": "agricultural",
+      "description": "Grundlegende landwirtschaftliche Einrichtung zur Nahrungsproduktion",
+      "cost": {
+        "gold": 500,
+        "wood": 100,
+        "stone": 50,
+        "land": 200
+      },
+      "buildTime": 30,
+      "maintenance": 50,
+      "production": {
+        "food": 100
+      },
+      "employment": 10,
+      "requirements": {
+        "minTech": 0
+      },
+      "upgrades": ["large_farm", "plantation"]
+    },
+    {
+      "id": "market",
+      "name": "Marktplatz",
+      "category": "economic",
+      "description": "Handelsplatz für Waren und Dienstleistungen",
+      "cost": {
+        "gold": 1000,
+        "wood": 200,
+        "stone": 100,
+        "land": 300
+      },
+      "buildTime": 45,
+      "maintenance": 100,
+      "production": {
+        "gold": 200,
+        "tradePower": 5
+      },
+      "employment": 20,
+      "requirements": {
+        "minTech": 5,
+        "minPopulation": 500
+      },
+      "upgrades": ["trading_post", "grand_bazaar"]
+    },
+    {
+      "id": "mill",
+      "name": "Mühle",
+      "category": "industrial",
+      "description": "Verarbeitet Getreide zu Mehl",
+      "cost": {
+        "gold": 2000,
+        "wood": 300,
+        "stone": 200,
+        "land": 250
+      },
+      "buildTime": 60,
+      "maintenance": 150,
+      "production": {
+        "gold": 150,
+        "food": 50
+      },
+      "employment": 8,
+      "requirements": {
+        "minTech": 10,
+        "buildings": {
+          "farm": 2
+        }
+      },
+      "upgrades": ["watermill", "windmill"]
+    },
+    {
+      "id": "mine",
+      "name": "Mine",
+      "category": "industrial",
+      "description": "Fördert Erze und wertvolle Mineralien",
+      "cost": {
+        "gold": 5000,
+        "wood": 500,
+        "stone": 300,
+        "land": 400
+      },
+      "buildTime": 120,
+      "maintenance": 300,
+      "production": {
+        "iron": 50,
+        "stone": 100,
+        "gold": 100
+      },
+      "employment": 50,
+      "requirements": {
+        "minTech": 15,
+        "terrain": ["mountains", "hills"]
+      },
+      "upgrades": ["deep_mine", "industrial_mine"]
+    },
+    {
+      "id": "church",
+      "name": "Kirche",
+      "category": "religious",
+      "description": "Ort des Gebets und der spirituellen Führung",
+      "cost": {
+        "gold": 3000,
+        "wood": 200,
+        "stone": 500,
+        "land": 300
+      },
+      "buildTime": 90,
+      "maintenance": 100,
+      "effects": {
+        "piety": 10,
+        "happiness": 5,
+        "stability": 5
+      },
+      "employment": 5,
+      "requirements": {
+        "minTech": 5
+      },
+      "upgrades": ["cathedral", "monastery"]
+    },
+    {
+      "id": "school",
+      "name": "Schule",
+      "category": "education",
+      "description": "Bildungseinrichtung für grundlegende Ausbildung",
+      "cost": {
+        "gold": 2000,
+        "wood": 300,
+        "stone": 200,
+        "land": 250
+      },
+      "buildTime": 60,
+      "maintenance": 200,
+      "effects": {
+        "literacyRate": 5,
+        "culturalInfluence": 3,
+        "technologicalLevel": 2
+      },
+      "employment": 15,
+      "requirements": {
+        "minTech": 20,
+        "minPopulation": 1000
+      },
+      "upgrades": ["academy", "university"]
+    },
+    {
+      "id": "university",
+      "name": "Universität",
+      "category": "education",
+      "description": "Höhere Bildungseinrichtung für Wissenschaft und Forschung",
+      "cost": {
+        "gold": 15000,
+        "wood": 500,
+        "stone": 1000,
+        "land": 1000
+      },
+      "buildTime": 180,
+      "maintenance": 500,
+      "effects": {
+        "literacyRate": 15,
+        "culturalInfluence": 20,
+        "technologicalLevel": 25,
+        "prestige": 30
+      },
+      "production": {
+        "research": 50
+      },
+      "employment": 100,
+      "requirements": {
+        "minTech": 40,
+        "minPopulation": 10000,
+        "buildings": {
+          "school": 3
+        }
+      },
+      "upgrades": ["grand_university", "research_institute"]
+    },
+    {
+      "id": "barracks",
+      "name": "Kaserne",
+      "category": "military",
+      "description": "Ausbildungsstätte für Soldaten",
+      "cost": {
+        "gold": 3000,
+        "wood": 400,
+        "stone": 300,
+        "land": 400
+      },
+      "buildTime": 75,
+      "maintenance": 250,
+      "effects": {
+        "militaryStrength": 10,
+        "trainingLevel": 10
+      },
+      "production": {
+        "soldiers": 20
+      },
+      "employment": 30,
+      "requirements": {
+        "minTech": 10
+      },
+      "upgrades": ["fortress", "military_academy"]
+    },
+    {
+      "id": "workshop",
+      "name": "Werkstatt",
+      "category": "industrial",
+      "description": "Handwerkliche Produktionsstätte",
+      "cost": {
+        "gold": 1500,
+        "wood": 250,
+        "stone": 100,
+        "land": 200
+      },
+      "buildTime": 45,
+      "maintenance": 120,
+      "production": {
+        "gold": 180,
+        "goods": 30
+      },
+      "employment": 15,
+      "requirements": {
+        "minTech": 15
+      },
+      "upgrades": ["manufactory", "factory"]
+    },
+    {
+      "id": "hospital",
+      "name": "Hospital",
+      "category": "social",
+      "description": "Medizinische Versorgungseinrichtung",
+      "cost": {
+        "gold": 5000,
+        "wood": 300,
+        "stone": 400,
+        "land": 350
+      },
+      "buildTime": 100,
+      "maintenance": 300,
+      "effects": {
+        "health": 15,
+        "happiness": 8,
+        "populationGrowth": 5
+      },
+      "employment": 25,
+      "requirements": {
+        "minTech": 30,
+        "minPopulation": 5000
+      },
+      "upgrades": ["modern_hospital", "medical_center"]
+    },
+    {
+      "id": "port",
+      "name": "Hafen",
+      "category": "economic",
+      "description": "Handels- und Transporthafen für Seeschiffe",
+      "cost": {
+        "gold": 10000,
+        "wood": 1000,
+        "stone": 500,
+        "land": 500
+      },
+      "buildTime": 150,
+      "maintenance": 400,
+      "production": {
+        "gold": 500,
+        "tradePower": 20
+      },
+      "employment": 100,
+      "requirements": {
+        "minTech": 25,
+        "terrain": ["coastal"]
+      },
+      "upgrades": ["naval_base", "trade_hub"]
+    },
+    {
+      "id": "walls",
+      "name": "Stadtmauer",
+      "category": "defensive",
+      "description": "Befestigungsmauer zum Schutz der Stadt",
+      "cost": {
+        "gold": 8000,
+        "wood": 200,
+        "stone": 1500,
+        "land": 0
+      },
+      "buildTime": 120,
+      "maintenance": 200,
+      "effects": {
+        "defense": 30,
+        "stability": 10,
+        "prestige": 15
+      },
+      "requirements": {
+        "minTech": 10,
+        "minPopulation": 2000
+      },
+      "upgrades": ["fortress_walls", "star_fortress"]
+    },
+    {
+      "id": "library",
+      "name": "Bibliothek",
+      "category": "cultural",
+      "description": "Sammlung von Wissen und Büchern",
+      "cost": {
+        "gold": 4000,
+        "wood": 400,
+        "stone": 300,
+        "land": 300
+      },
+      "buildTime": 80,
+      "maintenance": 150,
+      "effects": {
+        "literacyRate": 8,
+        "culturalInfluence": 12,
+        "prestige": 10
+      },
+      "production": {
+        "research": 20
+      },
+      "employment": 10,
+      "requirements": {
+        "minTech": 25,
+        "buildings": {
+          "school": 1
+        }
+      },
+      "upgrades": ["grand_library", "archive"]
+    },
+    {
+      "id": "guildhall",
+      "name": "Gildenhaus",
+      "category": "economic",
+      "description": "Versammlungsort der Handwerksgilden",
+      "cost": {
+        "gold": 3500,
+        "wood": 350,
+        "stone": 250,
+        "land": 250
+      },
+      "buildTime": 70,
+      "maintenance": 180,
+      "production": {
+        "gold": 250,
+        "goods": 50
+      },
+      "effects": {
+        "tradePower": 8,
+        "happiness": 5
+      },
+      "employment": 20,
+      "requirements": {
+        "minTech": 20,
+        "minPopulation": 3000
+      },
+      "upgrades": ["trade_guild", "merchant_association"]
+    },
+    {
+      "id": "palace",
+      "name": "Palast",
+      "category": "administrative",
+      "description": "Prachtvoller Regierungssitz des Herrschers",
+      "cost": {
+        "gold": 50000,
+        "wood": 2000,
+        "stone": 3000,
+        "land": 2000
+      },
+      "buildTime": 365,
+      "maintenance": 1000,
+      "effects": {
+        "prestige": 100,
+        "authority": 30,
+        "stability": 20,
+        "culturalInfluence": 25
+      },
+      "employment": 200,
+      "requirements": {
+        "minTech": 35,
+        "minPopulation": 20000,
+        "rank": 7
+      },
+      "unique": true
+    },
+    {
+      "id": "cathedral",
+      "name": "Kathedrale",
+      "category": "religious",
+      "description": "Monumentales religiöses Bauwerk",
+      "cost": {
+        "gold": 75000,
+        "wood": 1000,
+        "stone": 5000,
+        "land": 1500
+      },
+      "buildTime": 450,
+      "maintenance": 800,
+      "effects": {
+        "piety": 50,
+        "prestige": 80,
+        "culturalInfluence": 40,
+        "happiness": 15
+      },
+      "employment": 150,
+      "requirements": {
+        "minTech": 30,
+        "minPopulation": 15000,
+        "buildings": {
+          "church": 3
+        }
+      },
+      "unique": true
+    },
+    {
+      "id": "observatory",
+      "name": "Sternwarte",
+      "category": "scientific",
+      "description": "Einrichtung zur Himmelsbeobachtung und Forschung",
+      "cost": {
+        "gold": 12000,
+        "wood": 300,
+        "stone": 800,
+        "land": 400
+      },
+      "buildTime": 150,
+      "maintenance": 400,
+      "effects": {
+        "technologicalLevel": 20,
+        "prestige": 25,
+        "culturalInfluence": 15
+      },
+      "production": {
+        "research": 40
+      },
+      "employment": 30,
+      "requirements": {
+        "minTech": 45,
+        "buildings": {
+          "university": 1
+        }
+      },
+      "upgrades": ["research_center", "space_center"]
+    },
+    {
+      "id": "factory",
+      "name": "Fabrik",
+      "category": "industrial",
+      "description": "Moderne Produktionsstätte mit Maschinen",
+      "cost": {
+        "gold": 20000,
+        "wood": 500,
+        "stone": 1000,
+        "iron": 500,
+        "land": 800
+      },
+      "buildTime": 200,
+      "maintenance": 600,
+      "production": {
+        "gold": 800,
+        "goods": 200
+      },
+      "employment": 150,
+      "requirements": {
+        "minTech": 60,
+        "era": "industrial"
+      },
+      "effects": {
+        "tradePower": 15,
+        "technologicalLevel": 10
+      },
+      "upgrades": ["industrial_complex", "automated_factory"]
+    },
+    {
+      "id": "railway_station",
+      "name": "Bahnhof",
+      "category": "infrastructure",
+      "description": "Station für Eisenbahnverbindungen",
+      "cost": {
+        "gold": 25000,
+        "wood": 1000,
+        "stone": 2000,
+        "iron": 1000,
+        "land": 1000
+      },
+      "buildTime": 240,
+      "maintenance": 500,
+      "production": {
+        "gold": 600,
+        "tradePower": 25
+      },
+      "effects": {
+        "tradePower": 20,
+        "technologicalLevel": 15,
+        "stability": 10
+      },
+      "employment": 80,
+      "requirements": {
+        "minTech": 65,
+        "era": "industrial"
+      },
+      "upgrades": ["central_station", "high_speed_terminal"]
+    },
+    {
+      "id": "power_plant",
+      "name": "Kraftwerk",
+      "category": "industrial",
+      "description": "Erzeugt elektrische Energie",
+      "cost": {
+        "gold": 50000,
+        "wood": 500,
+        "stone": 2000,
+        "iron": 2000,
+        "land": 1500
+      },
+      "buildTime": 300,
+      "maintenance": 1200,
+      "production": {
+        "power": 1000
+      },
+      "effects": {
+        "technologicalLevel": 25,
+        "tradePower": 10
+      },
+      "employment": 100,
+      "requirements": {
+        "minTech": 75,
+        "era": "modern"
+      },
+      "upgrades": ["nuclear_plant", "fusion_reactor"]
+    },
+    {
+      "id": "airport",
+      "name": "Flughafen",
+      "category": "infrastructure",
+      "description": "Internationaler Flughafen für Personen- und Frachtverkehr",
+      "cost": {
+        "gold": 100000,
+        "stone": 5000,
+        "iron": 3000,
+        "land": 5000
+      },
+      "buildTime": 365,
+      "maintenance": 2000,
+      "production": {
+        "gold": 2000,
+        "tradePower": 40
+      },
+      "effects": {
+        "tradePower": 35,
+        "prestige": 40,
+        "technologicalLevel": 20
+      },
+      "employment": 500,
+      "requirements": {
+        "minTech": 85,
+        "era": "modern",
+        "minPopulation": 100000
+      }
+    },
+    {
+      "id": "research_lab",
+      "name": "Forschungslabor",
+      "category": "scientific",
+      "description": "Hochmodernes Labor für wissenschaftliche Forschung",
+      "cost": {
+        "gold": 75000,
+        "stone": 3000,
+        "iron": 2000,
+        "land": 2000
+      },
+      "buildTime": 270,
+      "maintenance": 1500,
+      "production": {
+        "research": 200
+      },
+      "effects": {
+        "technologicalLevel": 40,
+        "prestige": 50
+      },
+      "employment": 200,
+      "requirements": {
+        "minTech": 90,
+        "era": "modern",
+        "buildings": {
+          "university": 2
+        }
+      },
+      "upgrades": ["innovation_center", "quantum_lab"]
+    },
+    {
+      "id": "data_center",
+      "name": "Rechenzentrum",
+      "category": "technology",
+      "description": "Zentrum für Datenverarbeitung und digitale Infrastruktur",
+      "cost": {
+        "gold": 150000,
+        "stone": 2000,
+        "iron": 5000,
+        "land": 3000
+      },
+      "buildTime": 180,
+      "maintenance": 3000,
+      "production": {
+        "gold": 3000,
+        "research": 100
+      },
+      "effects": {
+        "technologicalLevel": 50,
+        "tradePower": 25
+      },
+      "employment": 300,
+      "requirements": {
+        "minTech": 95,
+        "era": "digital"
+      },
+      "upgrades": ["ai_center", "quantum_computer"]
+    }
+  ],
+  "buildingCategories": {
+    "agricultural": {
+      "name": "Landwirtschaft",
+      "icon": "🌾",
+      "description": "Gebäude zur Nahrungsproduktion"
+    },
+    "economic": {
+      "name": "Wirtschaft",
+      "icon": "💰",
+      "description": "Handels- und Produktionsgebäude"
+    },
+    "industrial": {
+      "name": "Industrie",
+      "icon": "🏭",
+      "description": "Industrielle Produktionsstätten"
+    },
+    "religious": {
+      "name": "Religion",
+      "icon": "⛪",
+      "description": "Religiöse Einrichtungen"
+    },
+    "education": {
+      "name": "Bildung",
+      "icon": "📚",
+      "description": "Bildungseinrichtungen"
+    },
+    "military": {
+      "name": "Militär",
+      "icon": "⚔️",
+      "description": "Militärische Gebäude"
+    },
+    "social": {
+      "name": "Soziales",
+      "icon": "🏥",
+      "description": "Soziale Einrichtungen"
+    },
+    "defensive": {
+      "name": "Verteidigung",
+      "icon": "🛡️",
+      "description": "Verteidigungsanlagen"
+    },
+    "cultural": {
+      "name": "Kultur",
+      "icon": "🎭",
+      "description": "Kulturelle Einrichtungen"
+    },
+    "administrative": {
+      "name": "Verwaltung",
+      "icon": "🏛️",
+      "description": "Verwaltungsgebäude"
+    },
+    "scientific": {
+      "name": "Wissenschaft",
+      "icon": "🔬",
+      "description": "Wissenschaftliche Einrichtungen"
+    },
+    "infrastructure": {
+      "name": "Infrastruktur",
+      "icon": "🚂",
+      "description": "Verkehrs- und Infrastrukturgebäude"
+    },
+    "technology": {
+      "name": "Technologie",
+      "icon": "💻",
+      "description": "Moderne Technologiegebäude"
+    }
+  },
+  "eras": {
+    "ancient": {
+      "name": "Antike",
+      "years": [0, 500],
+      "techLevel": [0, 20]
+    },
+    "medieval": {
+      "name": "Mittelalter",
+      "years": [500, 1500],
+      "techLevel": [20, 40]
+    },
+    "renaissance": {
+      "name": "Renaissance",
+      "years": [1450, 1650],
+      "techLevel": [35, 55]
+    },
+    "industrial": {
+      "name": "Industriezeitalter",
+      "years": [1760, 1920],
+      "techLevel": [55, 75]
+    },
+    "modern": {
+      "name": "Moderne",
+      "years": [1920, 2000],
+      "techLevel": [75, 90]
+    },
+    "digital": {
+      "name": "Digitales Zeitalter",
+      "years": [2000, 2050],
+      "techLevel": [90, 100]
+    }
+  },
+  "metadata": {
+    "version": "2.0.0",
+    "lastUpdated": "2024-12-26",
+    "totalBuildings": 23
+  }
+}
