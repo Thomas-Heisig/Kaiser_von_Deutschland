@@ -308,6 +308,22 @@ export class Kingdom {
     };
   }
 
+  /**
+   * Updates production rates with modifiers (temporary, reset monthly)
+   * Note: These modifiers are temporary and reset when initializeRates() is called.
+   * For permanent production bonuses, modify the calculation methods directly.
+   * @param modifiers - Object with resource keys and percentage modifier values (e.g., {food: 10} for +10%)
+   */
+  public updateProductionRates(modifiers: Partial<Record<keyof ProductionRates, number>>): void {
+    Object.keys(modifiers).forEach(resource => {
+      const key = resource as keyof ProductionRates;
+      const modifier = modifiers[key];
+      if (modifier !== undefined && this.productionRates[key] !== undefined) {
+        this.productionRates[key] *= (1 + modifier / 100);
+      }
+    });
+  }
+
   // ==================== ÖFFENTLICHE METHODEN ====================
 
   /**

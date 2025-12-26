@@ -2,15 +2,18 @@
 import { GameEngine } from '../core/GameEngine';
 import { Player } from '../core/Player';
 import { PolicySystem, Policy, PolicyCategory } from '../core/PolicySystem';
+import { NotificationSystem } from './NotificationSystem';
 
 export class NewFeaturesPanel {
   private container: HTMLElement;
   private game: GameEngine;
   private currentPlayer?: Player;
+  private notificationSystem: NotificationSystem;
 
-  constructor(game: GameEngine, containerId: string) {
+  constructor(game: GameEngine, containerId: string, notificationSystem?: NotificationSystem) {
     this.game = game;
     this.container = document.getElementById(containerId) || this.createContainer(containerId);
+    this.notificationSystem = notificationSystem || new NotificationSystem();
     this.render();
   }
 
@@ -421,12 +424,10 @@ export class NewFeaturesPanel {
     );
     
     if (success) {
-      // TODO: Replace with proper notification system
-      console.log('Politik erfolgreich eingeführt!');
+      this.notificationSystem.show('Politik', 'Politik erfolgreich eingeführt!', 'success');
       this.render();
     } else {
-      // TODO: Replace with proper error UI
-      console.warn('Politik konnte nicht eingeführt werden.');
+      this.notificationSystem.show('Fehler', 'Politik konnte nicht eingeführt werden.', 'error');
     }
   }
 
@@ -441,9 +442,10 @@ export class NewFeaturesPanel {
     );
     
     if (success) {
-      // TODO: Replace with proper notification system
-      console.log('Politik erfolgreich widerrufen!');
+      this.notificationSystem.show('Politik', 'Politik erfolgreich widerrufen!', 'success');
       this.render();
+    } else {
+      this.notificationSystem.show('Fehler', 'Politik konnte nicht widerrufen werden.', 'error');
     }
   }
 
