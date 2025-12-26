@@ -1,6 +1,7 @@
 // src/core/Player.ts
 import { Kingdom, KingdomConfig } from './Kingdom';
 import { v4 as uuidv4 } from 'uuid';
+import achievementsData from '../data/json/achievements.json';
 
 export type Gender = 'male' | 'female' | 'other' | 'royal_blood' | 'noble_lineage';
 export type PlayerStatus = 'alive' | 'wounded' | 'ill' | 'incapacitated' | 'deceased';
@@ -627,7 +628,7 @@ export class Player {
    * Schaltet einen Erfolg frei
    */
   public unlockAchievement(achievementId: string): boolean {
-    // TODO: Achievement-Logik aus externer Quelle laden
+    // Load achievement definition from external JSON
     const achievement = this.getAchievementDefinition(achievementId);
     
     if (!achievement || this.achievements.some(a => a.id === achievementId)) {
@@ -984,36 +985,8 @@ export class Player {
   }
 
   private getAchievementDefinition(achievementId: string): Achievement | undefined {
-    // TODO: Aus externer Quelle oder Datenbank laden
-    const achievementDefinitions: Achievement[] = [
-      {
-        id: 'kingdom_builder',
-        name: 'Königreichsbauer',
-        description: 'Erreiche eine Königreichspunktzahl von 10.000',
-        category: 'economic',
-        prestigeReward: 100,
-        goldReward: 5000,
-        unlockConditions: {
-          kingdomRequirements: {
-            minScore: 10000,
-            minYear: 5
-          }
-        }
-      },
-      {
-        id: 'conqueror',
-        name: 'Eroberer',
-        description: 'Habe eine Armee von über 10.000 Mann',
-        category: 'military',
-        prestigeReward: 150,
-        unlockConditions: {
-          kingdomRequirements: {
-            buildings: { barracks: 5 }
-          }
-        }
-      }
-    ];
-    
+    // Load achievements from external JSON file
+    const achievementDefinitions: Achievement[] = achievementsData.achievements as Achievement[];
     return achievementDefinitions.find(a => a.id === achievementId);
   }
 
@@ -1093,9 +1066,8 @@ export class Player {
     }
     
     if (effects.production) {
-      Object.keys(effects.production).forEach(_resource => {
-        // TODO: Produktionsraten aktualisieren
-      });
+      // Update production rates with percentage modifiers
+      this.kingdom.updateProductionRates(effects.production);
     }
   }
 

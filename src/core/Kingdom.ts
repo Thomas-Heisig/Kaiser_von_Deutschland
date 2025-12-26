@@ -308,6 +308,20 @@ export class Kingdom {
     };
   }
 
+  /**
+   * Updates production rates with modifiers
+   * @param modifiers - Object with resource keys and multiplier values
+   */
+  public updateProductionRates(modifiers: Partial<Record<keyof ProductionRates, number>>): void {
+    Object.keys(modifiers).forEach(resource => {
+      const key = resource as keyof ProductionRates;
+      const modifier = modifiers[key];
+      if (modifier !== undefined && this.productionRates[key] !== undefined) {
+        this.productionRates[key] *= (1 + modifier / 100);
+      }
+    });
+  }
+
   // ==================== ÖFFENTLICHE METHODEN ====================
 
   /**
