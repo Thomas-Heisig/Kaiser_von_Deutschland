@@ -1,7 +1,6 @@
 // src/core/OllamaService.ts
 import { Player } from './Player';
 import { Kingdom } from './Kingdom';
-import { GameEngine } from './GameEngine';
 
 export interface OllamaConfig {
   baseUrl: string;
@@ -240,7 +239,7 @@ export class OllamaService {
     const stats = player.stats;
 
     const systemPrompt = `Du bist ein KI-Spieler im Spiel "Kaiser von Deutschland". 
-Du spielst die Rolle: ${player.role?.name || 'Herrscher'}.
+Du spielst die Rolle: Herrscher.
 Deine Persönlichkeit basiert auf dem Modell ${this.config.model}.
 Treffe strategische Entscheidungen basierend auf dem aktuellen Spielzustand.`;
 

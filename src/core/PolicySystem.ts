@@ -539,7 +539,7 @@ export class PolicySystem {
           stats: { prestige: 15, popularity: 20 }
         },
         monthlyEffects: {
-          population: { merchants: 2, scholars: 1 }
+          population: { merchants: 2 }
         },
         conditions: {
           minYear: 1900,
@@ -646,7 +646,7 @@ export class PolicySystem {
           stats: { prestige: 10 }
         },
         monthlyEffects: {
-          population: { clergy: 1 }
+          population: {}
         },
         conditions: {
           minYear: 1648,

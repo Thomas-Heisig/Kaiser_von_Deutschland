@@ -3,6 +3,10 @@ import { Player, PlayerCreationData } from './Player';
 import { EconomySystem } from './Economy';
 import { EventSystem } from './Events';
 import { Title, TitleSystem } from '../data/Titles';
+import { PolicySystem } from './PolicySystem';
+import { OllamaService } from './OllamaService';
+import { MultiplayerSystem } from './MultiplayerSystem';
+import { WikiIntegration } from './WikiIntegration';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -19,6 +23,9 @@ export interface GameConfig {
   enableMultiplayer: boolean;
   randomEvents: boolean;
   startingYear: number;
+  enableOllama?: boolean;
+  ollamaUrl?: string;
+  enableWiki?: boolean;
 }
 
 export interface SaveMeta {
@@ -34,6 +41,10 @@ export class GameEngine {
   private gameState: GameState;
   private economy: EconomySystem;
   private events: EventSystem;
+  private policySystem: PolicySystem;
+  private ollamaService?: OllamaService;
+  private multiplayerSystem?: MultiplayerSystem;
+  private wikiIntegration?: WikiIntegration;
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -45,6 +56,8 @@ export class GameEngine {
       enableMultiplayer: false,
       randomEvents: true,
       startingYear: 1200,
+      enableOllama: false,
+      enableWiki: true,
       ...config
     };
 
@@ -52,9 +65,25 @@ export class GameEngine {
     this.gameState = GameState.LOBBY;
     this.economy = new EconomySystem(this.config);
     this.events = new EventSystem();
+    this.policySystem = new PolicySystem();
     this.eventTarget = new EventTarget();
     this.currentMonth = 1;
     this._tickHandle = null as any;
+
+    // Initialize optional systems
+    if (this.config.enableOllama) {
+      this.ollamaService = new OllamaService({
+        baseUrl: this.config.ollamaUrl
+      });
+    }
+
+    if (this.config.enableMultiplayer) {
+      this.multiplayerSystem = new MultiplayerSystem();
+    }
+
+    if (this.config.enableWiki) {
+      this.wikiIntegration = new WikiIntegration();
+    }
   }
 
   private currentMonth: number;
@@ -139,6 +168,9 @@ export class GameEngine {
     } catch (err) {
       console.warn('kingdom.processMonth failed for', player.id, err);
     }
+
+    // Apply monthly policy effects
+    this.policySystem.applyMonthlyEffects(player);
 
     // small monthly stat adjustments
     this.updatePlayerStats(player);
@@ -275,6 +307,9 @@ export class GameEngine {
     } catch (err) {
       console.warn('player.processYear failed for', player.id, err);
     }
+
+    // Apply yearly policy effects
+    this.policySystem.applyYearlyEffects(player);
 
     // Zufallsereignisse
     if (this.config.randomEvents) {
@@ -413,5 +448,62 @@ export class GameEngine {
     const filteredIndex = index.filter(item => item.slot !== slot);
     
     await localforage.setItem('kaiser-ii-saves-index', filteredIndex);
+  }
+
+  // === New System Accessors ===
+
+  /**
+   * Get the policy system
+   */
+  public getPolicySystem(): PolicySystem {
+    return this.policySystem;
+  }
+
+  /**
+   * Get the Ollama service (if enabled)
+   */
+  public getOllamaService(): OllamaService | undefined {
+    return this.ollamaService;
+  }
+
+  /**
+   * Get the multiplayer system (if enabled)
+   */
+  public getMultiplayerSystem(): MultiplayerSystem | undefined {
+    return this.multiplayerSystem;
+  }
+
+  /**
+   * Get the wiki integration (if enabled)
+   */
+  public getWikiIntegration(): WikiIntegration | undefined {
+    return this.wikiIntegration;
+  }
+
+  /**
+   * Enable Ollama service at runtime
+   */
+  public enableOllama(config?: { baseUrl?: string; model?: string }): void {
+    if (!this.ollamaService) {
+      this.ollamaService = new OllamaService(config);
+      this.config.enableOllama = true;
+    }
+  }
+
+  /**
+   * Enable multiplayer at runtime
+   */
+  public enableMultiplayer(): void {
+    if (!this.multiplayerSystem) {
+      this.multiplayerSystem = new MultiplayerSystem();
+      this.config.enableMultiplayer = true;
+    }
+  }
+
+  /**
+   * Get current month
+   */
+  public getCurrentMonth(): number {
+    return this.currentMonth;
   }
 }

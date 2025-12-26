@@ -328,8 +328,7 @@ export class WikiIntegration {
    */
   public async enrichEventDescription(
     eventName: string,
-    baseDescription: string,
-    year?: number
+    baseDescription: string
   ): Promise<string> {
     const article = await this.getArticle(eventName);
     if (!article) return baseDescription;

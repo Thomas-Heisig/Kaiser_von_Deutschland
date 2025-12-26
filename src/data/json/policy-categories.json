@@ -1,0 +1,50 @@
+{
+  "categories": {
+    "asylum_immigration": {
+      "name": "Asyl und Zuwanderung",
+      "description": "Politiken zur Steuerung von Migration und Asylrecht",
+      "icon": "🌍"
+    },
+    "economy_domestic": {
+      "name": "Wirtschaft - Inland",
+      "description": "Innenpolitische wirtschaftliche Maßnahmen",
+      "icon": "💰"
+    },
+    "economy_foreign": {
+      "name": "Wirtschaft - Außenhandel",
+      "description": "Außenwirtschafts- und Handelspolitik",
+      "icon": "🚢"
+    },
+    "health": {
+      "name": "Gesundheit",
+      "description": "Gesundheitswesen und öffentliche Gesundheit",
+      "icon": "🏥"
+    },
+    "social_positive": {
+      "name": "Soziales - Förderung",
+      "description": "Positive soziale Programme und Wohlfahrt",
+      "icon": "🤝"
+    },
+    "social_negative": {
+      "name": "Soziales - Restriktion",
+      "description": "Restriktive soziale Maßnahmen",
+      "icon": "⛓️"
+    },
+    "social_tensions": {
+      "name": "Soziale Spannungen",
+      "description": "Umgang mit gesellschaftlichen Konflikten",
+      "icon": "⚡"
+    },
+    "social_urban": {
+      "name": "Ballungsräume",
+      "description": "Stadtplanung und urbane Entwicklung",
+      "icon": "🏙️"
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "totalPolicies": 33,
+    "description": "Modular policy system for Kaiser von Deutschland",
+    "lastUpdated": "2025-12-26"
+  }
+}

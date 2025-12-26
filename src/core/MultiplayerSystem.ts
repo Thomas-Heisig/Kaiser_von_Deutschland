@@ -1,6 +1,4 @@
 // src/core/MultiplayerSystem.ts
-import { Player } from './Player';
-import { GameEngine } from './GameEngine';
 
 export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error';
 export type PlayerType = 'human' | 'ai_ollama' | 'ai_basic';
@@ -59,7 +57,6 @@ export interface GameSession {
 
 export class MultiplayerSystem {
   private connectionStatus: ConnectionStatus = 'disconnected';
-  private sessionId?: string;
   private localPlayerId?: string;
   private session?: GameSession;
   private chatHistory: ChatMessage[] = [];
@@ -159,7 +156,6 @@ export class MultiplayerSystem {
     };
 
     this.session = session;
-    this.sessionId = session.id;
     this.localPlayerId = hostPlayer.id;
     this.connectionStatus = 'connected';
 
@@ -250,7 +246,6 @@ export class MultiplayerSystem {
       this.session.players[0].isHost = true;
     }
 
-    this.sessionId = undefined;
     this.localPlayerId = undefined;
     this.connectionStatus = 'disconnected';
     
