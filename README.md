@@ -1,10 +1,16 @@
 # ⚜️ Kaiser von Deutschland ⚜️
 
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF.svg)](https://vitejs.dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft - Ein modernes Remake des Klassikers "Kaiser" mit massiven Erweiterungen.
 
 ## 🎮 Spielkonzept
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
+
+> **Hinweis:** Dieses Projekt befindet sich in aktiver Entwicklung. Siehe [ROADMAP.md](docs/ROADMAP.md) für geplante Features.
 
 ## ✨ Hauptmerkmale
 
@@ -34,6 +40,32 @@ Vollständiger Technologie-Baum von der Antike bis zur digitalen Zukunft.
 
 ### 📊 Umfangreiches Statistik-System
 Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert.
+
+### 🏛️ Politik-System (NEU)
+**33 politische Maßnahmen** in 8 Kategorien:
+- Asyl und Zuwanderung
+- Wirtschaft (Inland & Außenhandel)
+- Gesundheitswesen
+- Soziale Förderung & Restriktion
+- Soziale Spannungen
+- Ballungsräume
+
+### 🤖 KI-Integration (NEU)
+- **Ollama AI**: 6 verschiedene KI-Modelle als Spieler oder Berater
+- Intelligente Entscheidungshilfe
+- Event-Analyse und Empfehlungen
+- Chat-Funktion
+
+### 🌐 Multiplayer-System (NEU)
+- Bis zu 6 Spieler (Menschen + KI)
+- Echtzeit- oder Rundenbasiert
+- In-Game Chat (öffentlich & privat)
+- Session-Management mit Lobby
+
+### 📚 Wikipedia-Integration (NEU)
+- Historische Ereignisse mit echten Wikipedia-Artikeln anreichern
+- Kontextwissen und verwandte Themen
+- Intelligentes Caching
 
 ## 🚀 Technologie-Stack
 
@@ -81,21 +113,39 @@ PORT=4200 npm run dev
 
 ```
 src/
-├── core/                    # Kern-Spiellogik
-│   ├── GameEngine.ts        # Haupt-Spiel-Engine
-│   ├── Player.ts            # Spieler-System
-│   ├── Kingdom.ts           # Königreich-Management
-│   ├── RoleSystem.ts        # Rollen-Management
-│   ├── BuildingSystem.ts    # Gebäude-Management
-│   ├── TechnologySystem.ts  # Technologie-Baum
-│   └── HistoricalEventSystem.ts  # Historische Ereignisse
-├── ui/                      # UI-Komponenten
-├── data/json/               # JSON-Datenbanken
-│   ├── roles.json           # 15 Rollen-Definitionen
-│   ├── buildings.json       # 23 Gebäude
-│   ├── technologies.json    # 24 Technologien
-│   └── historical-events.json  # 27 Ereignisse
-└── main.ts
+├── core/                       # Kern-Spiellogik
+│   ├── GameEngine.ts           # Haupt-Spiel-Engine
+│   ├── Player.ts               # Spieler-System
+│   ├── Kingdom.ts              # Königreich-Management
+│   ├── RoleSystem.ts           # Rollen-Management
+│   ├── BuildingSystem.ts       # Gebäude-Management
+│   ├── TechnologySystem.ts     # Technologie-Baum
+│   ├── HistoricalEventSystem.ts # Historische Ereignisse
+│   ├── PolicySystem.ts         # 33 Politik-Maßnahmen (NEU)
+│   ├── OllamaService.ts        # KI-Integration (NEU)
+│   ├── MultiplayerSystem.ts    # Multiplayer-Framework (NEU)
+│   ├── WikiIntegration.ts      # Wikipedia-Anbindung (NEU)
+│   ├── Economy.ts              # Wirtschafts-Engine
+│   ├── Events.ts               # Event-System
+│   └── RegionalSystem.ts       # Regional-Verwaltung
+├── ui/                         # UI-Komponenten
+│   ├── GameUI.ts               # Haupt-UI
+│   ├── Graphics.ts             # Canvas-Rendering
+│   ├── NewFeaturesPanel.ts     # Panel für neue Features (NEU)
+│   ├── NotificationSystem.ts   # Benachrichtigungen
+│   └── SaveManager.ts          # Speicher-Verwaltung
+├── data/                       # Daten und Definitionen
+│   ├── json/                   # JSON-Datenbanken
+│   │   ├── roles.json          # 15 Rollen-Definitionen
+│   │   ├── buildings.json      # 23 Gebäude
+│   │   ├── technologies.json   # 24 Technologien
+│   │   ├── historical-events.json # 27 Ereignisse
+│   │   ├── policy-categories.json # Politik-Kategorien (NEU)
+│   │   ├── regions.json        # Regionen
+│   │   └── achievements.json   # Erfolge
+│   └── Titles.ts               # Titel-System
+├── utils/                      # Hilfsfunktionen
+└── main.ts                     # Einstiegspunkt
 ```
 
 ## 🎯 Design-Philosophie
@@ -110,17 +160,43 @@ src/
 
 Inspiriert vom klassischen **Kaiser** (1984) und **Kaiser II** - legendäre Strategiespiele für Commodore 64. Dieses Projekt erweitert die ursprüngliche Spielidee massiv mit modernen Technologien und umfassendem Content.
 
+## 📖 Dokumentation
+
+Für detaillierte Informationen siehe:
+
+- **[Benutzerhandbuch](docs/USER_GUIDE.md)** - Spielanleitung und Features
+- **[API-Referenz](docs/API_REFERENCE.md)** - Entwickler-Dokumentation
+- **[Architektur](docs/ARCHITECTURE.md)** - System-Design und Struktur
+- **[Neue Features](docs/NEW_FEATURES.md)** - Politik, KI, Multiplayer, Wiki
+- **[Roadmap](docs/ROADMAP.md)** - Geplante Features und Entwicklung
+- **[Beitragen](CONTRIBUTING.md)** - Wie Sie zum Projekt beitragen können
+- **[Testing](docs/TESTING_SCREENSHOTS.md)** - Test-Leitfaden
+
 ## 🤝 Beitragen
 
 Beiträge sind willkommen! Besonders:
 - Neue historische Ereignisse
 - Zusätzliche Rollen und Gebäude
+- Weitere Politik-Maßnahmen
 - Verbesserte Grafiken
 - Lokalisierung in andere Sprachen
+- Bug-Fixes und Performance-Optimierungen
+
+Bitte lesen Sie [CONTRIBUTING.md](CONTRIBUTING.md) für Details zum Entwicklungsprozess.
+
+## 🐛 Probleme melden
+
+Haben Sie einen Bug gefunden oder einen Feature-Wunsch? Bitte [erstellen Sie ein Issue](https://github.com/Thomas-Heisig/Kaiser_von_Deutschland/issues) auf GitHub.
 
 ## 📜 Lizenz
 
-MIT License
+MIT License - siehe [LICENSE](LICENSE) für Details.
+
+## 🙏 Danksagungen
+
+- Inspiriert vom klassischen **Kaiser** (1984) und **Kaiser II** für Commodore 64
+- Basiert auf historischen Ereignissen und Strukturen
+- Community-Beiträge und Feedback
 
 ---
 
