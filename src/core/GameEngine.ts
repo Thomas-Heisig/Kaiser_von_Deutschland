@@ -39,7 +39,8 @@ export class GameEngine {
   private players: Map<string, Player> = new Map();
   private currentYear: number;
   private gameState: GameState;
-  // @ts-expect-error - Reserved for future economy features
+  // TODO: Reserved for future economy features
+  // @ts-expect-error - Unused until economy features are implemented
   private _economy: EconomySystem;
   private events: EventSystem;
   private policySystem: PolicySystem;

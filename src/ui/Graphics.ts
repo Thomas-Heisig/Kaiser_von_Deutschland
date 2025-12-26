@@ -48,11 +48,14 @@ export class Graphics {
   private particles: Particle[] = [];
   private lastRenderTime: number = 0;
   private isRendering: boolean = false;
-  // @ts-expect-error - Reserved for future caching features
+  // TODO: Will be used for terrain caching optimization in future
+  // @ts-expect-error - Unused until caching is implemented
   private _terrainCache: Map<string, ImageData> = new Map();
-  // @ts-expect-error - Reserved for future sprite features
+  // TODO: Will be used for building sprite rendering in future
+  // @ts-expect-error - Unused until sprite rendering is implemented
   private _buildingSprites: Map<string, HTMLImageElement> = new Map();
-  // @ts-expect-error - Reserved for future sprite loading
+  // TODO: Will be used to track sprite loading status in future
+  // @ts-expect-error - Unused until sprite loading is implemented
   private _spriteSheetLoaded: boolean = false;
 
   constructor(canvasId: string = 'kingdom-map') {
