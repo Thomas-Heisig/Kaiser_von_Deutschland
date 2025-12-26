@@ -1029,12 +1029,13 @@ export class Player {
   }
 
   private checkForAchievements(): void {
-    // Prüfe alle möglichen Erfolge
-    const potentialAchievements = ['kingdom_builder', 'conqueror']; // Erweitern
+    // Load all achievement definitions and check them
+    const allAchievements = achievementsData.achievements as Achievement[];
     
-    potentialAchievements.forEach(achievementId => {
-      if (!this.achievements.some(a => a.id === achievementId)) {
-        this.unlockAchievement(achievementId);
+    allAchievements.forEach(achievementDef => {
+      // Skip if already unlocked
+      if (!this.achievements.some(a => a.id === achievementDef.id)) {
+        this.unlockAchievement(achievementDef.id);
       }
     });
   }

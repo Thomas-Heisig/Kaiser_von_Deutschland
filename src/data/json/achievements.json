@@ -164,6 +164,32 @@
           }
         }
       }
+    },
+    {
+      "id": "decade_ruler",
+      "name": "Jahrzehnt-Herrscher",
+      "description": "Herrsche 10 Jahre lang",
+      "category": "personal",
+      "prestigeReward": 80,
+      "goldReward": 2000,
+      "unlockConditions": {
+        "kingdomRequirements": {
+          "minYear": 10
+        }
+      }
+    },
+    {
+      "id": "silver_jubilee",
+      "name": "Silbernes Jubiläum",
+      "description": "Herrsche 25 Jahre lang",
+      "category": "personal",
+      "prestigeReward": 150,
+      "goldReward": 7500,
+      "unlockConditions": {
+        "kingdomRequirements": {
+          "minYear": 25
+        }
+      }
     }
   ]
 }
