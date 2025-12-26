@@ -48,9 +48,15 @@ export class Graphics {
   private particles: Particle[] = [];
   private lastRenderTime: number = 0;
   private isRendering: boolean = false;
-  private terrainCache: Map<string, ImageData> = new Map();
-  private buildingSprites: Map<string, HTMLImageElement> = new Map();
-  private spriteSheetLoaded: boolean = false;
+  // TODO: Will be used for terrain caching optimization in future
+  // @ts-expect-error - Unused until caching is implemented
+  private _terrainCache: Map<string, ImageData> = new Map();
+  // TODO: Will be used for building sprite rendering in future
+  // @ts-expect-error - Unused until sprite rendering is implemented
+  private _buildingSprites: Map<string, HTMLImageElement> = new Map();
+  // TODO: Will be used to track sprite loading status in future
+  // @ts-expect-error - Unused until sprite loading is implemented
+  private _spriteSheetLoaded: boolean = false;
 
   constructor(canvasId: string = 'kingdom-map') {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -154,21 +160,10 @@ export class Graphics {
 
   private async loadSprites(): Promise<void> {
     // Platzhalter für echte Sprites - in einem echten Projekt würden hier Bilder geladen
-    const spriteDefinitions = [
-      { id: 'castle', url: 'data:image/svg+xml;base64,...' },
-      { id: 'market', url: 'data:image/svg+xml;base64,...' },
-      { id: 'farm', url: 'data:image/svg+xml;base64,...' },
-      { id: 'barracks', url: 'data:image/svg+xml;base64,...' },
-      { id: 'church', url: 'data:image/svg+xml;base64,...' },
-      { id: 'mine', url: 'data:image/svg+xml;base64,...' },
-      { id: 'tree', url: 'data:image/svg+xml;base64,...' },
-      { id: 'mountain', url: 'data:image/svg+xml;base64,...' },
-      { id: 'river', url: 'data:image/svg+xml;base64,...' },
-      { id: 'road', url: 'data:image/svg+xml;base64,...' }
-    ];
+    // Sprite definitions would be loaded here in a real implementation
 
     // Für dieses Beispiel verwenden wir Canvas-gezeichnete Platzhalter
-    this.spriteSheetLoaded = true;
+    this._spriteSheetLoaded = true;
   }
 
   private startRenderLoop(): void {
@@ -294,15 +289,14 @@ export class Graphics {
     this.drawRoads(ctx, kingdom.infrastructure.roads, width, height);
   }
 
-  private getTerrainColors(climate: ClimateType, season?: Season): Record<string, string> {
-    const seasonalModifiers: Record<Season, Record<string, number>> = {
-      spring: { saturation: 1.2, brightness: 1.1 },
-      summer: { saturation: 1.3, brightness: 1.2 },
-      autumn: { saturation: 1.1, brightness: 0.9 },
-      winter: { saturation: 0.8, brightness: 1.3 }
-    };
-
-    const modifier = season ? seasonalModifiers[season] : { saturation: 1, brightness: 1 };
+  private getTerrainColors(climate: ClimateType, _season?: Season): Record<string, string> {
+    // Seasonal modifiers could be applied in the future
+    // const seasonalModifiers: Record<Season, Record<string, number>> = {
+    //   spring: { saturation: 1.2, brightness: 1.1 },
+    //   summer: { saturation: 1.3, brightness: 1.2 },
+    //   autumn: { saturation: 1.1, brightness: 0.9 },
+    //   winter: { saturation: 0.8, brightness: 1.3 }
+    // };
 
     const baseColors: Record<ClimateType, Record<string, string>> = {
       temperate: {
@@ -354,14 +348,15 @@ export class Graphics {
 
   private drawRandomPatches(
     ctx: CanvasRenderingContext2D,
-    totalArea: number,
+    _totalArea: number,
     minSize: number,
     maxSize: number,
     count: number,
     spread: number
   ): void {
-    const patchArea = totalArea / count;
-    const patchSize = Math.sqrt(patchArea);
+    // Calculate patches based on area distribution
+    // const patchArea = totalArea / count;
+    // const patchSize = Math.sqrt(patchArea);
     
     for (let i = 0; i < count; i++) {
       const x = Math.random() * (this.canvas.width / this.renderOptions.zoomLevel! - spread);
@@ -1107,7 +1102,7 @@ export class Graphics {
     });
   }
 
-  public animateConstruction(x: number, y: number, buildingType: string): void {
+  public animateConstruction(x: number, y: number, _buildingType: string): void {
     // Partikeleffekt für Bau
     for (let i = 0; i < 20; i++) {
       this.particles.push({
@@ -1132,7 +1127,7 @@ export class Graphics {
     });
   }
 
-  private updateAnimations(deltaTime: number): void {
+  private updateAnimations(_deltaTime: number): void {
     // Animationen aktualisieren (falls nötig)
   }
 

@@ -11,12 +11,18 @@ export class GameUI {
   private graphics?: Graphics;
   private saveManager: SaveManager;
   private notificationSystem: NotificationSystem;
-  private currentPlayerId?: string;
+  // TODO: Will be used for tracking current player in future features
+  // @ts-expect-error - Unused until player tracking is implemented
+  private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
-  private playerSidebar!: HTMLElement;
+  // TODO: Will be used for player sidebar interactions in future features
+  // @ts-expect-error - Unused until sidebar features are implemented
+  private _playerSidebar!: HTMLElement;
   private mainView!: HTMLElement;
-  private savesPanel!: HTMLElement;
+  // TODO: Will be used for saves panel interactions in future features
+  // @ts-expect-error - Unused until saves panel features are implemented
+  private _savesPanel!: HTMLElement;
 
   constructor(game: GameEngine, containerId: string) {
     this.game = game;
@@ -93,9 +99,9 @@ export class GameUI {
     `;
 
     // Referenzen zuweisen
-    this.playerSidebar = this.container.querySelector('#player-sidebar')!;
+    this._playerSidebar = this.container.querySelector('#player-sidebar')!;
     this.mainView = this.container.querySelector('#main-view')!;
-    this.savesPanel = this.container.querySelector('#saves-panel')!;
+    this._savesPanel = this.container.querySelector('#saves-panel')!;
   }
 
   private setupEventListeners(): void {
@@ -214,7 +220,7 @@ export class GameUI {
   }
 
   public showKingdomView(player: Player): void {
-    this.currentPlayerId = player.id;
+    this._currentPlayerId = player.id;
     
     this.mainView.innerHTML = `
       <div class="kingdom-view" data-player-id="${player.id}">
@@ -434,7 +440,9 @@ export class GameUI {
     }
   }
 
-  private togglePause(): void {
+  // TODO: Implement pause/resume functionality
+  // @ts-expect-error - Unused until pause feature is implemented
+  private _togglePause(): void {
     // Implementierung für Pause-Funktionalität
   }
 

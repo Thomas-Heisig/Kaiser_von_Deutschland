@@ -2,7 +2,7 @@
 import { Player, PlayerCreationData } from './Player';
 import { EconomySystem } from './Economy';
 import { EventSystem } from './Events';
-import { Title, TitleSystem } from '../data/Titles';
+import { TitleSystem } from '../data/Titles';
 import { PolicySystem } from './PolicySystem';
 import { OllamaService } from './OllamaService';
 import { MultiplayerSystem } from './MultiplayerSystem';
@@ -39,7 +39,9 @@ export class GameEngine {
   private players: Map<string, Player> = new Map();
   private currentYear: number;
   private gameState: GameState;
-  private economy: EconomySystem;
+  // TODO: Reserved for future economy features
+  // @ts-expect-error - Unused until economy features are implemented
+  private _economy: EconomySystem;
   private events: EventSystem;
   private policySystem: PolicySystem;
   private ollamaService?: OllamaService;
@@ -63,7 +65,7 @@ export class GameEngine {
 
     this.currentYear = this.config.startingYear;
     this.gameState = GameState.LOBBY;
-    this.economy = new EconomySystem(this.config);
+    this._economy = new EconomySystem(this.config);
     this.events = new EventSystem();
     this.policySystem = new PolicySystem();
     this.eventTarget = new EventTarget();

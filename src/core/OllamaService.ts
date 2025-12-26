@@ -1,6 +1,5 @@
 // src/core/OllamaService.ts
 import { Player } from './Player';
-import { Kingdom } from './Kingdom';
 
 export interface OllamaConfig {
   baseUrl: string;
@@ -358,7 +357,7 @@ Gib 2-3 konkrete Empfehlungen im JSON-Format:
    * Analyze a specific event and suggest response
    */
   public async analyzeEvent(
-    player: Player,
+    _player: Player,
     event: {
       title: string;
       description: string;

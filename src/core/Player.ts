@@ -550,7 +550,7 @@ export class Player {
   /**
    * Aktualisiert Spielerstatistiken
    */
-  public updateStats(updates: Partial<PlayerStats>, source: string = 'generic'): void {
+  public updateStats(updates: Partial<PlayerStats>, _source: string = 'generic'): void {
     Object.keys(updates).forEach(key => {
       const statKey = key as keyof PlayerStats;
       const oldValue = this.stats[statKey];
