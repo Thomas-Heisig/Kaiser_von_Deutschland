@@ -10,7 +10,9 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Hinweis:** Dieses Projekt befindet sich in aktiver Entwicklung. Siehe [ROADMAP.md](docs/ROADMAP.md) für geplante Features.
+> **Aktuelle Version:** v2.3.1  
+> **In Entwicklung:** v2.4.0 - Database Integration & Documentation Update  
+> Siehe [ROADMAP](docs/00-meta/roadmap.md) für geplante Features und [STATUS](docs/00-meta/status.md) für Details.
 
 ## ✨ Hauptmerkmale
 
@@ -233,15 +235,34 @@ Inspiriert vom klassischen **Kaiser** (1984) und **Kaiser II** - legendäre Stra
 
 ## 📖 Dokumentation
 
-Für detaillierte Informationen siehe:
+### 🚀 Schnelleinstieg
 
 - **[Benutzerhandbuch](docs/USER_GUIDE.md)** - Spielanleitung und Features
-- **[API-Referenz](docs/API_REFERENCE.md)** - Entwickler-Dokumentation
-- **[Architektur](docs/ARCHITECTURE.md)** - System-Design und Struktur
-- **[Neue Features](docs/NEW_FEATURES.md)** - Politik, KI, Multiplayer, Wiki
-- **[Roadmap](docs/ROADMAP.md)** - Geplante Features und Entwicklung
+- **[Roadmap](docs/00-meta/roadmap.md)** - Geplante Features und Entwicklung
 - **[Beitragen](CONTRIBUTING.md)** - Wie Sie zum Projekt beitragen können
-- **[Testing](docs/TESTING_SCREENSHOTS.md)** - Test-Leitfaden
+
+### 📚 Vollständige Dokumentation
+
+Wir verwenden eine **strukturierte Dokumentation** nach professionellen Standards:
+
+- **[docs/](docs/README.md)** - Dokumentations-Übersicht und Navigation
+- **[Vision & Status](docs/00-meta/)** - Projektziele und aktueller Stand
+- **[Überblick](docs/01-overview/)** - Spielidee, Zielgruppen, Grundannahmen
+- **[Simulation](docs/02-simulation-model/)** - Ökonomische und soziale Modelle
+- **[Game Design](docs/03-game-design/)** - Spielmechaniken und Regeln
+- **[Domänen](docs/04-domains/)** - Spezielle Bereiche (Wirtschaft, Arbeit, Ökologie)
+- **[Technische Architektur](docs/05-technical-architecture/)** - System-Design und Datenbank
+- **[Entwicklung](docs/06-development/)** - Setup, Guidelines, Testing
+- **[Operations](docs/07-operations/)** - Build, Deployment, Configuration
+- **[Entscheidungen](docs/08-decisions/)** - ADRs (Architecture Decision Records)
+- **[Anhang](docs/99-appendix/)** - Referenzen, Quellen, Validierung
+
+### 👨‍💻 Für Entwickler
+
+- **[System-Architektur](docs/ARCHITECTURE.md)** - Technischer Überblick (Legacy)
+- **[API-Referenz](docs/API_REFERENCE.md)** - Code-Dokumentation
+- **[Datenbank-Implementation](docs/06-development/database-implementation.md)** - SQLite Integration (NEU)
+- **[ADR-0001: Database Technology](docs/08-decisions/adr-0001-database-technology.md)** - Datenbank-Entscheidung
 
 ## 🤝 Beitragen
 
