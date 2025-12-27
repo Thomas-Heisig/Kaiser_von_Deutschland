@@ -318,7 +318,7 @@ export class GameUI {
           <!-- Karte -->
           <div class="map-panel">
             <h3>Königreichskarte</h3>
-            <canvas id="kingdom-map" width="600" height="400"></canvas>
+            <div id="kingdom-map" style="width: 600px; height: 400px;"></div>
           </div>
 
           <!-- Statistik -->
@@ -345,9 +345,15 @@ export class GameUI {
 
     this.setupKingdomControls(player);
 
-    // Lazily create Graphics when the kingdom view (and canvas) exists
+    // Lazily create Graphics when the kingdom view exists
+    this.initializeGraphics(player);
+  }
+
+  private async initializeGraphics(player: Player): Promise<void> {
     try {
-      if (!this.graphics) this.graphics = new Graphics('kingdom-map');
+      if (!this.graphics) {
+        this.graphics = await Graphics.create('kingdom-map');
+      }
       this.graphics.renderKingdom(player.kingdom);
     } catch (err) {
       console.warn('Graphics initialisation failed:', err);
