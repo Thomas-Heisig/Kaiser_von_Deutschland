@@ -53,7 +53,7 @@ export interface CityDistrict {
   gentrificationPressure: number; // 0-100
   displacementRisk: number; // 0-100
   
-  /** Identität */
+  /** District Identity */
   identity: string; // Cultural identity
   rivalDistricts: string[]; // District IDs
 }

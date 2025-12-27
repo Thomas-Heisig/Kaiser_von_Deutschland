@@ -255,7 +255,7 @@ export class FamineSystem {
     // End famine if severity drops below threshold
     if (famine.severity < 20) {
       famine.active = false;
-      famine.duration = Math.floor(monthsElapsed(famine) / 1); // Record actual duration
+      famine.duration = monthsElapsed(famine); // Record actual duration
       this.activeFamines.delete(regionId);
       this.famineHistory.push(famine);
     }
