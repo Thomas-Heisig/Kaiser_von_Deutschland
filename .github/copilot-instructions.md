@@ -86,6 +86,22 @@ src/
 - Profile performance-critical code paths
 - Cache expensive calculations when possible
 
+### Scalability Requirements (CRITICAL)
+- **Population Limits**: Design systems to scale from 10,000 to 10,000,000 citizens
+- **Configurable Thresholds**: Use configuration objects for all scalability limits
+- **Aggregation Strategy**: When population > 100,000, use statistical aggregation instead of individual simulation
+- **Sampling**: For social interactions (relationships, information spread), sample a subset of the population
+- **Spatial Partitioning**: Use quadtrees, grids, or regions to partition large populations
+- **Event Batching**: Batch similar events together to reduce processing overhead
+- **Lazy Evaluation**: Don't calculate values until they're needed for display or decision-making
+- **Resource Pooling**: Reuse objects instead of creating/destroying them repeatedly
+- **Performance Monitoring**: Include performance metrics and warnings when thresholds are exceeded
+- **Degradation Strategy**: Automatically reduce simulation detail when performance suffers
+- **Economic Scaling**: Scale economic calculations to work with both small kingdoms and empires
+- **Military Scaling**: Support both small skirmishes (10s of units) and massive battles (100,000+ units)
+- **Data Structures**: Use Map/Set for O(1) lookups, avoid O(n²) algorithms for large datasets
+- **Memory Management**: Implement cleanup for old/irrelevant data to prevent memory leaks
+
 ### Multiplayer Development
 - Design all systems with multiplayer synchronization in mind
 - Ensure all game state is serializable
@@ -143,6 +159,12 @@ src/
 - Use spatial hashing or quadtrees for regional organization
 - Batch updates for performance
 - Cache frequently accessed citizen data
+- **Scalable Population System**:
+  - Below 10,000: Full individual simulation
+  - 10,000-100,000: Hybrid (detailed for important citizens, aggregated for others)
+  - Above 100,000: Statistical aggregation with representative sampling
+  - Use population density maps instead of tracking every individual location
+  - Aggregate similar citizens into demographic cohorts for bulk calculations
 
 ### Historical Accuracy
 - Cross-reference historical events with Wikipedia integration
