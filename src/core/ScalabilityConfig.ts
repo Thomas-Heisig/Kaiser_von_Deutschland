@@ -49,19 +49,19 @@ export interface PerformanceMetrics {
 export class ScalabilityConfig {
   private static instance: ScalabilityConfig;
   
-  /** Default thresholds optimized for modern browsers */
+  /** Default thresholds optimized for modern browsers - supports up to 100M citizens */
   private thresholds: ScalabilityThresholds = {
-    fullSimulationThreshold: 10000,
-    hybridSimulationThreshold: 100000,
-    maxDetailedCitizens: 50000,
-    maxRelationshipsPerCitizen: 20,
-    socialInteractionSampleRate: 0.1, // 10% sampling
-    maxEventsPerTick: 100,
+    fullSimulationThreshold: 10000, // Below this: full individual simulation
+    hybridSimulationThreshold: 100000, // Above this: statistical aggregation
+    maxDetailedCitizens: 50000, // Max citizens to track individually in hybrid mode
+    maxRelationshipsPerCitizen: 20, // Reduced to 5 for populations >10M
+    socialInteractionSampleRate: 0.1, // 10% sampling, reduced to 0.01% for >10M
+    maxEventsPerTick: 100, // Batch processing for efficiency
     maxConcurrentBattles: 5,
-    maxUnitsPerBattleDetail: 10000,
-    spatialGridSize: 100,
-    maxMigrationsPerTick: 1000,
-    cacheTimeout: 5000
+    maxUnitsPerBattleDetail: 10000, // Aggregate battles above this
+    spatialGridSize: 100, // Grid cells for spatial partitioning
+    maxMigrationsPerTick: 1000, // Process migrations in batches
+    cacheTimeout: 5000 // 5 seconds cache for calculations
   };
 
   /** Current performance metrics */
@@ -188,10 +188,106 @@ export class ScalabilityConfig {
    * Get maximum relationships to track for a citizen
    */
   public getMaxRelationships(): number {
-    if (this.shouldUseAggregatedSimulation()) {
+    const pop = this.metrics.currentPopulation;
+    
+    // Scale down relationships for larger populations
+    if (pop > 10000000) { // 10M+
+      return 5; // Dunbar's inner circle only
+    } else if (pop > 1000000) { // 1M+
+      return 10;
+    } else if (this.shouldUseAggregatedSimulation()) {
       return Math.floor(this.thresholds.maxRelationshipsPerCitizen * 0.5);
     }
     return this.thresholds.maxRelationshipsPerCitizen;
+  }
+
+  /**
+   * Check if population requires extreme scaling (80M+)
+   */
+  public isExtremeScale(): boolean {
+    return this.metrics.currentPopulation > 50000000; // 50M threshold
+  }
+
+  /**
+   * Get economic cohort size for aggregation
+   * Returns number of citizens to group together for economic calculations
+   */
+  public getEconomicCohortSize(): number {
+    const pop = this.metrics.currentPopulation;
+    
+    if (pop < 10000) {
+      return 1; // Individual tracking
+    } else if (pop < 100000) {
+      return 100; // Small groups
+    } else if (pop < 1000000) {
+      return 1000; // Medium groups
+    } else if (pop < 10000000) {
+      return 10000; // Large groups
+    } else {
+      return 100000; // Massive cohorts for 10M+ populations
+    }
+  }
+
+  /**
+   * Get adjusted sample rate for social interactions
+   * Scales down dramatically for massive populations
+   */
+  public getAdjustedSocialSampleRate(): number {
+    const pop = this.metrics.currentPopulation;
+    
+    if (pop < 10000) {
+      return 1.0; // 100% - simulate all
+    } else if (pop < 100000) {
+      return 0.1; // 10%
+    } else if (pop < 1000000) {
+      return 0.01; // 1%
+    } else if (pop < 10000000) {
+      return 0.001; // 0.1%
+    } else {
+      return 0.0001; // 0.01% for 10M+ (e.g., 8000 out of 80M)
+    }
+  }
+
+  /**
+   * Get event processing batch size
+   */
+  public getEventBatchSize(): number {
+    const pop = this.metrics.currentPopulation;
+    
+    if (pop < 100000) {
+      return 100;
+    } else if (pop < 1000000) {
+      return 1000;
+    } else if (pop < 10000000) {
+      return 10000;
+    } else {
+      return 100000; // Process 100K events at a time for 10M+
+    }
+  }
+
+  /**
+   * Should use probability-based events instead of individual rolls
+   */
+  public shouldUseProbabilityEvents(): boolean {
+    return this.metrics.currentPopulation > 100000;
+  }
+
+  /**
+   * Get cache duration for economic calculations (ms)
+   * Larger populations = longer cache times
+   */
+  public getEconomicCacheTimeout(): number {
+    const pop = this.metrics.currentPopulation;
+    
+    if (pop < 10000) {
+      return 1000; // 1 second
+    } else if (pop < 100000) {
+      return 5000; // 5 seconds
+    } else if (pop < 1000000) {
+      return 15000; // 15 seconds
+    } else {
+      return 30000; // 30 seconds for 1M+
+    }
   }
 
   /**
