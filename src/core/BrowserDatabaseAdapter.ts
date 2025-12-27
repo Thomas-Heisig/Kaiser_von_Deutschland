@@ -131,7 +131,7 @@ export class BrowserDatabaseAdapter implements DatabaseAdapter {
       }
 
       const stmt = this.db!.prepare(sql);
-      stmt.bind(params);
+      stmt.bind(params as any); // sql.js has strict BindParams type
 
       const results: T[] = [];
       while (stmt.step()) {
@@ -164,7 +164,7 @@ export class BrowserDatabaseAdapter implements DatabaseAdapter {
         console.log('[DB Execute]', sql, params);
       }
 
-      this.db!.run(sql, params);
+      this.db!.run(sql, params as any); // sql.js has strict BindParams type
       
       // Get affected rows
       const result = this.db!.exec('SELECT changes() as affected');
@@ -204,7 +204,7 @@ export class BrowserDatabaseAdapter implements DatabaseAdapter {
 
       try {
         for (const query of queries) {
-          this.db!.run(query.sql, query.params || []);
+          this.db!.run(query.sql, query.params as any || []); // sql.js has strict BindParams type
           const result = this.db!.exec('SELECT changes() as affected');
           const affected = result[0]?.values[0]?.[0] as number || 0;
           totalAffected += affected;
