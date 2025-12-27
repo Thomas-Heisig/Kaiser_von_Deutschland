@@ -67,10 +67,21 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - Kontextwissen und verwandte Themen
 - Intelligentes Caching
 
+### 🧬 Bevölkerungsdynamik (v2.1.5 - NEU!)
+- **Individuelle Bürger-Simulation**: Jeder Bürger hat Name, Alter, Beruf, Bedürfnisse
+- **Familienbildung und Dynastien**: Verwandtschaftsbeziehungen über Generationen
+- **Demografische Simulation**: Realistische Geburten- und Sterberaten, Alterspyramiden
+- **Epidemien & Hungersnöte**: Mit individueller Krankheitsverbreitung
+- **Soziale Netzwerke**: Freundschaften, Feindschaften, Informationsverbreitung
+- **Soziale Bewegungen**: Revolutionen, Reformen, Proteste
+- **Multiplayer**: Jeder Spieler kann jeden Bürger übernehmen!
+- **PixiJS Visualisierung**: Interaktive Bevölkerungskarten und Alterspyramiden
+
 ## 🚀 Technologie-Stack
 
 - **TypeScript** - Type-safe Entwicklung
 - **Vite** - Schnelles Build-Tool
+- **PixiJS** - High-Performance 2D Grafik-Engine
 - **LocalForage** - Persistente Datenspeicherung (IndexedDB)
 - **JSON-basierte Datenarchitektur** - Vollständig modular und erweiterbar
 - **Responsive Design** - Funktioniert auf Desktop, Tablet und Mobile

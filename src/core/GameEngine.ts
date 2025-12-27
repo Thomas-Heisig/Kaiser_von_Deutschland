@@ -7,6 +7,9 @@ import { PolicySystem } from './PolicySystem';
 import { OllamaService } from './OllamaService';
 import { MultiplayerSystem } from './MultiplayerSystem';
 import { WikiIntegration } from './WikiIntegration';
+import { CitizenSystem } from './CitizenSystem';
+import { DemographicSystem } from './DemographicSystem';
+import { SocialNetworkSystem } from './SocialNetworkSystem';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -47,6 +50,9 @@ export class GameEngine {
   private ollamaService?: OllamaService;
   private multiplayerSystem?: MultiplayerSystem;
   private wikiIntegration?: WikiIntegration;
+  private citizenSystem: CitizenSystem;
+  private demographicSystem: DemographicSystem;
+  private socialNetworkSystem: SocialNetworkSystem;
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -71,6 +77,11 @@ export class GameEngine {
     this.eventTarget = new EventTarget();
     this.currentMonth = 1;
     this._tickHandle = null as any;
+    
+    // Initialize new population dynamics systems
+    this.citizenSystem = new CitizenSystem();
+    this.demographicSystem = new DemographicSystem();
+    this.socialNetworkSystem = new SocialNetworkSystem();
 
     // Initialize optional systems
     if (this.config.enableOllama) {
@@ -151,6 +162,12 @@ export class GameEngine {
     for (const player of this.players.values()) {
       await this.processPlayerMonth(player);
     }
+    
+    // Process population dynamics systems
+    this.citizenSystem.processMonth(this.currentYear, this.currentMonth);
+    this.demographicSystem.processMonth(this.citizenSystem, this.currentYear, this.currentMonth);
+    this.socialNetworkSystem.processInformationSpread(this.citizenSystem, this.currentYear, this.currentMonth);
+    this.socialNetworkSystem.processMovements(this.citizenSystem, this.currentYear, this.currentMonth);
 
     // advance month/year
     this.currentMonth++;
@@ -158,6 +175,10 @@ export class GameEngine {
       this.currentMonth = 1;
       this.currentYear++;
       this.checkForPromotions();
+      
+      // Yearly processes for population
+      this.socialNetworkSystem.generateSocialRelations(this.citizenSystem, this.currentYear);
+      
       this.emit('yearAdvanced', { year: this.currentYear });
     }
 
@@ -507,5 +528,40 @@ export class GameEngine {
    */
   public getCurrentMonth(): number {
     return this.currentMonth;
+  }
+  
+  /**
+   * Get the citizen system
+   */
+  public getCitizenSystem(): CitizenSystem {
+    return this.citizenSystem;
+  }
+  
+  /**
+   * Get the demographic system
+   */
+  public getDemographicSystem(): DemographicSystem {
+    return this.demographicSystem;
+  }
+  
+  /**
+   * Get the social network system
+   */
+  public getSocialNetworkSystem(): SocialNetworkSystem {
+    return this.socialNetworkSystem;
+  }
+  
+  /**
+   * Get population statistics
+   */
+  public getPopulationStats() {
+    return {
+      total: this.citizenSystem.getPopulation(),
+      demographics: this.demographicSystem.calculateStatistics(this.citizenSystem),
+      agePyramid: this.demographicSystem.calculateAgePyramid(this.citizenSystem),
+      activeDiseases: this.demographicSystem.getActiveDiseases(),
+      activeFamines: this.demographicSystem.getActiveFamines(),
+      activeMovements: this.socialNetworkSystem.getActiveMovements()
+    };
   }
 }

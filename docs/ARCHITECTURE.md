@@ -704,9 +704,200 @@ describe('PolicySystem Integration', () => {
 
 ---
 
+## 🧬 Version 2.1.5 - Bevölkerungsdynamik
+
+### Neue Systeme
+
+#### CitizenSystem
+
+Verwaltet individuelle Bürger mit:
+- Eindeutige IDs für jeden Bürger
+- Name, Alter, Geschlecht, Beruf
+- Familienbeziehungen und Dynastien
+- Soziale Beziehungen (Freunde, Feinde)
+- Gesundheit und Bedürfnisse
+- Persönlichkeitsmerkmale und Fähigkeiten
+- Spieler-Kontrolle (Multiplayer-Ready)
+
+**Architektur-Pattern**: Repository-Pattern mit Maps für schnellen Zugriff
+
+```typescript
+class CitizenSystem {
+  private citizens: Map<string, Citizen>;
+  private families: Map<string, Set<string>>;
+  private regionalCitizens: Map<string, Set<string>>;
+  
+  // O(1) Zugriff auf Bürger
+  getCitizen(id: string): Citizen | undefined
+  
+  // Effiziente regionale Abfragen
+  getCitizensByRegion(regionId: string): Citizen[]
+}
+```
+
+#### DemographicSystem
+
+Simuliert demografische Prozesse:
+- Realistische Geburten- und Sterberaten
+- Alterspyramiden mit Generationeneffekten
+- Epidemien mit individueller Krankheitsverbreitung
+- Hungersnöte mit regionalen Unterschieden
+- Lebenserwartungs-Berechnungen
+
+**Architektur-Pattern**: Service-Pattern mit monatlicher Verarbeitung
+
+```typescript
+class DemographicSystem {
+  processMonth(citizenSystem, year, month): void {
+    this.processBirths(...);
+    this.processDeaths(...);
+    this.processDiseases(...);
+    this.processFamines(...);
+  }
+}
+```
+
+#### SocialNetworkSystem
+
+Verwaltet soziale Netzwerke:
+- Freundschaften und Feindschaften
+- Informationsverbreitung (Gerüchte, Nachrichten)
+- Soziale Bewegungen und Revolutionen
+- Spieler können Bewegungen anführen
+
+**Architektur-Pattern**: Graph-basiert mit Event-Propagation
+
+```typescript
+class SocialNetworkSystem {
+  private messages: Map<string, Message>;
+  private movements: Map<string, SocialMovement>;
+  
+  // Verbreitet Nachrichten durch soziales Netzwerk
+  processInformationSpread(...): void
+  
+  // Rekrutiert Mitglieder basierend auf Persönlichkeit
+  joinMovement(movement, citizen): boolean
+}
+```
+
+#### PopulationVisualization (PixiJS)
+
+Visualisiert Bevölkerungsdaten:
+- Alterspyramiden mit interaktiven Grafiken
+- Bürger-Karten mit Echtzeit-Updates
+- Interaktive Tooltips
+- Responsive Design
+
+**Architektur-Pattern**: Observer-Pattern mit PixiJS Rendering
+
+```typescript
+class PopulationVisualization {
+  private app: PIXI.Application;
+  private citizenSprites: Map<string, PIXI.Graphics>;
+  
+  renderAgePyramid(pyramid): void
+  renderCitizenMap(citizenSystem, regionId?): void
+  update(citizenSystem): void  // Aktualisiert nur Änderungen
+}
+```
+
+### Integration in GameEngine
+
+```typescript
+class GameEngine {
+  private citizenSystem: CitizenSystem;
+  private demographicSystem: DemographicSystem;
+  private socialNetworkSystem: SocialNetworkSystem;
+  
+  private monthlyTick(): void {
+    // ... existing code ...
+    
+    // Neue Bevölkerungssysteme
+    this.citizenSystem.processMonth(year, month);
+    this.demographicSystem.processMonth(
+      this.citizenSystem, year, month
+    );
+    this.socialNetworkSystem.processInformationSpread(
+      this.citizenSystem, year, month
+    );
+  }
+}
+```
+
+### Performance-Optimierungen
+
+#### Für große Bevölkerungen (100k+ Bürger):
+
+1. **Spatial Hashing** (geplant):
+```typescript
+// Organisiere Bürger in räumlichen Grids
+private citizenGrid: Map<string, Set<string>>;  // gridKey -> citizenIds
+```
+
+2. **Lazy Loading**:
+```typescript
+// Lade nur sichtbare Bürger
+getCitizensInViewport(x, y, width, height): Citizen[]
+```
+
+3. **Batched Updates**:
+```typescript
+// Aktualisiere Bürger in Batches
+processBatch(citizens: Citizen[], batchSize = 100): void
+```
+
+4. **Web Workers** (geplant):
+```typescript
+// Schwere Berechnungen in Worker
+worker.postMessage({ 
+  type: 'calculateDemographics', 
+  citizens 
+});
+```
+
+### Datenfluss
+
+```
+┌─────────────┐
+│  GameEngine │
+└──────┬──────┘
+       │
+       ├─────► CitizenSystem
+       │       ├─ createCitizen()
+       │       ├─ processMonth()
+       │       └─ assignPlayerControl()
+       │
+       ├─────► DemographicSystem
+       │       ├─ calculateStatistics()
+       │       ├─ processBirths()
+       │       ├─ processDeaths()
+       │       └─ processDiseases()
+       │
+       └─────► SocialNetworkSystem
+               ├─ createFriendship()
+               ├─ processInformationSpread()
+               └─ processMovements()
+```
+
+### Multiplayer-Integration
+
+```typescript
+// Spieler kann jeden Bürger übernehmen
+citizenSystem.assignPlayerControl(citizenId, playerId);
+
+// Spieler führt soziale Bewegung an
+socialNetworkSystem.assignPlayerLeadership(movementId, playerId);
+
+// Kooperative Seuchenbekämpfung (geplant)
+demographicSystem.startEpidemicControl(diseaseId, [player1, player2]);
+```
+
+---
+
 ## 📚 Weitere Ressourcen
 
 - **[API-Referenz](API_REFERENCE.md)** - Detaillierte API-Dokumentation
+- **[Bevölkerungs-API](POPULATION_API.md)** - Population Dynamics API (NEU)
 - **[Benutzerhandbuch](USER_GUIDE.md)** - Spielanleitung
 - **[Roadmap](ROADMAP.md)** - Geplante Features
 - **[Contributing](../CONTRIBUTING.md)** - Beitrags-Richtlinien
@@ -714,6 +905,6 @@ describe('PolicySystem Integration', () => {
 ---
 
 **Letzte Aktualisierung**: Dezember 2025  
-**Version**: 2.0.0
+**Version**: 2.1.5
 
 _Entwickelt mit ❤️ für Geschichts- und Strategiespiel-Fans_

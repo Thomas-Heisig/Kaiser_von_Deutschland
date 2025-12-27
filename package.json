@@ -1,8 +1,8 @@
 {
   "name": "kaiser-von-deutschland",
-  "version": "2.0.0",
+  "version": "2.1.5",
   "type": "module",
-  "description": "Kaiser von Deutschland - Historical Kingdom Simulator with extensive role-playing from year 0 to the future",
+  "description": "Kaiser von Deutschland - Historical Kingdom Simulator with extensive role-playing from year 0 to the future - Now with population dynamics!",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -12,7 +12,10 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@pixi/graphics": "^7.4.3",
+    "@pixi/text": "^7.4.3",
     "localforage": "^1.10.0",
+    "pixi.js": "^8.14.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
