@@ -579,6 +579,416 @@
           }
         }
       ]
+    },
+    {
+      "id": "viking_raids",
+      "year": 793,
+      "name": "Wikinger-Überfälle",
+      "description": "Wikinger plündern Klöster und Küstenstädte",
+      "category": "war",
+      "impact": {
+        "stability": -25,
+        "gold": -5000,
+        "population": -5
+      },
+      "region": "northern_europe",
+      "duration": 10
+    },
+    {
+      "id": "crusades_begin",
+      "year": 1096,
+      "name": "Beginn der Kreuzzüge",
+      "description": "Erster Kreuzzug ins Heilige Land",
+      "category": "religious",
+      "impact": {
+        "piety": 40,
+        "militaryStrength": 30,
+        "tradePower": 20,
+        "stability": -15
+      },
+      "globalEvent": true,
+      "duration": 200
+    },
+    {
+      "id": "hanseatic_league",
+      "year": 1356,
+      "name": "Hanseatic League",
+      "description": "Handelsbund der Hansestädte erreicht Höhepunkt",
+      "category": "economic",
+      "impact": {
+        "tradePower": 50,
+        "gold": 20000,
+        "culturalInfluence": 25,
+        "diplomaticPower": 30
+      },
+      "region": "northern_germany",
+      "duration": 100
+    },
+    {
+      "id": "golden_bull",
+      "year": 1356,
+      "name": "Goldene Bulle",
+      "description": "Reichsgrundgesetz regelt die Kaiserwahl",
+      "category": "political",
+      "impact": {
+        "stability": 25,
+        "authority": 30,
+        "prestige": 20
+      },
+      "region": "holy_roman_empire"
+    },
+    {
+      "id": "peace_westphalia",
+      "year": 1648,
+      "name": "Westfälischer Frieden",
+      "description": "Ende des Dreißigjährigen Krieges",
+      "category": "diplomatic",
+      "impact": {
+        "stability": 40,
+        "diplomaticPower": 35,
+        "religiousTolerance": 30,
+        "authority": -10
+      },
+      "region": "holy_roman_empire"
+    },
+    {
+      "id": "seven_years_war",
+      "year": 1756,
+      "name": "Siebenjähriger Krieg",
+      "description": "Großer europäischer Konflikt um Vormachtstellung",
+      "category": "war",
+      "impact": {
+        "militaryStrength": 40,
+        "gold": -30000,
+        "stability": -30,
+        "prestige": 25
+      },
+      "duration": 7,
+      "globalEvent": true
+    },
+    {
+      "id": "holy_roman_empire_end",
+      "year": 1806,
+      "name": "Ende des Heiligen Römischen Reiches",
+      "description": "Napoleon erzwingt die Auflösung des Reiches",
+      "category": "political",
+      "impact": {
+        "authority": -60,
+        "stability": -40,
+        "prestige": -50
+      },
+      "region": "germany"
+    },
+    {
+      "id": "zollverein",
+      "year": 1834,
+      "name": "Deutscher Zollverein",
+      "description": "Wirtschaftliche Einigung deutscher Staaten",
+      "category": "economic",
+      "impact": {
+        "tradePower": 40,
+        "gold": 15000,
+        "unificationProgress": 30,
+        "economicGrowth": 35
+      },
+      "region": "germany"
+    },
+    {
+      "id": "kulturkampf",
+      "year": 1871,
+      "name": "Kulturkampf",
+      "description": "Bismarks Kampf gegen katholischen Einfluss",
+      "category": "political",
+      "impact": {
+        "religiousTension": 40,
+        "authority": 20,
+        "stability": -15,
+        "catholicInfluence": -30
+      },
+      "region": "germany",
+      "duration": 16
+    },
+    {
+      "id": "social_laws",
+      "year": 1883,
+      "name": "Sozialgesetzgebung",
+      "description": "Bismarcks Sozialversicherungen als Weltpremiere",
+      "category": "social",
+      "impact": {
+        "happiness": 30,
+        "stability": 25,
+        "workerRights": 40,
+        "prestige": 25
+      },
+      "region": "germany"
+    },
+    {
+      "id": "triple_alliance",
+      "year": 1882,
+      "name": "Dreibund",
+      "description": "Bündnis zwischen Deutschland, Österreich-Ungarn und Italien",
+      "category": "diplomatic",
+      "impact": {
+        "diplomaticPower": 40,
+        "militaryStrength": 30,
+        "stability": 20,
+        "prestige": 25
+      },
+      "region": "central_europe"
+    },
+    {
+      "id": "spanish_flu",
+      "year": 1918,
+      "name": "Spanische Grippe",
+      "description": "Verheerende Pandemie tötet Millionen weltweit",
+      "category": "disaster",
+      "impact": {
+        "population": -20,
+        "stability": -35,
+        "economicGrowth": -30,
+        "health": -40
+      },
+      "globalEvent": true,
+      "duration": 2
+    },
+    {
+      "id": "league_of_nations",
+      "year": 1920,
+      "name": "Völkerbund",
+      "description": "Erste internationale Friedensorganisation",
+      "category": "diplomatic",
+      "impact": {
+        "diplomaticPower": 30,
+        "peacePotential": 25,
+        "internationalCooperation": 40
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "great_depression",
+      "year": 1929,
+      "name": "Weltwirtschaftskrise",
+      "description": "Globale Wirtschaftskrise erschüttert die Welt",
+      "category": "economic",
+      "impact": {
+        "gold": -70000,
+        "stability": -50,
+        "unemployment": 50,
+        "happiness": -40
+      },
+      "globalEvent": true,
+      "duration": 6
+    },
+    {
+      "id": "united_nations",
+      "year": 1945,
+      "name": "Vereinte Nationen",
+      "description": "Gründung der UN zur Friedenssicherung",
+      "category": "diplomatic",
+      "impact": {
+        "diplomaticPower": 40,
+        "peacePotential": 35,
+        "internationalCooperation": 50,
+        "prestige": 30
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "nato_founded",
+      "year": 1949,
+      "name": "NATO-Gründung",
+      "description": "Nordatlantisches Verteidigungsbündnis gegründet",
+      "category": "military",
+      "impact": {
+        "militaryStrength": 50,
+        "diplomaticPower": 35,
+        "stability": 25,
+        "defenseCapability": 60
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "warsaw_pact",
+      "year": 1955,
+      "name": "Warschauer Pakt",
+      "description": "Ostblock-Militärbündnis als Gegenstück zur NATO",
+      "category": "military",
+      "impact": {
+        "coldWarTension": 40,
+        "militaryStrength": 40,
+        "stability": -15
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "sputnik",
+      "year": 1957,
+      "name": "Sputnik-Schock",
+      "description": "Erster künstlicher Satellit im Weltraum",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 35,
+        "spaceRace": 50,
+        "prestige": 40
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "prague_spring",
+      "year": 1968,
+      "name": "Prager Frühling",
+      "description": "Reformbewegung in der Tschechoslowakei",
+      "category": "political",
+      "impact": {
+        "democraticMovement": 30,
+        "coldWarTension": 25,
+        "stability": -20
+      },
+      "region": "eastern_europe"
+    },
+    {
+      "id": "oil_crisis",
+      "year": 1973,
+      "name": "Ölkrise",
+      "description": "Ölembargo führt zu Wirtschaftskrise",
+      "category": "economic",
+      "impact": {
+        "gold": -40000,
+        "stability": -30,
+        "energyCrisis": 50,
+        "economicGrowth": -35
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "personal_computer",
+      "year": 1981,
+      "name": "Personal Computer Revolution",
+      "description": "PCs werden massentauglich",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 40,
+        "economicGrowth": 30,
+        "productivity": 35,
+        "literacyRate": 15
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "chernobyl",
+      "year": 1986,
+      "name": "Tschernobyl-Katastrophe",
+      "description": "Nuklearunfall in der Ukraine",
+      "category": "disaster",
+      "impact": {
+        "stability": -40,
+        "health": -30,
+        "environmentalDamage": 80,
+        "nuclearEnergy": -50
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "eu_formation",
+      "year": 1993,
+      "name": "Gründung der EU",
+      "description": "Vertrag von Maastricht schafft Europäische Union",
+      "category": "political",
+      "impact": {
+        "diplomaticPower": 50,
+        "tradePower": 45,
+        "stability": 30,
+        "internationalCooperation": 60
+      },
+      "region": "europe",
+      "globalEvent": true
+    },
+    {
+      "id": "smartphone_era",
+      "year": 2007,
+      "name": "Smartphone-Ära",
+      "description": "iPhone revolutioniert mobile Kommunikation",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 45,
+        "economicGrowth": 35,
+        "connectivity": 70,
+        "culturalChange": 40
+      },
+      "globalEvent": true
+    },
+    {
+      "id": "refugee_crisis",
+      "year": 2015,
+      "name": "Flüchtlingskrise",
+      "description": "Große Flüchtlingsbewegung nach Europa",
+      "category": "social",
+      "impact": {
+        "stability": -25,
+        "population": 10,
+        "socialTension": 40,
+        "humanitarianAid": 30
+      },
+      "region": "europe"
+    },
+    {
+      "id": "brexit",
+      "year": 2020,
+      "name": "Brexit",
+      "description": "Großbritannien verlässt die EU",
+      "category": "political",
+      "impact": {
+        "stability": -20,
+        "tradePower": -15,
+        "diplomaticPower": -10,
+        "euIntegration": -30
+      },
+      "region": "europe"
+    },
+    {
+      "id": "quantum_computing",
+      "year": 2035,
+      "name": "Quantencomputer-Durchbruch",
+      "description": "Kommerzielle Quantencomputer werden Realität",
+      "category": "technology",
+      "impact": {
+        "technologicalLevel": 65,
+        "scientificProgress": 50,
+        "cryptographyChange": 80,
+        "economicGrowth": 40
+      },
+      "globalEvent": true,
+      "future": true
+    },
+    {
+      "id": "global_basic_income",
+      "year": 2040,
+      "name": "Universelles Grundeinkommen",
+      "description": "Weltweite Einführung des Grundeinkommens",
+      "category": "social",
+      "impact": {
+        "happiness": 50,
+        "stability": 35,
+        "economicChange": 60,
+        "workCultureShift": 70
+      },
+      "globalEvent": true,
+      "future": true
+    },
+    {
+      "id": "climate_stabilization",
+      "year": 2080,
+      "name": "Klimastabilisierung",
+      "description": "Globale Erwärmung erfolgreich begrenzt",
+      "category": "environmental",
+      "impact": {
+        "stability": 50,
+        "environmentalHealth": 80,
+        "sustainability": 90,
+        "internationalCooperation": 70
+      },
+      "globalEvent": true,
+      "future": true
     }
   ],
   "eventTemplates": [
@@ -680,14 +1090,30 @@
     }
   ],
   "metadata": {
-    "version": "2.1.0",
-    "lastUpdated": "2024-12-26",
-    "totalHistoricalEvents": 39,
+    "version": "2.3.0",
+    "lastUpdated": "2025-12-27",
+    "totalHistoricalEvents": 70,
     "totalEventTemplates": 8,
+    "totalEventChains": 5,
     "timespan": {
       "start": 0,
       "end": 2100,
       "current": 2024
-    }
+    },
+    "eventCategories": [
+      "religious",
+      "political",
+      "war",
+      "technology",
+      "economic",
+      "social",
+      "cultural",
+      "diplomatic",
+      "disaster",
+      "environmental",
+      "exploration",
+      "colonial",
+      "military"
+    ]
   }
 }

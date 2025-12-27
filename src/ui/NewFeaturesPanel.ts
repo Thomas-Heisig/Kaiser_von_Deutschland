@@ -78,7 +78,7 @@ export class NewFeaturesPanel {
       categories[policy.category].push(policy);
     });
 
-    const categoryNames = {
+    const categoryNames: Record<PolicyCategory, string> = {
       asylum_immigration: '🌍 Asyl & Zuwanderung',
       economy_domestic: '💰 Wirtschaft - Inland',
       economy_foreign: '🚢 Wirtschaft - Außenhandel',
@@ -86,7 +86,11 @@ export class NewFeaturesPanel {
       social_positive: '🤝 Soziales - Förderung',
       social_negative: '⛓️ Soziales - Restriktion',
       social_tensions: '⚡ Soziale Spannungen',
-      social_urban: '🏙️ Ballungsräume'
+      social_urban: '🏙️ Ballungsräume',
+      environment: '🌱 Umweltpolitik',
+      digital: '💻 Digitalpolitik',
+      science: '🔬 Wissenschaftspolitik',
+      security: '🛡️ Sicherheitspolitik'
     };
 
     let html = `

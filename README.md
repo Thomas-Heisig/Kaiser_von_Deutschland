@@ -77,7 +77,7 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **Multiplayer**: Jeder Spieler kann jeden Bürger übernehmen!
 - **PixiJS Visualisierung**: Interaktive Bevölkerungskarten und Alterspyramiden
 
-### 🌍 Ökologische Simulation (v2.2.3 - NEU!)
+### 🌍 Ökologische Simulation (v2.2.3)
 - **Dynamisches Klima-System**: Jahreszeiten, Klimawandel über Jahrhunderte, Wettervorhersage-Technologien
 - **Naturkatastrophen**: Überschwemmungen, Dürren, Stürme, Erdbeben, Waldbrände, Heuschrecken
 - **Ressourcen-Management**: Erschöpfung und Regeneration von Holz, Stein, Eisen, Wildtieren
@@ -86,6 +86,42 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **Tierpopulationen**: Wildtiere (Hirsche, Wildschweine, Wölfe, Bären), Viehzucht, Fischerei
 - **Artenschutz**: Jagdbeschränkungen, Schutzgebiete, Zuchtprogramme, Aussterbe-Events
 - **Multiplayer**: Gemeinsame Umweltkrisen, Jagdkonflikte, Grenzstreitigkeiten
+
+### 🤝 Diplomatie-System (v2.3.0 - NEU!)
+- **Diplomatische Beziehungen**: Verwaltung von Beziehungen zu anderen Königreichen mit Vertrauens- und Beziehungswerten
+- **Verträge & Allianzen**: Vollständiges Vertragssystem (Frieden, Bündnis, Handel, Nicht-Angriff, Vasallentum)
+- **Handelsabkommen**: Umfassendes Handelssystem mit Ressourcenaustausch und Goldzufluss
+- **Kriegserklärungen**: Kriegssystem mit Causus Belli, Verbündeten und Kriegspunkten
+- **Friedensverhandlungen**: Friedensangebote mit Bedingungen für Gold, Territorium und Handel
+- **Multiplayer**: Verhandlungen zwischen echten Spielern, Mehrspieler-Verträge
+
+### ⛪ Religions- & Kultursystem (v2.3.0 - NEU!)
+- **7 Religionen**: Katholizismus, Protestantismus, Orthodoxie, Islam, Judentum, Heidentum, Atheismus
+- **Kulturelle Identität**: 8 verschiedene Kulturen (Germanisch, Lateinisch, Slawisch, etc.)
+- **Religiöse Gebäude**: 4 Gebäudetypen (Kapelle, Kirche, Kathedrale, Kloster)
+- **Kulturelle Ereignisse**: 5 Festivals (Ostern, Weihnachten, Erntedank, etc.)
+- **Bekehrung & Spannungen**: Vollständiges Konversionssystem mit religiösen Konflikten
+- **Multiplayer**: Glaubenskriege, Bekehrungskampagnen
+
+### 📜 Erweiterte Historische Inhalte (v2.3.0 - NEU!)
+- **70 Historische Ereignisse**: Von Wikingerüberfällen bis Klimastabilisierung (Jahr 793-2080)
+- **Event-Ketten**: Kreuzzüge, Hanse, 30-jähriger Krieg, Weltkriege, Digitale Revolution
+- **Regionale Ereignisse**: Deutschland, Europa, globale Events
+- **Alternative Geschichte**: Was-Wäre-Wenn-Szenarien mit Spieler-Entscheidungen
+- **Dynamische Events**: 8 Event-Vorlagen mit Wahrscheinlichkeiten
+
+### 👥 Neue Rollen & Gebäude (v2.3.0 - NEU!)
+- **35 Spielbare Rollen**: +10 neue Rollen (Bankier, Architekt, Spion, Admiral, General, Journalist, Erfinder, Diplomat, Fabrikbesitzer, Philosoph)
+- **68 Gebäudetypen**: +30 neue Gebäude (Banken, Museen, Parlamente, Raumhäfen, etc.)
+- **3 Weltwunder**: Kolosseum, Eiffelturm, Brandenburger Tor
+- **Spezialgebäude**: Mit einzigartigen Boni und Effekten
+
+### 🏛️ Erweiterte Politik (v2.3.0 - NEU!)
+- **53 Politik-Maßnahmen**: +20 neue Maßnahmen in 4 neuen Kategorien
+- **Umweltpolitik**: CO2-Steuer, Erneuerbare Energien, Emissionsgrenzwerte, Naturschutz, Plastikverbot
+- **Digitalpolitik**: Datenschutz, Internet-Zensur, Digitale Infrastruktur, Cybersicherheit
+- **Wissenschaftspolitik**: Forschungsförderung, Universitätsausbau, Nobelpreis, Weltraumprogramm
+- **Sicherheitspolitik**: Polizeireform, Unabhängige Justiz, Strafrechtsreform, Grenzsicherung
 
 ## 🚀 Technologie-Stack
 

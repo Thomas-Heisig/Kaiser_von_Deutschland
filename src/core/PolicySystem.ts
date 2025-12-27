@@ -10,7 +10,11 @@ export type PolicyCategory =
   | 'social_positive'
   | 'social_negative'
   | 'social_tensions'
-  | 'social_urban';
+  | 'social_urban'
+  | 'environment'
+  | 'digital'
+  | 'science'
+  | 'security';
 
 export type PolicyImpact = 'positive' | 'negative' | 'neutral' | 'mixed';
 
@@ -771,6 +775,446 @@ export class PolicySystem {
           requiredPopulation: 3000
         },
         introduced: 1800
+      },
+      
+      // === Umweltpolitik (Environmental Policy) ===
+      {
+        id: 'carbon_tax',
+        category: 'environment',
+        name: 'CO2-Steuer',
+        description: 'Besteuerung von CO2-Emissionen zur Klimaschutzfinanzierung.',
+        impact: 'mixed',
+        immediateEffects: {
+          stats: { popularity: -15, prestige: 20 }
+        },
+        monthlyEffects: {
+          resources: { gold: 500 },
+          happiness: -0.5
+        },
+        conditions: {
+          minYear: 1990,
+          requiredPopulation: 50000
+        },
+        introduced: 1990
+      },
+      {
+        id: 'renewable_energy_mandate',
+        category: 'environment',
+        name: 'Erneuerbare-Energien-Gesetz',
+        description: 'Förderung von Solar-, Wind- und Wasserkraft.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 30, popularity: 10 }
+        },
+        monthlyEffects: {
+          resources: { gold: -200 },
+          happiness: 0.3
+        },
+        enactmentCost: {
+          gold: 20000
+        },
+        conditions: {
+          minYear: 1995,
+          requiredGold: 50000
+        },
+        introduced: 1995
+      },
+      {
+        id: 'emission_limits',
+        category: 'environment',
+        name: 'Emissionsgrenzwerte',
+        description: 'Strenge Limits für industrielle Schadstoffemissionen.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 15, popularity: 5 }
+        },
+        monthlyEffects: {
+          economy: { tradePower: -0.3 },
+          happiness: 0.4
+        },
+        maintenanceCost: {
+          goldPerMonth: 300
+        },
+        conditions: {
+          minYear: 1970,
+          requiredAuthority: 55
+        },
+        introduced: 1970
+      },
+      {
+        id: 'nature_conservation',
+        category: 'environment',
+        name: 'Naturschutzgebiete',
+        description: 'Ausweisung geschützter Naturreservate.',
+        impact: 'positive',
+        immediateEffects: {
+          happiness: 10,
+          stats: { prestige: 12 }
+        },
+        monthlyEffects: {
+          resources: { gold: -100 }
+        },
+        enactmentCost: {
+          gold: 10000
+        },
+        conditions: {
+          minYear: 1960,
+          requiredPopulation: 20000
+        },
+        introduced: 1960
+      },
+      {
+        id: 'plastic_ban',
+        category: 'environment',
+        name: 'Plastikverbot',
+        description: 'Verbot von Einwegplastik und Förderung von Alternativen.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 18, popularity: -5 }
+        },
+        monthlyEffects: {
+          happiness: 0.3,
+          economy: { crimeRate: -0.1 }
+        },
+        conditions: {
+          minYear: 2010,
+          requiredAuthority: 50
+        },
+        introduced: 2010
+      },
+      
+      // === Digitalpolitik (Digital Policy) ===
+      {
+        id: 'data_protection',
+        category: 'digital',
+        name: 'Datenschutzgrundverordnung',
+        description: 'Umfassender Schutz personenbezogener Daten.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 25, popularity: 15 }
+        },
+        monthlyEffects: {
+          economy: { tradePower: -0.2 }
+        },
+        maintenanceCost: {
+          goldPerMonth: 400
+        },
+        conditions: {
+          minYear: 2015,
+          requiredAuthority: 60
+        },
+        introduced: 2015
+      },
+      {
+        id: 'internet_censorship',
+        category: 'digital',
+        name: 'Internet-Zensur',
+        description: 'Staatliche Kontrolle und Filterung von Online-Inhalten.',
+        impact: 'negative',
+        immediateEffects: {
+          stats: { authority: 20, popularity: -30, prestige: -25 }
+        },
+        monthlyEffects: {
+          happiness: -1,
+          stability: 2
+        },
+        conditions: {
+          minYear: 2000,
+          requiredAuthority: 80
+        },
+        introduced: 2000
+      },
+      {
+        id: 'digital_infrastructure',
+        category: 'digital',
+        name: 'Digitaler Infrastrukturausbau',
+        description: 'Investition in Breitband und 5G-Netze.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 15 }
+        },
+        monthlyEffects: {
+          economy: { tradePower: 1 },
+          resources: { gold: 200 }
+        },
+        enactmentCost: {
+          gold: 50000
+        },
+        conditions: {
+          minYear: 2010,
+          requiredGold: 100000
+        },
+        introduced: 2010
+      },
+      {
+        id: 'cybersecurity_initiative',
+        category: 'digital',
+        name: 'Cybersicherheits-Initiative',
+        description: 'Schutz kritischer Infrastruktur vor Cyberangriffen.',
+        impact: 'positive',
+        immediateEffects: {
+          stability: 10,
+          stats: { authority: 10 }
+        },
+        maintenanceCost: {
+          goldPerMonth: 500
+        },
+        conditions: {
+          minYear: 2005,
+          requiredGold: 30000,
+          requiredAuthority: 55
+        },
+        introduced: 2005
+      },
+      {
+        id: 'digital_education',
+        category: 'digital',
+        name: 'Digitale Bildungsoffensive',
+        description: 'Ausstattung von Schulen mit Computern und Internet.',
+        impact: 'positive',
+        immediateEffects: {
+          happiness: 8,
+          stats: { prestige: 12, popularity: 10 }
+        },
+        monthlyEffects: {
+          resources: { gold: -150 }
+        },
+        enactmentCost: {
+          gold: 25000
+        },
+        conditions: {
+          minYear: 2000,
+          requiredGold: 50000,
+          requiredBuildings: { 'school': 5 }
+        },
+        introduced: 2000
+      },
+      
+      // === Wissenschaftspolitik (Science Policy) ===
+      {
+        id: 'research_funding',
+        category: 'science',
+        name: 'Forschungsförderung',
+        description: 'Großzügige staatliche Unterstützung für Wissenschaft.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 20 }
+        },
+        monthlyEffects: {
+          resources: { gold: -500 }
+        },
+        enactmentCost: {
+          gold: 30000
+        },
+        conditions: {
+          minYear: 1800,
+          requiredGold: 60000
+        },
+        introduced: 1800
+      },
+      {
+        id: 'university_expansion',
+        category: 'science',
+        name: 'Universitätsausbau',
+        description: 'Gründung neuer Universitäten und Forschungsinstitute.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 25, popularity: 8 }
+        },
+        monthlyEffects: {
+          infrastructure: { schools: 1 },
+          resources: { gold: -300 }
+        },
+        enactmentCost: {
+          gold: 40000
+        },
+        conditions: {
+          minYear: 1700,
+          requiredGold: 80000,
+          requiredPopulation: 30000
+        },
+        introduced: 1700
+      },
+      {
+        id: 'scientific_collaboration',
+        category: 'science',
+        name: 'Internationale Forschungskooperation',
+        description: 'Zusammenarbeit mit ausländischen Forschungseinrichtungen.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 30, popularity: 5 }
+        },
+        monthlyEffects: {
+          resources: { gold: -200 }
+        },
+        maintenanceCost: {
+          goldPerMonth: 350
+        },
+        conditions: {
+          minYear: 1900,
+          requiredPrestige: 500
+        },
+        introduced: 1900
+      },
+      {
+        id: 'nobel_prize_fund',
+        category: 'science',
+        name: 'Nobelpreis-Fonds',
+        description: 'Stiftung zur Förderung herausragender wissenschaftlicher Leistungen.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 50, popularity: 15 }
+        },
+        monthlyEffects: {
+          resources: { gold: -400 }
+        },
+        enactmentCost: {
+          gold: 100000
+        },
+        conditions: {
+          minYear: 1901,
+          requiredGold: 200000,
+          requiredPrestige: 1000
+        },
+        introduced: 1901
+      },
+      {
+        id: 'space_program',
+        category: 'science',
+        name: 'Weltraumprogramm',
+        description: 'Ambitioniertes Raumfahrtprogramm zur Erforschung des Alls.',
+        impact: 'positive',
+        immediateEffects: {
+          stats: { prestige: 100, popularity: 20 }
+        },
+        monthlyEffects: {
+          resources: { gold: -2000 }
+        },
+        enactmentCost: {
+          gold: 500000
+        },
+        conditions: {
+          minYear: 1957,
+          requiredGold: 1000000,
+          requiredPopulation: 500000
+        },
+        introduced: 1957
+      },
+      
+      // === Sicherheitspolitik (Security Policy) ===
+      {
+        id: 'police_reform',
+        category: 'security',
+        name: 'Polizeireform',
+        description: 'Modernisierung und Professionalisierung der Polizei.',
+        impact: 'positive',
+        immediateEffects: {
+          stability: 15,
+          stats: { authority: 10 }
+        },
+        monthlyEffects: {
+          economy: { crimeRate: -0.5 }
+        },
+        enactmentCost: {
+          gold: 20000
+        },
+        maintenanceCost: {
+          goldPerMonth: 400
+        },
+        conditions: {
+          minYear: 1850,
+          requiredAuthority: 50,
+          requiredGold: 40000
+        },
+        introduced: 1850
+      },
+      {
+        id: 'judicial_independence',
+        category: 'security',
+        name: 'Unabhängige Justiz',
+        description: 'Garantie der Unabhängigkeit der Gerichte.',
+        impact: 'positive',
+        immediateEffects: {
+          stability: 20,
+          stats: { prestige: 25, popularity: 15 }
+        },
+        monthlyEffects: {
+          stats: { corruption: -0.3 }
+        },
+        conditions: {
+          minYear: 1800,
+          requiredAuthority: 40,
+          maxCorruption: 60
+        },
+        introduced: 1800
+      },
+      {
+        id: 'surveillance_state',
+        category: 'security',
+        name: 'Überwachungsstaat',
+        description: 'Weitreichende Überwachung der Bevölkerung.',
+        impact: 'negative',
+        immediateEffects: {
+          stats: { authority: 30, popularity: -40, prestige: -30 }
+        },
+        monthlyEffects: {
+          stability: 3,
+          happiness: -1.5,
+          economy: { crimeRate: -1 }
+        },
+        maintenanceCost: {
+          goldPerMonth: 800
+        },
+        conditions: {
+          minYear: 1950,
+          requiredAuthority: 85
+        },
+        introduced: 1950
+      },
+      {
+        id: 'prison_reform',
+        category: 'security',
+        name: 'Strafrechtsreform',
+        description: 'Humanisierung des Strafvollzugs und Resozialisierung.',
+        impact: 'positive',
+        immediateEffects: {
+          happiness: 8,
+          stats: { prestige: 15, popularity: 10 }
+        },
+        monthlyEffects: {
+          economy: { crimeRate: -0.3 }
+        },
+        enactmentCost: {
+          gold: 15000
+        },
+        conditions: {
+          minYear: 1900,
+          requiredAuthority: 45,
+          requiredBuildings: { 'prison': 1 }
+        },
+        introduced: 1900
+      },
+      {
+        id: 'border_security',
+        category: 'security',
+        name: 'Grenzsicherung',
+        description: 'Verstärkter Schutz der Landesgrenzen.',
+        impact: 'mixed',
+        immediateEffects: {
+          stability: 10,
+          stats: { authority: 15, popularity: -10 }
+        },
+        monthlyEffects: {
+          economy: { crimeRate: -0.4 }
+        },
+        maintenanceCost: {
+          goldPerMonth: 600
+        },
+        conditions: {
+          minYear: 1700,
+          requiredAuthority: 55
+        },
+        introduced: 1700
       }
     ];
 
