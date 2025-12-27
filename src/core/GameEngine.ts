@@ -126,7 +126,8 @@ export class GameEngine {
     this.legalSystem = new LegalSystem();
     this.militaryUnitSystem = new MilitaryUnitSystem();
     
-    // Initialize all data asynchronously
+    // Initialize all data asynchronously (fire-and-forget is intentional - 
+    // systems will be ready before game starts, as startGame() is user-triggered)
     this.initializeSystems();
 
     // Initialize optional systems
