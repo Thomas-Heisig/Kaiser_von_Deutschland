@@ -2,6 +2,7 @@
 import { GameEngine, GameState } from '../core/GameEngine';
 import { Player } from '../core/Player';
 import { Graphics } from './Graphics';
+import { NewGameRenderer } from './NewGameRenderer';
 import { SaveManager } from './SaveManager';
 import { NotificationSystem } from './NotificationSystem';
 
@@ -9,10 +10,10 @@ export class GameUI {
   private game: GameEngine;
   private container: HTMLElement;
   private graphics?: Graphics;
+  private newRenderer?: NewGameRenderer;
+  private useNewRenderer: boolean = true; // Toggle für neue Grafik-Engine
   private saveManager: SaveManager;
   private notificationSystem: NotificationSystem;
-  // TODO: Will be used for tracking current player in future features
-  // @ts-expect-error - Unused until player tracking is implemented
   private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
@@ -85,12 +86,17 @@ export class GameUI {
             <button id="new-game-btn" class="btn-primary">Neues Spiel</button>
             <button id="next-year-btn" class="btn-primary">Nächstes Jahr</button>
             <button id="pause-game-btn" class="btn-secondary">Pause</button>
+            <button id="toggle-renderer-btn" class="btn-secondary" title="Grafik-Engine wechseln">🎨 Neue Grafik</button>
           </div>
           
           <div class="save-controls">
             <button id="save-btn" class="btn-secondary">Speichern</button>
             <button id="save-as-btn" class="btn-secondary">Speichern unter...</button>
             <button id="load-game-btn" class="btn-secondary">Laden</button>
+          </div>
+          
+          <div class="help-hint" style="font-size:0.85em;color:#bbb;margin-top:8px;">
+            💡 Tastenkürzel: 1-5 (Ansichten), R (Regen), S (Schnee), C (Klar), Leertaste (Effekt)
           </div>
         </div>
         
@@ -116,6 +122,27 @@ export class GameUI {
         this.game.pauseGame();
       } else {
         this.game.resumeGame();
+      }
+    });
+
+    // Grafik-Engine Toggle
+    this.container.querySelector('#toggle-renderer-btn')?.addEventListener('click', () => {
+      this.useNewRenderer = !this.useNewRenderer;
+      const btn = this.container.querySelector('#toggle-renderer-btn');
+      if (btn) {
+        btn.textContent = this.useNewRenderer ? '🎨 Neue Grafik' : '🗺️ Alte Grafik';
+      }
+      this.notificationSystem.show(
+        'Grafik-Engine',
+        this.useNewRenderer ? 'Neue kreative Grafik-Engine aktiviert!' : 'Alte Grafik-Engine aktiviert'
+      );
+      
+      // Re-render current view if player is selected
+      if (this._currentPlayerId) {
+        const player = this.game.getPlayerById(this._currentPlayerId);
+        if (player) {
+          this.showKingdomView(player);
+        }
       }
     });
 
@@ -351,10 +378,19 @@ export class GameUI {
 
   private async initializeGraphics(player: Player): Promise<void> {
     try {
-      if (!this.graphics) {
-        this.graphics = await Graphics.create('kingdom-map');
+      if (this.useNewRenderer) {
+        // Neue, kreative Grafik-Engine verwenden
+        if (!this.newRenderer) {
+          this.newRenderer = await NewGameRenderer.create('kingdom-map');
+        }
+        this.newRenderer.renderKingdom(player.kingdom);
+      } else {
+        // Alte Grafik-Engine (Fallback)
+        if (!this.graphics) {
+          this.graphics = await Graphics.create('kingdom-map');
+        }
+        this.graphics.renderKingdom(player.kingdom);
       }
-      this.graphics.renderKingdom(player.kingdom);
     } catch (err) {
       console.warn('Graphics initialisation failed:', err);
       this.notificationSystem.show('Warnung', 'Kartenansicht konnte nicht gerendert werden.');
