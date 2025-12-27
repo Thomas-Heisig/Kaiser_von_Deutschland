@@ -52,6 +52,7 @@ export class Graphics {
   private particles: Particle[] = [];
   private lastRenderTime: number = 0;
   private currentKingdom?: Kingdom;
+  private isInitialized: boolean = false;
   // TODO: Will be used for terrain caching optimization in future
   // @ts-expect-error - Unused until caching is implemented
   private _terrainCache: Map<string, PIXI.RenderTexture> = new Map();
@@ -62,7 +63,7 @@ export class Graphics {
   // @ts-expect-error - Unused until sprite loading is implemented
   private _spriteSheetLoaded: boolean = false;
 
-  constructor(containerId: string = 'kingdom-map') {
+  private constructor(containerId: string) {
     const element = document.getElementById(containerId);
     if (!element) {
       throw new Error(`Container with id '${containerId}' not found`);
@@ -87,8 +88,15 @@ export class Graphics {
       timeOfDay: 'day',
       season: 'spring'
     };
+  }
 
-    this.initialize();
+  /**
+   * Static factory method to create and initialize Graphics
+   */
+  public static async create(containerId: string = 'kingdom-map'): Promise<Graphics> {
+    const graphics = new Graphics(containerId);
+    await graphics.initialize();
+    return graphics;
   }
 
   private async initialize(): Promise<void> {
@@ -120,6 +128,8 @@ export class Graphics {
     await this.loadSprites();
     this.setupInteractivity();
     this.startRenderLoop();
+    
+    this.isInitialized = true;
   }
 
   private setupInteractivity(): void {
@@ -214,6 +224,11 @@ export class Graphics {
   }
 
   public renderKingdom(kingdom: Kingdom, options?: Partial<RenderOptions>): void {
+    if (!this.isInitialized) {
+      console.warn('Graphics not yet initialized, skipping render');
+      return;
+    }
+    
     this.renderOptions = { ...this.renderOptions, ...options };
     this.currentKingdom = kingdom;
     
