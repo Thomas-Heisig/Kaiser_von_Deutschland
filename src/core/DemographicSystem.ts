@@ -383,12 +383,12 @@ export class DemographicSystem {
           }
         } else {
           // Ansteckungschance
-          const hasImunity = disease.immunity && 
+          const hasImmunity = disease.immunity && 
             citizen.lifeEvents.some(e => 
               e.type === 'recovery' && e.description.includes(disease.name)
             );
           
-          if (!hasImunity) {
+          if (!hasImmunity) {
             const infectionChance = (disease.contagiousness / 100) * (1 - citizen.health.immunity / 100);
             
             if (Math.random() < infectionChance / 100) {

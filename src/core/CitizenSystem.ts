@@ -403,6 +403,13 @@ export class CitizenSystem {
   }
   
   /**
+   * Holt alle lebenden Bürger (optimiert für häufige Abfragen)
+   */
+  public getAliveCitizens(): Citizen[] {
+    return Array.from(this.citizens.values()).filter(c => c.isAlive);
+  }
+  
+  /**
    * Holt alle Bürger einer Region
    */
   public getCitizensByRegion(regionId: string): Citizen[] {

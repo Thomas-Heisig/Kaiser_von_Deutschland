@@ -367,13 +367,16 @@ export class SocialNetworkSystem {
       const regionalCitizens = citizenSystem.getCitizensByRegion(movement.regionId)
         .filter(c => c.isAlive && !movement.memberIds.has(c.id));
       
-      // Versuche monatlich einige neue Mitglieder zu rekrutieren
-      const recruitmentAttempts = Math.min(10, Math.floor(movement.supporters * 0.01));
-      
-      for (let i = 0; i < recruitmentAttempts; i++) {
-        const randomCitizen = regionalCitizens[Math.floor(Math.random() * regionalCitizens.length)];
-        if (randomCitizen) {
-          this.joinMovement(movement, randomCitizen.id, randomCitizen);
+      // Nur rekrutieren wenn Bürger verfügbar sind
+      if (regionalCitizens.length > 0) {
+        // Versuche monatlich einige neue Mitglieder zu rekrutieren
+        const recruitmentAttempts = Math.min(10, Math.floor(movement.supporters * 0.01));
+        
+        for (let i = 0; i < recruitmentAttempts; i++) {
+          const randomCitizen = regionalCitizens[Math.floor(Math.random() * regionalCitizens.length)];
+          if (randomCitizen) {
+            this.joinMovement(movement, randomCitizen.id, randomCitizen);
+          }
         }
       }
       

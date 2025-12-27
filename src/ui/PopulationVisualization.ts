@@ -195,7 +195,7 @@ export class PopulationVisualization {
     
     const citizens = regionId 
       ? citizenSystem.getCitizensByRegion(regionId).filter(c => c.isAlive)
-      : citizenSystem.getAllCitizens().filter(c => c.isAlive);
+      : citizenSystem.getAliveCitizens();
     
     // Titel
     const title = new PIXI.Text({
