@@ -13,6 +13,15 @@ import { SocialNetworkSystem } from './SocialNetworkSystem';
 import { ClimateSystem } from './ClimateSystem';
 import { LandscapeSystem } from './LandscapeSystem';
 import { AnimalPopulationSystem } from './AnimalPopulationSystem';
+import { HistoricalFiguresSystem } from './HistoricalFiguresSystem';
+import { DiseaseSystem } from './DiseaseSystem';
+import { NaturalDisasterSystem } from './NaturalDisasterSystem';
+import { BattleSystem } from './BattleSystem';
+import { TransportSystem } from './TransportSystem';
+import { ArtSystem } from './ArtSystem';
+import { ScientificDiscoverySystem } from './ScientificDiscoverySystem';
+import { LegalSystem } from './LegalSystem';
+import { MilitaryUnitSystem } from './MilitaryUnitSystem';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -59,6 +68,18 @@ export class GameEngine {
   private climateSystem: ClimateSystem;
   private landscapeSystem: LandscapeSystem;
   private animalPopulationSystem: AnimalPopulationSystem;
+  
+  // New roadmap feature systems (v2.3+)
+  private historicalFiguresSystem: HistoricalFiguresSystem;
+  private diseaseSystem: DiseaseSystem;
+  private naturalDisasterSystem: NaturalDisasterSystem;
+  private battleSystem: BattleSystem;
+  private transportSystem: TransportSystem;
+  private artSystem: ArtSystem;
+  private scientificDiscoverySystem: ScientificDiscoverySystem;
+  private legalSystem: LegalSystem;
+  private militaryUnitSystem: MilitaryUnitSystem;
+  
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -93,6 +114,21 @@ export class GameEngine {
     this.climateSystem = new ClimateSystem();
     this.landscapeSystem = new LandscapeSystem();
     this.animalPopulationSystem = new AnimalPopulationSystem();
+    
+    // Initialize new roadmap feature systems (v2.3+)
+    this.historicalFiguresSystem = new HistoricalFiguresSystem();
+    this.diseaseSystem = new DiseaseSystem();
+    this.naturalDisasterSystem = new NaturalDisasterSystem();
+    this.battleSystem = new BattleSystem();
+    this.transportSystem = new TransportSystem();
+    this.artSystem = new ArtSystem();
+    this.scientificDiscoverySystem = new ScientificDiscoverySystem();
+    this.legalSystem = new LegalSystem();
+    this.militaryUnitSystem = new MilitaryUnitSystem();
+    
+    // Initialize all data asynchronously (fire-and-forget is intentional - 
+    // systems will be ready before game starts, as startGame() is user-triggered)
+    this.initializeSystems();
 
     // Initialize optional systems
     if (this.config.enableOllama) {
@@ -112,6 +148,26 @@ export class GameEngine {
 
   private currentMonth: number;
   private _tickHandle: any;
+
+  // Initialize all systems asynchronously
+  private async initializeSystems(): Promise<void> {
+    try {
+      await Promise.all([
+        this.historicalFiguresSystem.initialize(),
+        this.diseaseSystem.initialize(),
+        this.naturalDisasterSystem.initialize(),
+        this.battleSystem.initialize(),
+        this.transportSystem.initialize(),
+        this.artSystem.initialize(),
+        this.scientificDiscoverySystem.initialize(),
+        this.legalSystem.initialize(),
+        this.militaryUnitSystem.initialize()
+      ]);
+      console.log('All roadmap feature systems initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize some systems:', error);
+    }
+  }
 
   // Öffentliche Methoden
   public getPlayers(): Player[] {
@@ -604,6 +660,69 @@ export class GameEngine {
    */
   public getAnimalPopulationSystem(): AnimalPopulationSystem {
     return this.animalPopulationSystem;
+  }
+  
+  /**
+   * Get the historical figures system (v2.3+)
+   */
+  public getHistoricalFiguresSystem(): HistoricalFiguresSystem {
+    return this.historicalFiguresSystem;
+  }
+  
+  /**
+   * Get the disease system (v2.3+)
+   */
+  public getDiseaseSystem(): DiseaseSystem {
+    return this.diseaseSystem;
+  }
+  
+  /**
+   * Get the natural disaster system (v2.3+)
+   */
+  public getNaturalDisasterSystem(): NaturalDisasterSystem {
+    return this.naturalDisasterSystem;
+  }
+  
+  /**
+   * Get the battle system (v2.3+)
+   */
+  public getBattleSystem(): BattleSystem {
+    return this.battleSystem;
+  }
+  
+  /**
+   * Get the transport system (v2.3+)
+   */
+  public getTransportSystem(): TransportSystem {
+    return this.transportSystem;
+  }
+  
+  /**
+   * Get the art system (v2.3+)
+   */
+  public getArtSystem(): ArtSystem {
+    return this.artSystem;
+  }
+  
+  /**
+   * Get the scientific discovery system (v2.3+)
+   */
+  public getScientificDiscoverySystem(): ScientificDiscoverySystem {
+    return this.scientificDiscoverySystem;
+  }
+  
+  /**
+   * Get the legal system (v2.3+)
+   */
+  public getLegalSystem(): LegalSystem {
+    return this.legalSystem;
+  }
+  
+  /**
+   * Get the military unit system (v2.3+)
+   */
+  public getMilitaryUnitSystem(): MilitaryUnitSystem {
+    return this.militaryUnitSystem;
   }
   
   /**

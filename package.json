@@ -1,8 +1,8 @@
 {
   "name": "kaiser-von-deutschland",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "type": "module",
-  "description": "Kaiser von Deutschland - Historical Kingdom Simulator with extensive role-playing from year 0 to the future - Now with Diplomacy, Religion, Extended Events, New Roles & Buildings, and Extended Policies!",
+  "description": "Historical Kingdom Simulator - Role-play from year 0 to the future with 20+ new features: Historical Figures, Battles, Diseases, Transport, Art, Science & more!",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
