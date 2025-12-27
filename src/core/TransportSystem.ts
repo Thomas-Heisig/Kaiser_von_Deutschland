@@ -47,7 +47,6 @@ export interface TradeRoute {
 export class TransportSystem {
   private transportTypes: Map<string, TransportType> = new Map();
   private tradeRoutes: Map<string, TradeRoute> = new Map();
-  private availableTransport: Set<string> = new Set();
   private activeRoutes: Set<string> = new Set();
 
   async initialize(): Promise<void> {

@@ -119,6 +119,8 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Militärsystem-Refactoring
 
 #### 🔹 Taktische Schlachtfelder
+- [x] Historische Schlachten-Datenbank mit 10 berühmten Schlachten ✅ (Neu implementiert)
+- [x] Schlacht-Simulation mit Gelände- und Wettereffekten ✅ (Neu implementiert)
 - [ ] 3D-Schlachtfeld-Ansicht (optionales Overlay)
 - [ ] Einheitenformationen (Keil, Phalanx, Linie)
 - [ ] Geländeeffekte (Höhen, Flüsse, Wälder)
@@ -226,11 +228,13 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Wirtschaftssystem-Erweiterung
 
 #### 🔹 Historische Transportmittel
-- [ ] Fuhrwerke und Pferdewagen (Mittelalter)
-- [ ] Postkutschen-Netzwerk (ab 1650)
-- [ ] Eisenbahn-System mit Streckenbau (ab 1835)
-- [ ] Straßenbahn und U-Bahn (ab 1880)
-- [ ] Automobile und Flugzeuge (ab 1900)
+- [x] Transporttypen-Datenbank mit 15 Transportmitteln ✅ (Neu implementiert)
+- [x] Handelsrouten-Datenbank mit 10 historischen Routen ✅ (Neu implementiert)
+- [x] Fuhrwerke und Pferdewagen (Mittelalter) ✅
+- [x] Postkutschen-Netzwerk (ab 1650) ✅
+- [x] Eisenbahn-System mit Streckenbau (ab 1835) ✅
+- [x] Straßenbahn und U-Bahn (ab 1880) ✅
+- [x] Automobile und Flugzeuge (ab 1900) ✅
 - [ ] **Multiplayer**: Spieler als Transport-Unternehmer
 - [ ] **Multiplayer**: Konkurrierende Eisenbahngesellschaften
 
@@ -254,7 +258,9 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: NPC-System, Urban Life
 
 #### 🔹 Kunst- und Kulturszene
-- [ ] Maler, Musiker, Schriftsteller als NPCs
+- [x] Kunststil-Datenbank mit 11 Epochen ✅ (Neu implementiert)
+- [x] Kulturelle Events mit 12 Festen und Feierlichkeiten ✅ (Neu implementiert)
+- [x] Maler, Musiker, Schriftsteller als historische Figuren ✅ (Neu implementiert)
 - [ ] Kunstwerke entstehen und werden gehandelt
 - [ ] Konzerte, Theaterstücke, Opern
 - [ ] Literarische Salons und Künstlerkreise
@@ -294,7 +300,9 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Universitäten-Wettbewerb
 
 #### 🔹 Wissenschaftliche Entdeckungen
-- [ ] Individuelle Forscher mit Karrieren
+- [x] Wissenschaftliche Entdeckungen-Datenbank mit 15 Durchbrüchen ✅ (Neu implementiert)
+- [x] Individuelle Forscher mit Karrieren ✅ (Neu implementiert)
+- [x] Technologie-Freischaltungen durch Entdeckungen ✅ (Neu implementiert)
 - [ ] Zufallsentdeckungen und Durchbrüche
 - [ ] Nobelpreis-Simulation (ab 1901)
 - [ ] Wissenschaftliche Kontroversen und Paradigmenwechsel
@@ -320,7 +328,9 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Verwaltungssystem-Refactoring
 
 #### 🔹 Rechtsentwicklung
-- [ ] Gewohnheitsrecht → Römisches Recht → Moderne Gesetzbücher
+- [x] Rechtssystem-Datenbank mit 10 historischen Systemen ✅ (Neu implementiert)
+- [x] Gewohnheitsrecht → Römisches Recht → Moderne Gesetzbücher ✅ (Neu implementiert)
+- [x] Verfassungsrecht und Grundgesetz ✅ (Neu implementiert)
 - [ ] Gerichtsverfahren mit Richtern, Anwälten, Geschworenen
 - [ ] Strafvollzug (Gefängnisse, Zuchthäuser, Rehabilitation)
 - [ ] Rechtsreformen und Kodifikationen
@@ -352,9 +362,11 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Wirtschaftssystem 2.0
 
 #### 🔹 Historische Steuersysteme
-- [ ] Zehnt und Frondienste (Mittelalter)
-- [ ] Akzise und Zölle (Frühe Neuzeit)
-- [ ] Einkommensteuer und Umsatzsteuer (Moderne)
+- [x] Steuersystem-Datenbank mit 12 historischen Methoden ✅ (Neu implementiert)
+- [x] Zehnt und Frondienste (Mittelalter) ✅
+- [x] Akzise und Zölle (Frühe Neuzeit) ✅
+- [x] Einkommensteuer und Umsatzsteuer (Moderne) ✅
+- [x] CO2-Steuer und moderne Steuern ✅
 - [ ] Steuerhinterziehung und Steueroasen
 - [ ] **Multiplayer**: Spieler als Steuereintreiber oder -hinterzieher
 - [ ] **Multiplayer**: Steuerreform-Debatten

@@ -123,6 +123,20 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **Wissenschaftspolitik**: Forschungsförderung, Universitätsausbau, Nobelpreis, Weltraumprogramm
 - **Sicherheitspolitik**: Polizeireform, Unabhängige Justiz, Strafrechtsreform, Grenzsicherung
 
+### 🎯 Roadmap Features (v2.3.1 - NEU!)
+- **🎭 10 Historische Persönlichkeiten**: Karl der Große, Bismarck, Luther, Einstein, Goethe, Beethoven
+- **⚔️ 10 Historische Schlachten**: Von Teutoburger Wald (9 n.Chr.) bis Kursk (1943)
+- **🦠 8 Krankheiten & Epidemien**: Pest, Cholera, Spanische Grippe mit vollständiger Simulation
+- **🌪️ 8 Naturkatastrophen**: Erdbeben, Überschwemmungen, Dürren mit historischen Beispielen
+- **🚂 15 Transportsysteme**: Von Pferd bis Hochgeschwindigkeitszug
+- **🛤️ 10 Handelsrouten**: Bernsteinstraße, Hanserouten, EU-Binnenmarkt
+- **🎨 11 Kunststile**: Von Romanik bis Postmoderne
+- **🎭 12 Kulturelle Events**: Oktoberfest, Weihnachtsmarkt, Karneval, Berlinale
+- **🔬 15 Wissenschaftliche Entdeckungen**: Buchdruck, Relativitätstheorie, Internet
+- **⚖️ 10 Rechtssysteme**: Von Stammesrecht bis EU-Recht
+- **💰 12 Steuersysteme**: Von Zehnt bis CO2-Steuer
+- **⚔️ 15 Militäreinheiten**: Von Miliz bis Mechanisierte Infanterie
+
 ## 🚀 Technologie-Stack
 
 - **TypeScript** - Type-safe Entwicklung
