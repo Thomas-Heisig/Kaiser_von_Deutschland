@@ -353,9 +353,9 @@ export class ClimateSystem {
   private getSeasonalDisasterTypes(season: Season): DisasterType[] {
     const types: Record<Season, DisasterType[]> = {
       spring: ['flood', 'storm', 'tornado'],
-      summer: ['drought', 'wildfire', 'heatwave' as any, 'locust_plague', 'hailstorm'],
+      summer: ['drought', 'wildfire', 'locust_plague', 'hailstorm'],
       autumn: ['storm', 'hurricane', 'flood'],
-      winter: ['blizzard', 'cold_snap' as any, 'earthquake']
+      winter: ['blizzard', 'earthquake']
     };
     return types[season];
   }
