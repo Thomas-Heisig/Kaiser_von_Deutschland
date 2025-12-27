@@ -318,7 +318,7 @@ export class GameUI {
           <!-- Karte -->
           <div class="map-panel">
             <h3>Königreichskarte</h3>
-            <canvas id="kingdom-map" width="600" height="400"></canvas>
+            <div id="kingdom-map" style="width: 600px; height: 400px;"></div>
           </div>
 
           <!-- Statistik -->

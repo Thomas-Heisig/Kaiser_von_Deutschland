@@ -1,4 +1,5 @@
 // src/ui/Graphics.ts
+import * as PIXI from 'pixi.js';
 import { Kingdom, ClimateType, Season } from '../core/Kingdom';
 
 export type RenderLayer = 'terrain' | 'infrastructure' | 'military' | 'population' | 'resources' | 'overlay';
@@ -27,50 +28,54 @@ export interface AnimationConfig {
   color?: string;
   size?: number;
   onComplete?: () => void;
+  startTime?: number;
 }
 
 export interface Particle {
-  x: number;
-  y: number;
+  sprite: PIXI.Graphics;
   vx: number;
   vy: number;
   life: number;
   maxLife: number;
-  color: string;
-  size: number;
 }
 
 export class Graphics {
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
+  private app: PIXI.Application;
+  private container: HTMLElement;
+  private mainContainer: PIXI.Container;
+  private terrainLayer: PIXI.Container;
+  private infrastructureLayer: PIXI.Container;
+  private militaryLayer: PIXI.Container;
+  private overlayLayer: PIXI.Container;
   private renderOptions: RenderOptions;
   private animations: AnimationConfig[] = [];
   private particles: Particle[] = [];
   private lastRenderTime: number = 0;
-  private isRendering: boolean = false;
+  private currentKingdom?: Kingdom;
   // TODO: Will be used for terrain caching optimization in future
   // @ts-expect-error - Unused until caching is implemented
-  private _terrainCache: Map<string, ImageData> = new Map();
+  private _terrainCache: Map<string, PIXI.RenderTexture> = new Map();
   // TODO: Will be used for building sprite rendering in future
   // @ts-expect-error - Unused until sprite rendering is implemented
-  private _buildingSprites: Map<string, HTMLImageElement> = new Map();
+  private _buildingSprites: Map<string, PIXI.Texture> = new Map();
   // TODO: Will be used to track sprite loading status in future
   // @ts-expect-error - Unused until sprite loading is implemented
   private _spriteSheetLoaded: boolean = false;
 
-  constructor(canvasId: string = 'kingdom-map') {
-    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-    if (!canvas) {
-      throw new Error(`Canvas with id '${canvasId}' not found`);
+  constructor(containerId: string = 'kingdom-map') {
+    const element = document.getElementById(containerId);
+    if (!element) {
+      throw new Error(`Container with id '${containerId}' not found`);
     }
     
-    this.canvas = canvas;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      throw new Error('Could not get 2D context from canvas');
-    }
+    this.container = element;
+    this.app = new PIXI.Application();
+    this.mainContainer = new PIXI.Container();
+    this.terrainLayer = new PIXI.Container();
+    this.infrastructureLayer = new PIXI.Container();
+    this.militaryLayer = new PIXI.Container();
+    this.overlayLayer = new PIXI.Container();
     
-    this.ctx = ctx;
     this.renderOptions = {
       showGrid: true,
       showLabels: true,
@@ -83,74 +88,105 @@ export class Graphics {
       season: 'spring'
     };
 
-    this.loadSprites();
-    this.setupCanvas();
-    this.startRenderLoop();
+    this.initialize();
   }
 
-  private setupCanvas(): void {
-    // Responsive Canvas
-    const resizeCanvas = () => {
-      const container = this.canvas.parentElement;
-      if (container) {
-        this.canvas.width = container.clientWidth;
-        this.canvas.height = container.clientHeight;
-      }
-    };
+  private async initialize(): Promise<void> {
+    // Get container dimensions or use defaults
+    const width = this.container.clientWidth || 600;
+    const height = this.container.clientHeight || 400;
 
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    await this.app.init({
+      width,
+      height,
+      backgroundColor: 0x1a1a2e,
+      antialias: true,
+      resolution: window.devicePixelRatio || 1,
+      autoDensity: true
+    });
 
-    // Interaktivität
+    this.container.appendChild(this.app.canvas);
+
+    // Setup layer hierarchy
+    this.mainContainer.addChild(this.terrainLayer);
+    this.mainContainer.addChild(this.infrastructureLayer);
+    this.mainContainer.addChild(this.militaryLayer);
+    this.mainContainer.addChild(this.overlayLayer);
+    this.app.stage.addChild(this.mainContainer);
+
+    // Make main container interactive for panning
+    this.mainContainer.eventMode = 'static';
+    
+    await this.loadSprites();
     this.setupInteractivity();
+    this.startRenderLoop();
   }
 
   private setupInteractivity(): void {
     let isDragging = false;
-    let lastX = 0;
-    let lastY = 0;
+    let dragStart = { x: 0, y: 0 };
 
-    this.canvas.addEventListener('mousedown', (e) => {
+    // Handle responsive resizing
+    const resizeHandler = () => {
+      const width = this.container.clientWidth || 600;
+      const height = this.container.clientHeight || 400;
+      this.app.renderer.resize(width, height);
+    };
+    window.addEventListener('resize', resizeHandler);
+
+    // Pan functionality
+    this.app.stage.eventMode = 'static';
+    this.app.stage.hitArea = this.app.screen;
+
+    this.app.stage.on('pointerdown', (event: PIXI.FederatedPointerEvent) => {
       isDragging = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
+      const pos = event.global;
+      dragStart = { x: pos.x, y: pos.y };
     });
 
-    this.canvas.addEventListener('mousemove', (e) => {
+    this.app.stage.on('pointermove', (event: PIXI.FederatedPointerEvent) => {
       if (isDragging) {
-        const deltaX = e.clientX - lastX;
-        const deltaY = e.clientY - lastY;
-        lastX = e.clientX;
-        lastY = e.clientY;
-
-        this.renderOptions.panX! += deltaX;
-        this.renderOptions.panY! += deltaY;
+        const pos = event.global;
+        const deltaX = pos.x - dragStart.x;
+        const deltaY = pos.y - dragStart.y;
+        
+        this.mainContainer.x += deltaX;
+        this.mainContainer.y += deltaY;
+        
+        this.renderOptions.panX = this.mainContainer.x;
+        this.renderOptions.panY = this.mainContainer.y;
+        
+        dragStart = { x: pos.x, y: pos.y };
       }
     });
 
-    this.canvas.addEventListener('mouseup', () => {
+    this.app.stage.on('pointerup', () => {
       isDragging = false;
     });
 
-    this.canvas.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
-      this.renderOptions.zoomLevel! *= zoomFactor;
-      this.renderOptions.zoomLevel! = Math.max(0.1, Math.min(5, this.renderOptions.zoomLevel!));
+    this.app.stage.on('pointerupoutside', () => {
+      isDragging = false;
     });
 
-    this.canvas.addEventListener('click', (e) => {
-      const rect = this.canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    // Zoom functionality via wheel
+    this.app.canvas.addEventListener('wheel', (e: WheelEvent) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      const newZoom = this.renderOptions.zoomLevel! * zoomFactor;
+      this.renderOptions.zoomLevel = Math.max(0.1, Math.min(5, newZoom));
+      
+      this.mainContainer.scale.set(this.renderOptions.zoomLevel);
+    }, { passive: false });
 
-      // Gebäudeauswahl oder andere Interaktionen
-      this.handleCanvasClick(x, y);
+    // Click handling
+    this.app.stage.on('click', (event: PIXI.FederatedPointerEvent) => {
+      const pos = event.global;
+      this.handleCanvasClick(pos.x, pos.y);
     });
   }
 
   private handleCanvasClick(x: number, y: number): void {
-    // Koordinaten in Weltkoordinaten umwandeln
+    // Convert screen coordinates to world coordinates
     const worldX = (x - this.renderOptions.panX!) / this.renderOptions.zoomLevel!;
     const worldY = (y - this.renderOptions.panY!) / this.renderOptions.zoomLevel!;
 
@@ -162,184 +198,132 @@ export class Graphics {
     // Platzhalter für echte Sprites - in einem echten Projekt würden hier Bilder geladen
     // Sprite definitions would be loaded here in a real implementation
 
-    // Für dieses Beispiel verwenden wir Canvas-gezeichnete Platzhalter
+    // Für dieses Beispiel verwenden wir procedurally generated graphics
     this._spriteSheetLoaded = true;
   }
 
   private startRenderLoop(): void {
-    const render = (timestamp: number) => {
-      if (!this.isRendering) {
-        this.isRendering = true;
-        
-        // Berechne Delta Time für flüssige Animationen
-        const deltaTime = timestamp - this.lastRenderTime || 0;
-        this.lastRenderTime = timestamp;
+    this.app.ticker.add((ticker) => {
+      const deltaTime = ticker.deltaMS;
+      this.lastRenderTime += deltaTime;
 
-        // Update Animationen
-        this.updateAnimations(deltaTime);
-        this.updateParticles(deltaTime);
-
-        // Rendere den Frame
-        this.clearCanvas();
-        this.renderFrame();
-
-        this.isRendering = false;
-      }
-      
-      requestAnimationFrame(render);
-    };
-
-    requestAnimationFrame(render);
-  }
-
-  private clearCanvas(): void {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      // Update Animationen
+      this.updateAnimations(deltaTime);
+      this.updateParticles(deltaTime);
+    });
   }
 
   public renderKingdom(kingdom: Kingdom, options?: Partial<RenderOptions>): void {
     this.renderOptions = { ...this.renderOptions, ...options };
+    this.currentKingdom = kingdom;
     
-    // Speichere das Königreich für die Renderloop
-    (this as any).currentKingdom = kingdom;
-  }
+    // Clear all layers
+    this.terrainLayer.removeChildren();
+    this.infrastructureLayer.removeChildren();
+    this.militaryLayer.removeChildren();
+    this.overlayLayer.removeChildren();
 
-  private renderFrame(): void {
-    const kingdom = (this as any).currentKingdom as Kingdom;
-    if (!kingdom) return;
-
-    // Speichere den aktuellen Zustand
-    this.ctx.save();
-
-    // Transformationsmatrix für Zoom und Pan anwenden
-    this.ctx.translate(this.renderOptions.panX!, this.renderOptions.panY!);
-    this.ctx.scale(this.renderOptions.zoomLevel!, this.renderOptions.zoomLevel!);
-
-    // Terrain rendern
+    // Render all layers
     this.renderTerrain(kingdom);
-
-    // Infrastruktur rendern
     this.renderInfrastructure(kingdom);
-
-    // Militär rendern
     this.renderMilitary(kingdom);
 
-    // Bevölkerung rendern (optional)
     if (this.renderOptions.activeLayer === 'population') {
       this.renderPopulation(kingdom);
     }
 
-    // Ressourcen anzeigen (optional)
     if (this.renderOptions.activeLayer === 'resources') {
       this.renderResources(kingdom);
     }
 
-    // Overlay (Grid, Labels, etc.)
     this.renderOverlay();
-
-    // Animationen rendern
-    this.renderAnimations();
-
-    // Partikel rendern
-    this.renderParticles();
-
-    // Zustand wiederherstellen
-    this.ctx.restore();
   }
 
   private renderTerrain(kingdom: Kingdom): void {
-    const { ctx } = this;
-    const width = this.canvas.width / this.renderOptions.zoomLevel!;
-    const height = this.canvas.height / this.renderOptions.zoomLevel!;
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
 
     // Klima-basierter Hintergrund
     const terrainColors = this.getTerrainColors(kingdom.climate, this.renderOptions.season);
     
     // Gelände-Höhenkarte zeichnen
-    ctx.fillStyle = terrainColors.base;
-    ctx.fillRect(0, 0, width, height);
+    const background = new PIXI.Graphics();
+    background.rect(0, 0, width, height);
+    background.fill(terrainColors.base);
+    this.terrainLayer.addChild(background);
 
     // Geländemerkmale basierend auf Terrain-Daten
     const terrain = kingdom.terrain;
     
     // Wälder
     if (terrain.forests > 0) {
-      ctx.fillStyle = terrainColors.forest;
       const forestArea = width * height * (terrain.forests / 100) * 0.3;
-      this.drawRandomPatches(ctx, forestArea, 20, 40, 30, 60);
+      this.drawRandomPatches(terrainColors.forest, forestArea, 20, 40, 30, 60);
     }
 
     // Berge
     if (terrain.mountains > 0) {
-      ctx.fillStyle = terrainColors.mountain;
       const mountainArea = width * height * (terrain.mountains / 100) * 0.2;
-      this.drawMountains(ctx, mountainArea, 50, 80);
+      this.drawMountains(terrainColors.mountain, mountainArea, 50, 80);
     }
 
     // Hügel
     if (terrain.hills > 0) {
-      ctx.fillStyle = terrainColors.hill;
       const hillArea = width * height * (terrain.hills / 100) * 0.4;
-      this.drawHills(ctx, hillArea, 20, 40);
+      this.drawHills(terrainColors.hill, hillArea, 20, 40);
     }
 
     // Flüsse (wenn vorhanden)
-    this.drawRivers(ctx, width, height);
+    this.drawRivers(terrainColors.water, width, height);
 
     // Straßen
-    this.drawRoads(ctx, kingdom.infrastructure.roads, width, height);
+    this.drawRoads(kingdom.infrastructure.roads, width, height);
   }
 
-  private getTerrainColors(climate: ClimateType, _season?: Season): Record<string, string> {
+  private getTerrainColors(climate: ClimateType, _season?: Season): Record<string, number> {
     // Seasonal modifiers could be applied in the future
-    // const seasonalModifiers: Record<Season, Record<string, number>> = {
-    //   spring: { saturation: 1.2, brightness: 1.1 },
-    //   summer: { saturation: 1.3, brightness: 1.2 },
-    //   autumn: { saturation: 1.1, brightness: 0.9 },
-    //   winter: { saturation: 0.8, brightness: 1.3 }
-    // };
-
-    const baseColors: Record<ClimateType, Record<string, string>> = {
+    const baseColors: Record<ClimateType, Record<string, number>> = {
       temperate: {
-        base: '#cfe8a9',
-        forest: '#5a7d4a',
-        mountain: '#8a7f8d',
-        hill: '#9cb68c',
-        water: '#4a90e2'
+        base: 0xcfe8a9,
+        forest: 0x5a7d4a,
+        mountain: 0x8a7f8d,
+        hill: 0x9cb68c,
+        water: 0x4a90e2
       },
       arid: {
-        base: '#e8d7b2',
-        forest: '#8b7355',
-        mountain: '#a0522d',
-        hill: '#d2b48c',
-        water: '#87ceeb'
+        base: 0xe8d7b2,
+        forest: 0x8b7355,
+        mountain: 0xa0522d,
+        hill: 0xd2b48c,
+        water: 0x87ceeb
       },
       cold: {
-        base: '#e8f4f8',
-        forest: '#2f4f4f',
-        mountain: '#708090',
-        hill: '#a9a9a9',
-        water: '#4682b4'
+        base: 0xe8f4f8,
+        forest: 0x2f4f4f,
+        mountain: 0x708090,
+        hill: 0xa9a9a9,
+        water: 0x4682b4
       },
       tropical: {
-        base: '#b8e0d2',
-        forest: '#228b22',
-        mountain: '#556b2f',
-        hill: '#90ee90',
-        water: '#00bfff'
+        base: 0xb8e0d2,
+        forest: 0x228b22,
+        mountain: 0x556b2f,
+        hill: 0x90ee90,
+        water: 0x00bfff
       },
       mountainous: {
-        base: '#d3d3d3',
-        forest: '#6b8e23',
-        mountain: '#696969',
-        hill: '#bc8f8f',
-        water: '#1e90ff'
+        base: 0xd3d3d3,
+        forest: 0x6b8e23,
+        mountain: 0x696969,
+        hill: 0xbc8f8f,
+        water: 0x1e90ff
       },
       coastal: {
-        base: '#f0e68c',
-        forest: '#32cd32',
-        mountain: '#b8860b',
-        hill: '#daa520',
-        water: '#4169e1'
+        base: 0xf0e68c,
+        forest: 0x32cd32,
+        mountain: 0xb8860b,
+        hill: 0xdaa520,
+        water: 0x4169e1
       }
     };
 
@@ -347,29 +331,26 @@ export class Graphics {
   }
 
   private drawRandomPatches(
-    ctx: CanvasRenderingContext2D,
+    color: number,
     _totalArea: number,
     minSize: number,
     maxSize: number,
     count: number,
     spread: number
   ): void {
-    // Calculate patches based on area distribution
-    // const patchArea = totalArea / count;
-    // const patchSize = Math.sqrt(patchArea);
-    
     for (let i = 0; i < count; i++) {
-      const x = Math.random() * (this.canvas.width / this.renderOptions.zoomLevel! - spread);
-      const y = Math.random() * (this.canvas.height / this.renderOptions.zoomLevel! - spread);
+      const x = Math.random() * (this.app.screen.width - spread);
+      const y = Math.random() * (this.app.screen.height - spread);
       const size = minSize + Math.random() * (maxSize - minSize);
       
-      this.drawTreePatch(ctx, x, y, size);
+      this.drawTreePatch(color, x, y, size);
     }
   }
 
-  private drawTreePatch(ctx: CanvasRenderingContext2D, x: number, y: number, size: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawTreePatch(_color: number, x: number, y: number, size: number): void {
+    const container = new PIXI.Container();
+    container.x = x;
+    container.y = y;
     
     // Zeichne mehrere Bäume im Patch
     const treeCount = Math.floor(size / 5);
@@ -377,157 +358,147 @@ export class Graphics {
       const tx = Math.random() * size - size / 2;
       const ty = Math.random() * size - size / 2;
       
+      const tree = new PIXI.Graphics();
+      
       // Baumkrone
-      ctx.fillStyle = '#228b22';
-      ctx.beginPath();
-      ctx.arc(tx, ty, 4 + Math.random() * 3, 0, Math.PI * 2);
-      ctx.fill();
+      tree.circle(tx, ty, 4 + Math.random() * 3);
+      tree.fill(0x228b22);
       
       // Baumstamm
-      ctx.fillStyle = '#8b4513';
-      ctx.fillRect(tx - 1, ty + 3, 2, 6);
+      tree.rect(tx - 1, ty + 3, 2, 6);
+      tree.fill(0x8b4513);
+      
+      container.addChild(tree);
     }
     
-    ctx.restore();
+    this.terrainLayer.addChild(container);
   }
 
-  private drawMountains(ctx: CanvasRenderingContext2D, totalArea: number, minHeight: number, maxHeight: number): void {
+  private drawMountains(color: number, totalArea: number, minHeight: number, maxHeight: number): void {
     const mountainCount = Math.floor(totalArea / 1000);
     
     for (let i = 0; i < mountainCount; i++) {
-      const x = Math.random() * (this.canvas.width / this.renderOptions.zoomLevel!);
-      const y = Math.random() * (this.canvas.height / this.renderOptions.zoomLevel!);
+      const x = Math.random() * this.app.screen.width;
+      const y = Math.random() * this.app.screen.height;
       const height = minHeight + Math.random() * (maxHeight - minHeight);
       const width = height * (0.5 + Math.random() * 0.5);
       
-      this.drawMountain(ctx, x, y, width, height);
+      this.drawMountain(color, x, y, width, height);
     }
   }
 
-  private drawMountain(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawMountain(color: number, x: number, y: number, width: number, height: number): void {
+    const mountain = new PIXI.Graphics();
     
     // Berg zeichnen
-    ctx.fillStyle = '#8a7f8d';
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(-width / 2, height);
-    ctx.lineTo(width / 2, height);
-    ctx.closePath();
-    ctx.fill();
+    mountain.moveTo(x, y);
+    mountain.lineTo(x - width / 2, y + height);
+    mountain.lineTo(x + width / 2, y + height);
+    mountain.closePath();
+    mountain.fill(color);
     
     // Schnee auf Spitze (wenn hoch genug)
     if (height > 60) {
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-width / 4, height * 0.3);
-      ctx.lineTo(width / 4, height * 0.3);
-      ctx.closePath();
-      ctx.fill();
+      mountain.moveTo(x, y);
+      mountain.lineTo(x - width / 4, y + height * 0.3);
+      mountain.lineTo(x + width / 4, y + height * 0.3);
+      mountain.closePath();
+      mountain.fill(0xffffff);
     }
     
-    ctx.restore();
+    this.terrainLayer.addChild(mountain);
   }
 
-  private drawHills(ctx: CanvasRenderingContext2D, totalArea: number, minHeight: number, maxHeight: number): void {
+  private drawHills(color: number, totalArea: number, minHeight: number, maxHeight: number): void {
     const hillCount = Math.floor(totalArea / 500);
     
     for (let i = 0; i < hillCount; i++) {
-      const x = Math.random() * (this.canvas.width / this.renderOptions.zoomLevel!);
-      const y = Math.random() * (this.canvas.height / this.renderOptions.zoomLevel!);
+      const x = Math.random() * this.app.screen.width;
+      const y = Math.random() * this.app.screen.height;
       const height = minHeight + Math.random() * (maxHeight - minHeight);
       const width = height * (1 + Math.random());
       
-      this.drawHill(ctx, x, y, width, height);
+      this.drawHill(color, x, y, width, height);
     }
   }
 
-  private drawHill(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawHill(color: number, x: number, y: number, width: number, height: number): void {
+    const hill = new PIXI.Graphics();
+    hill.ellipse(x, y, width / 2, height / 2);
+    hill.fill(color);
     
-    // Hügel zeichnen
-    ctx.fillStyle = '#9cb68c';
-    ctx.beginPath();
-    ctx.ellipse(0, 0, width / 2, height / 2, 0, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.restore();
+    this.terrainLayer.addChild(hill);
   }
 
-  private drawRivers(ctx: CanvasRenderingContext2D, width: number, height: number): void {
-    // Einfache Flussdarstellung
-    ctx.strokeStyle = '#4a90e2';
-    ctx.lineWidth = 8;
-    ctx.lineCap = 'round';
+  private drawRivers(color: number, width: number, height: number): void {
+    const river = new PIXI.Graphics();
+    river.moveTo(0, 0);
     
     // Zufälliger Flussverlauf
-    ctx.beginPath();
     let x = 0;
     let y = height * 0.3 + Math.random() * height * 0.4;
     
-    ctx.moveTo(x, y);
+    river.moveTo(x, y);
     
     for (let i = 0; i < 20; i++) {
       x += width / 20;
       y += (Math.random() - 0.5) * 30;
       y = Math.max(height * 0.1, Math.min(height * 0.9, y));
       
-      ctx.lineTo(x, y);
+      river.lineTo(x, y);
     }
     
-    ctx.stroke();
+    river.stroke({ width: 8, color, cap: 'round' });
+    
+    this.terrainLayer.addChild(river);
   }
 
-  private drawRoads(ctx: CanvasRenderingContext2D, roadCount: number, width: number, height: number): void {
+  private drawRoads(roadCount: number, width: number, height: number): void {
     if (roadCount === 0) return;
     
-    ctx.strokeStyle = '#8b4513';
-    ctx.lineWidth = 4;
-    ctx.lineCap = 'round';
+    const roads = new PIXI.Graphics();
     
     // Hauptstraße vom Schloss
-    ctx.beginPath();
-    ctx.moveTo(width * 0.1, height * 0.5);
-    ctx.lineTo(width * 0.9, height * 0.5);
-    ctx.stroke();
+    roads.moveTo(width * 0.1, height * 0.5);
+    roads.lineTo(width * 0.9, height * 0.5);
+    roads.stroke({ width: 4, color: 0x8b4513, cap: 'round' });
     
     // Seitenstraßen
     for (let i = 1; i < roadCount; i++) {
       const angle = (i / roadCount) * Math.PI;
       const roadLength = width * 0.3;
       
-      ctx.beginPath();
-      ctx.moveTo(width * 0.5, height * 0.5);
-      ctx.lineTo(
+      roads.moveTo(width * 0.5, height * 0.5);
+      roads.lineTo(
         width * 0.5 + Math.cos(angle) * roadLength,
         height * 0.5 + Math.sin(angle) * roadLength
       );
-      ctx.stroke();
+      roads.stroke({ width: 4, color: 0x8b4513, cap: 'round' });
     }
+    
+    this.terrainLayer.addChild(roads);
   }
 
   private renderInfrastructure(kingdom: Kingdom): void {
-    const { ctx } = this;
-    const centerX = (this.canvas.width / this.renderOptions.zoomLevel!) / 2;
-    const centerY = (this.canvas.height / this.renderOptions.zoomLevel!) / 2;
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
 
     // Schloss (Zentrum)
-    this.drawCastle(ctx, centerX - 60, centerY - 40);
+    this.drawCastle(centerX - 60, centerY - 40);
 
     // Gebäude in kreisförmiger Anordnung um das Schloss
     const buildings = [
-      { type: 'market', count: kingdom.infrastructure.markets, color: '#ffd166', size: 24 },
-      { type: 'farm', count: kingdom.infrastructure.farms, color: '#7fb069', size: 22 },
-      { type: 'barracks', count: kingdom.infrastructure.barracks, color: '#8b0000', size: 26 },
-      { type: 'church', count: kingdom.infrastructure.churches, color: '#f0e68c', size: 28 },
-      { type: 'mine', count: kingdom.infrastructure.mines, color: '#696969', size: 20 },
-      { type: 'school', count: kingdom.infrastructure.schools, color: '#4682b4', size: 24 },
-      { type: 'hospital', count: kingdom.infrastructure.hospitals, color: '#ff6b6b', size: 26 },
-      { type: 'port', count: kingdom.infrastructure.ports, color: '#1e90ff', size: 30 },
-      { type: 'workshop', count: kingdom.infrastructure.workshops, color: '#d2691e', size: 22 }
+      { type: 'market', count: kingdom.infrastructure.markets, color: 0xffd166, size: 24 },
+      { type: 'farm', count: kingdom.infrastructure.farms, color: 0x7fb069, size: 22 },
+      { type: 'barracks', count: kingdom.infrastructure.barracks, color: 0x8b0000, size: 26 },
+      { type: 'church', count: kingdom.infrastructure.churches, color: 0xf0e68c, size: 28 },
+      { type: 'mine', count: kingdom.infrastructure.mines, color: 0x696969, size: 20 },
+      { type: 'school', count: kingdom.infrastructure.schools, color: 0x4682b4, size: 24 },
+      { type: 'hospital', count: kingdom.infrastructure.hospitals, color: 0xff6b6b, size: 26 },
+      { type: 'port', count: kingdom.infrastructure.ports, color: 0x1e90ff, size: 30 },
+      { type: 'workshop', count: kingdom.infrastructure.workshops, color: 0xd2691e, size: 22 }
     ];
 
     let angleOffset = 0;
@@ -541,7 +512,7 @@ export class Graphics {
           const x = centerX + Math.cos(angle) * radius;
           const y = centerY + Math.sin(angle) * radius;
           
-          this.drawBuilding(ctx, building.type, x, y, building.size, building.color);
+          this.drawBuilding(building.type, x, y, building.size, building.color);
         }
         
         angleOffset += building.count * angleStep * 0.1;
@@ -550,160 +521,156 @@ export class Graphics {
 
     // Mauern (wenn vorhanden)
     if (kingdom.infrastructure.walls > 0) {
-      this.drawWalls(ctx, centerX, centerY, 150 + kingdom.infrastructure.walls * 10);
+      this.drawWalls(centerX, centerY, 150 + kingdom.infrastructure.walls * 10);
     }
   }
 
-  private drawCastle(ctx: CanvasRenderingContext2D, x: number, y: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawCastle(x: number, y: number): void {
+    const castle = new PIXI.Container();
+    castle.x = x;
+    castle.y = y;
+    
+    const graphics = new PIXI.Graphics();
     
     // Hauptgebäude
-    ctx.fillStyle = '#7f5539';
-    ctx.fillRect(0, 0, 120, 80);
+    graphics.rect(0, 0, 120, 80);
+    graphics.fill(0x7f5539);
     
     // Türme
-    ctx.fillStyle = '#5b3d2a';
-    ctx.fillRect(-10, 10, 20, 60); // Linker Turm
-    ctx.fillRect(110, 10, 20, 60); // Rechter Turm
+    graphics.rect(-10, 10, 20, 60); // Linker Turm
+    graphics.fill(0x5b3d2a);
+    graphics.rect(110, 10, 20, 60); // Rechter Turm
+    graphics.fill(0x5b3d2a);
     
     // Turmspitzen
-    ctx.fillStyle = '#8b4513';
-    ctx.beginPath();
-    ctx.moveTo(0, 10);
-    ctx.lineTo(10, 0);
-    ctx.lineTo(20, 10);
-    ctx.closePath();
-    ctx.fill();
+    graphics.moveTo(0, 10);
+    graphics.lineTo(10, 0);
+    graphics.lineTo(20, 10);
+    graphics.closePath();
+    graphics.fill(0x8b4513);
     
-    ctx.beginPath();
-    ctx.moveTo(120, 10);
-    ctx.lineTo(130, 0);
-    ctx.lineTo(140, 10);
-    ctx.closePath();
-    ctx.fill();
+    graphics.moveTo(120, 10);
+    graphics.lineTo(130, 0);
+    graphics.lineTo(140, 10);
+    graphics.closePath();
+    graphics.fill(0x8b4513);
     
     // Tor
-    ctx.fillStyle = '#8b4513';
-    ctx.fillRect(50, 60, 20, 20);
+    graphics.rect(50, 60, 20, 20);
+    graphics.fill(0x8b4513);
     
     // Fenster
-    ctx.fillStyle = '#f0e68c';
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 2; j++) {
-        ctx.fillRect(20 + i * 30, 20 + j * 20, 8, 12);
+        graphics.rect(20 + i * 30, 20 + j * 20, 8, 12);
+        graphics.fill(0xf0e68c);
       }
     }
     
     // Flagge
-    ctx.fillStyle = '#ff0000';
-    ctx.fillRect(60, -20, 3, 20);
-    ctx.fillRect(60, -20, 15, 10);
+    graphics.rect(60, -20, 3, 20);
+    graphics.fill(0xff0000);
+    graphics.rect(60, -20, 15, 10);
+    graphics.fill(0xff0000);
     
-    ctx.restore();
+    castle.addChild(graphics);
+    this.infrastructureLayer.addChild(castle);
   }
 
-  private drawBuilding(ctx: CanvasRenderingContext2D, type: string, x: number, y: number, size: number, color: string): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawBuilding(type: string, x: number, y: number, size: number, color: number): void {
+    const building = new PIXI.Graphics();
     
     // Gebäudegrundform
-    ctx.fillStyle = color;
-    ctx.fillRect(-size/2, -size/2, size, size);
+    building.rect(x - size/2, y - size/2, size, size);
+    building.fill(color);
     
     // Gebäudedetails basierend auf Typ
     switch (type) {
       case 'market':
-        ctx.fillStyle = '#b58300';
-        ctx.fillRect(-size/4, -size/2 - 5, size/2, 5); // Dach
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(-size/4, -size/4, size/2, 2); // Theke
+        building.rect(x - size/4, y - size/2 - 5, size/2, 5); // Dach
+        building.fill(0xb58300);
+        building.rect(x - size/4, y - size/4, size/2, 2); // Theke
+        building.fill(0xffffff);
         break;
         
       case 'farm':
-        ctx.fillStyle = '#556b2f';
-        ctx.beginPath();
-        ctx.arc(0, -size/2, size/3, 0, Math.PI);
-        ctx.fill(); // Strohdach
+        building.arc(x, y - size/2, size/3, 0, Math.PI); // Strohdach
+        building.fill(0x556b2f);
         break;
         
       case 'barracks':
-        ctx.fillStyle = '#8b0000';
-        ctx.fillRect(-size/2, -size/2, size, size/3); // Dach
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(-size/4, -size/6, size/2, size/3); // Tor
+        building.rect(x - size/2, y - size/2, size, size/3); // Dach
+        building.fill(0x8b0000);
+        building.rect(x - size/4, y - size/6, size/2, size/3); // Tor
+        building.fill(0xffffff);
         break;
         
       case 'church':
-        ctx.fillStyle = '#d4af37';
-        ctx.beginPath();
-        ctx.moveTo(-size/2, -size/2);
-        ctx.lineTo(0, -size);
-        ctx.lineTo(size/2, -size/2);
-        ctx.closePath();
-        ctx.fill(); // Kirchturmspitze
-        ctx.fillRect(-size/6, -size/2, size/3, size/2); // Turm
+        building.moveTo(x - size/2, y - size/2);
+        building.lineTo(x, y - size);
+        building.lineTo(x + size/2, y - size/2);
+        building.closePath();
+        building.fill(0xd4af37); // Kirchturmspitze
+        building.rect(x - size/6, y - size/2, size/3, size/2); // Turm
+        building.fill(0xd4af37);
         break;
     }
     
-    ctx.restore();
+    this.infrastructureLayer.addChild(building);
   }
 
-  private drawWalls(ctx: CanvasRenderingContext2D, centerX: number, centerY: number, radius: number): void {
-    ctx.save();
+  private drawWalls(centerX: number, centerY: number, radius: number): void {
+    const walls = new PIXI.Graphics();
     
-    ctx.strokeStyle = '#8b4513';
-    ctx.lineWidth = 8;
-    ctx.lineCap = 'butt';
+    // Kreisförmige Mauer mit Zinnenmuster
+    walls.circle(centerX, centerY, radius);
+    walls.stroke({
+      width: 8,
+      color: 0x8b4513,
+      cap: 'butt'
+    });
     
-    // Zinnenmuster
-    ctx.setLineDash([10, 5]);
-    
-    // Kreisförmige Mauer
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.stroke();
-    
-    ctx.restore();
+    this.infrastructureLayer.addChild(walls);
   }
 
   private renderMilitary(kingdom: Kingdom): void {
-    const { ctx } = this;
-    const centerX = (this.canvas.width / this.renderOptions.zoomLevel!) / 2;
-    const centerY = (this.canvas.height / this.renderOptions.zoomLevel!) / 2;
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
 
     // Infanterie
-    this.drawTroops(ctx, kingdom.military.infantry, centerX - 200, centerY - 100, '#a80000', 'infantry');
+    this.drawTroops(kingdom.military.infantry, centerX - 200, centerY - 100, 0xa80000, 'infantry');
     
     // Kavallerie
-    this.drawTroops(ctx, kingdom.military.cavalry, centerX + 200, centerY - 100, '#1e90ff', 'cavalry');
+    this.drawTroops(kingdom.military.cavalry, centerX + 200, centerY - 100, 0x1e90ff, 'cavalry');
     
     // Bogenschützen
-    this.drawTroops(ctx, kingdom.military.archers, centerX, centerY + 150, '#32cd32', 'archer');
+    this.drawTroops(kingdom.military.archers, centerX, centerY + 150, 0x32cd32, 'archer');
     
     // Belagerungsmaschinen
     if (kingdom.military.siege > 0) {
-      this.drawSiegeEngines(ctx, kingdom.military.siege, centerX, centerY - 150);
+      this.drawSiegeEngines(kingdom.military.siege, centerX, centerY - 150);
     }
     
     // Marine (wenn an der Küste)
     if (kingdom.climate === 'coastal' && kingdom.military.navy > 0) {
-      this.drawNavy(ctx, kingdom.military.navy, centerX, centerY + 200);
+      this.drawNavy(kingdom.military.navy, centerX, centerY + 200);
     }
   }
 
   private drawTroops(
-    ctx: CanvasRenderingContext2D, 
     count: number, 
     x: number, 
     y: number, 
-    color: string,
+    color: number,
     type: 'infantry' | 'cavalry' | 'archer'
   ): void {
     if (count === 0) return;
     
-    ctx.save();
-    ctx.translate(x, y);
+    const container = new PIXI.Container();
+    container.x = x;
+    container.y = y;
     
     // Truppen in Formation darstellen
     const columns = Math.ceil(Math.sqrt(count));
@@ -717,122 +684,131 @@ export class Graphics {
       const px = (col - (columns - 1) / 2) * spacing;
       const py = (row - (rows - 1) / 2) * spacing;
       
-      this.drawSoldier(ctx, px, py, color, type);
+      const soldier = this.drawSoldier(px, py, color, type);
+      container.addChild(soldier);
     }
     
     // Truppenzahl anzeigen
     if (count > 50) {
-      ctx.fillStyle = '#000000';
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(count.toString(), 0, rows * spacing / 2 + 20);
+      const text = new PIXI.Text({
+        text: count.toString(),
+        style: {
+          fontFamily: 'Arial',
+          fontSize: 12,
+          fill: 0x000000,
+          align: 'center'
+        }
+      });
+      text.anchor.set(0.5);
+      text.y = rows * spacing / 2 + 20;
+      container.addChild(text);
     }
     
-    ctx.restore();
+    this.militaryLayer.addChild(container);
   }
 
-  private drawSoldier(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, type: 'infantry' | 'cavalry' | 'archer'): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawSoldier(x: number, y: number, color: number, type: 'infantry' | 'cavalry' | 'archer'): PIXI.Graphics {
+    const soldier = new PIXI.Graphics();
     
     // Körper
-    ctx.fillStyle = color;
-    ctx.fillRect(-3, -8, 6, 16);
+    soldier.rect(x - 3, y - 8, 6, 16);
+    soldier.fill(color);
     
     // Kopf
-    ctx.fillStyle = '#ffdbac';
-    ctx.beginPath();
-    ctx.arc(0, -12, 4, 0, Math.PI * 2);
-    ctx.fill();
+    soldier.circle(x, y - 12, 4);
+    soldier.fill(0xffdbac);
     
     // Waffe basierend auf Typ
-    ctx.strokeStyle = '#8b4513';
-    ctx.lineWidth = 2;
-    
     switch (type) {
       case 'infantry':
         // Schwert
-        ctx.beginPath();
-        ctx.moveTo(0, -4);
-        ctx.lineTo(0, 8);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(-3, 0);
-        ctx.lineTo(3, 0);
-            ctx.stroke();
+        soldier.moveTo(x, y - 4);
+        soldier.lineTo(x, y + 8);
+        soldier.stroke({ width: 2, color: 0x8b4513 });
+        soldier.moveTo(x - 3, y);
+        soldier.lineTo(x + 3, y);
+        soldier.stroke({ width: 2, color: 0x8b4513 });
         break;
         
       case 'cavalry':
         // Lanze
-        ctx.beginPath();
-        ctx.moveTo(0, -8);
-        ctx.lineTo(0, 12);
-        ctx.stroke();
+        soldier.moveTo(x, y - 8);
+        soldier.lineTo(x, y + 12);
+        soldier.stroke({ width: 2, color: 0x8b4513 });
         // Pferd
-        ctx.fillStyle = '#8b4513';
-        ctx.fillRect(-6, 4, 12, 6);
+        soldier.rect(x - 6, y + 4, 12, 6);
+        soldier.fill(0x8b4513);
         break;
         
       case 'archer':
         // Bogen
-        ctx.beginPath();
-        ctx.arc(0, 0, 8, 0, Math.PI);
-        ctx.stroke();
+        soldier.arc(x, y, 8, 0, Math.PI);
+        soldier.stroke({ width: 2, color: 0x8b4513 });
         break;
     }
     
-    ctx.restore();
+    return soldier;
   }
 
-  private drawSiegeEngines(ctx: CanvasRenderingContext2D, count: number, x: number, y: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawSiegeEngines(count: number, x: number, y: number): void {
+    const container = new PIXI.Container();
+    container.x = x;
+    container.y = y;
     
     for (let i = 0; i < Math.min(count, 3); i++) {
       const offset = (i - 1) * 40;
+      const engine = new PIXI.Graphics();
       
       // Katapult
-      ctx.fillStyle = '#8b4513';
-      ctx.fillRect(offset - 10, -5, 20, 10); // Basis
+      engine.rect(offset - 10, -5, 20, 10); // Basis
+      engine.fill(0x8b4513);
       
-      ctx.fillStyle = '#a0522d';
-      ctx.fillRect(offset - 2, -15, 4, 10); // Arm
+      engine.rect(offset - 2, -15, 4, 10); // Arm
+      engine.fill(0xa0522d);
       
       // Gegengewicht
-      ctx.fillStyle = '#696969';
-      ctx.fillRect(offset - 8, 5, 16, 8);
+      engine.rect(offset - 8, 5, 16, 8);
+      engine.fill(0x696969);
+      
+      container.addChild(engine);
     }
     
     if (count > 3) {
-      ctx.fillStyle = '#000000';
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${count}×`, 0, 25);
+      const text = new PIXI.Text({
+        text: `${count}×`,
+        style: {
+          fontFamily: 'Arial',
+          fontSize: 12,
+          fill: 0x000000,
+          align: 'center'
+        }
+      });
+      text.anchor.set(0.5);
+      text.y = 25;
+      container.addChild(text);
     }
     
-    ctx.restore();
+    this.militaryLayer.addChild(container);
   }
 
-  private drawNavy(ctx: CanvasRenderingContext2D, count: number, x: number, y: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawNavy(count: number, x: number, y: number): void {
+    const container = new PIXI.Container();
+    container.x = x;
+    container.y = y;
     
     // Wellen
-    ctx.strokeStyle = '#1e90ff';
-    ctx.lineWidth = 2;
-    
     for (let wave = 0; wave < 3; wave++) {
-      ctx.beginPath();
+      const waves = new PIXI.Graphics();
+      waves.moveTo(-100, 0);
+      
       for (let i = 0; i < 20; i++) {
         const waveX = (i - 10) * 10;
         const waveY = Math.sin(i * 0.5 + wave * 2) * 3;
-        if (i === 0) {
-          ctx.moveTo(waveX, waveY);
-        } else {
-          ctx.lineTo(waveX, waveY);
-        }
+        waves.lineTo(waveX, waveY);
       }
-      ctx.stroke();
+      
+      waves.stroke({ width: 2, color: 0x1e90ff });
+      container.addChild(waves);
     }
     
     // Schiffe
@@ -846,48 +822,52 @@ export class Graphics {
       const px = (col - (columns - 1) / 2) * spacing;
       const py = (row - (columns - 1) / 2) * spacing;
       
-      this.drawShip(ctx, px, py);
+      const ship = this.drawShip(px, py);
+      container.addChild(ship);
     }
     
     if (count > 9) {
-      ctx.fillStyle = '#000000';
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${count} Schiffe`, 0, (columns * spacing) / 2 + 20);
+      const text = new PIXI.Text({
+        text: `${count} Schiffe`,
+        style: {
+          fontFamily: 'Arial',
+          fontSize: 12,
+          fill: 0x000000,
+          align: 'center'
+        }
+      });
+      text.anchor.set(0.5);
+      text.y = (columns * spacing) / 2 + 20;
+      container.addChild(text);
     }
     
-    ctx.restore();
+    this.militaryLayer.addChild(container);
   }
 
-  private drawShip(ctx: CanvasRenderingContext2D, x: number, y: number): void {
-    ctx.save();
-    ctx.translate(x, y);
+  private drawShip(x: number, y: number): PIXI.Graphics {
+    const ship = new PIXI.Graphics();
     
     // Rumpf
-    ctx.fillStyle = '#8b4513';
-    ctx.beginPath();
-    ctx.moveTo(-10, 0);
-    ctx.lineTo(10, 0);
-    ctx.lineTo(8, 5);
-    ctx.lineTo(-8, 5);
-    ctx.closePath();
-    ctx.fill();
+    ship.moveTo(x - 10, y);
+    ship.lineTo(x + 10, y);
+    ship.lineTo(x + 8, y + 5);
+    ship.lineTo(x - 8, y + 5);
+    ship.closePath();
+    ship.fill(0x8b4513);
     
     // Mast
-    ctx.fillStyle = '#a0522d';
-    ctx.fillRect(-1, -15, 2, 15);
+    ship.rect(x - 1, y - 15, 2, 15);
+    ship.fill(0xa0522d);
     
     // Segel
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.moveTo(0, -15);
-    ctx.lineTo(8, -5);
-    ctx.lineTo(8, 0);
-    ctx.lineTo(0, -10);
-    ctx.closePath();
-    ctx.fill();
+    ship.moveTo(x, y - 15);
+    ship.lineTo(x + 8, y - 5);
+    ship.lineTo(x + 8, y);
+    ship.lineTo(x, y - 10);
+    ship.closePath();
+    ship.fill(0xffffff);
     
-    ctx.restore();
+    return ship;
   }
 
   private renderPopulation(kingdom: Kingdom): void {
@@ -895,108 +875,99 @@ export class Graphics {
     const totalPopulation = Object.values(kingdom.population).reduce((a, b) => a + b, 0);
     const density = Math.min(1000, totalPopulation / 100); // Max 1000 Punkte
     
-    const { ctx } = this;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
     
     for (let i = 0; i < density; i++) {
-      const x = Math.random() * (this.canvas.width / this.renderOptions.zoomLevel!);
-      const y = Math.random() * (this.canvas.height / this.renderOptions.zoomLevel!);
+      const x = Math.random() * width;
+      const y = Math.random() * height;
       
       // Bevölkerungsdichte um Gebäude herum höher
       const distanceToCenter = Math.sqrt(
-        Math.pow(x - this.canvas.width / 2 / this.renderOptions.zoomLevel!, 2) +
-        Math.pow(y - this.canvas.height / 2 / this.renderOptions.zoomLevel!, 2)
+        Math.pow(x - centerX, 2) +
+        Math.pow(y - centerY, 2)
       );
       
       if (Math.random() > distanceToCenter / 400) {
-        ctx.beginPath();
-        ctx.arc(x, y, 1 + Math.random() * 2, 0, Math.PI * 2);
-        ctx.fill();
+        const dot = new PIXI.Graphics();
+        dot.circle(x, y, 1 + Math.random() * 2);
+        dot.fill({ color: 0xffffff, alpha: 0.5 });
+        this.overlayLayer.addChild(dot);
       }
     }
   }
 
   private renderResources(kingdom: Kingdom): void {
     // Ressourcen als Overlay anzeigen
-    const { ctx } = this;
     const resources = kingdom.resources;
     
     // Goldminen
     if (resources.gold > 5000) {
-      ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
-      this.drawResourceNodes(ctx, resources.gold / 10000, '#FFD700');
+      this.drawResourceNodes(resources.gold / 10000, 0xFFD700);
     }
     
     // Eisenminen
     if (resources.iron > 1000) {
-      ctx.fillStyle = 'rgba(112, 128, 144, 0.3)';
-      this.drawResourceNodes(ctx, resources.iron / 5000, '#708090');
+      this.drawResourceNodes(resources.iron / 5000, 0x708090);
     }
     
     // Steinbrüche
     if (resources.stone > 2000) {
-      ctx.fillStyle = 'rgba(169, 169, 169, 0.3)';
-      this.drawResourceNodes(ctx, resources.stone / 10000, '#A9A9A9');
+      this.drawResourceNodes(resources.stone / 10000, 0xA9A9A9);
     }
   }
 
-  private drawResourceNodes(ctx: CanvasRenderingContext2D, intensity: number, color: string): void {
+  private drawResourceNodes(intensity: number, color: number): void {
     const nodeCount = Math.floor(intensity * 20);
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
     
     for (let i = 0; i < nodeCount; i++) {
-      const x = Math.random() * (this.canvas.width / this.renderOptions.zoomLevel!);
-      const y = Math.random() * (this.canvas.height / this.renderOptions.zoomLevel!);
+      const x = Math.random() * width;
+      const y = Math.random() * height;
       const size = 3 + intensity * 5;
       
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, size, 0, Math.PI * 2);
-      ctx.fill();
+      const node = new PIXI.Graphics();
+      node.circle(x, y, size);
+      node.fill(color);
       
       // Glüheffekt
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-      ctx.beginPath();
-      ctx.arc(x - size/3, y - size/3, size/3, 0, Math.PI * 2);
-      ctx.fill();
+      node.circle(x - size/3, y - size/3, size/3);
+      node.fill({ color: 0xffffff, alpha: 0.5 });
+      
+      this.overlayLayer.addChild(node);
     }
   }
 
   private renderOverlay(): void {
-    const { ctx } = this;
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
     
     // Grid
     if (this.renderOptions.showGrid) {
-      ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
-      ctx.lineWidth = 1;
-      
+      const grid = new PIXI.Graphics();
       const gridSize = 50;
-      const width = this.canvas.width / this.renderOptions.zoomLevel!;
-      const height = this.canvas.height / this.renderOptions.zoomLevel!;
       
       // Vertikale Linien
       for (let x = 0; x < width; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
+        grid.moveTo(x, 0);
+        grid.lineTo(x, height);
       }
       
       // Horizontale Linien
       for (let y = 0; y < height; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
+        grid.moveTo(0, y);
+        grid.lineTo(width, y);
       }
+      
+      grid.stroke({ width: 1, color: 0x000000, alpha: 0.1 });
+      this.overlayLayer.addChild(grid);
     }
     
     // Labels
     if (this.renderOptions.showLabels) {
-      ctx.fillStyle = '#000000';
-      ctx.font = '14px Arial';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'top';
-      
       const labels = [
         { text: 'Schloss', x: 100, y: 50 },
         { text: 'Marktplatz', x: 200, y: 100 },
@@ -1004,77 +975,87 @@ export class Graphics {
       ];
       
       labels.forEach(label => {
-        ctx.fillText(label.text, label.x, label.y);
+        const text = new PIXI.Text({
+          text: label.text,
+          style: {
+            fontFamily: 'Arial',
+            fontSize: 14,
+            fill: 0x000000
+          }
+        });
+        text.x = label.x;
+        text.y = label.y;
+        this.overlayLayer.addChild(text);
       });
     }
     
     // Fog of War
     if (this.renderOptions.showFogOfWar) {
-      this.drawFogOfWar(ctx);
+      this.drawFogOfWar();
     }
     
     // Zeit- und Wettereffekte
-    this.applyTimeOfDayEffects(ctx);
+    this.applyTimeOfDayEffects();
   }
 
-  private drawFogOfWar(ctx: CanvasRenderingContext2D): void {
-    // Erstelle einen radialen Gradienten für den Nebel
-    const gradient = ctx.createRadialGradient(
-      this.canvas.width / 2 / this.renderOptions.zoomLevel!,
-      this.canvas.height / 2 / this.renderOptions.zoomLevel!,
-      50,
-      this.canvas.width / 2 / this.renderOptions.zoomLevel!,
-      this.canvas.height / 2 / this.renderOptions.zoomLevel!,
-      300
-    );
+  private drawFogOfWar(): void {
+    const centerX = this.app.screen.width / 2;
+    const centerY = this.app.screen.height / 2;
     
-    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
-    gradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.3)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+    const fog = new PIXI.Graphics();
+    fog.rect(0, 0, this.app.screen.width, this.app.screen.height);
     
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 
-      this.canvas.width / this.renderOptions.zoomLevel!, 
-      this.canvas.height / this.renderOptions.zoomLevel!
-    );
+    // Create a radial gradient effect using multiple circles
+    for (let i = 0; i < 10; i++) {
+      const radius = 50 + (i * 25);
+      const alpha = (1 - i / 10) * 0.7;
+      fog.circle(centerX, centerY, radius);
+      fog.fill({ color: 0x000000, alpha });
+    }
+    
+    this.overlayLayer.addChild(fog);
   }
 
-  private applyTimeOfDayEffects(ctx: CanvasRenderingContext2D): void {
+  private applyTimeOfDayEffects(): void {
     const time = this.renderOptions.timeOfDay;
     if (!time || time === 'day') return;
     
-    const width = this.canvas.width / this.renderOptions.zoomLevel!;
-    const height = this.canvas.height / this.renderOptions.zoomLevel!;
+    const width = this.app.screen.width;
+    const height = this.app.screen.height;
+    
+    const overlay = new PIXI.Graphics();
     
     switch (time) {
       case 'dawn':
-        ctx.fillStyle = 'rgba(255, 165, 0, 0.2)';
+        overlay.rect(0, 0, width, height);
+        overlay.fill({ color: 0xffa500, alpha: 0.2 });
         break;
       case 'dusk':
-        ctx.fillStyle = 'rgba(139, 0, 0, 0.3)';
+        overlay.rect(0, 0, width, height);
+        overlay.fill({ color: 0x8b0000, alpha: 0.3 });
         break;
       case 'night':
-        ctx.fillStyle = 'rgba(0, 0, 139, 0.4)';
+        overlay.rect(0, 0, width, height);
+        overlay.fill({ color: 0x00008b, alpha: 0.4 });
+        
         // Sterne
-        ctx.fillStyle = '#ffffff';
         for (let i = 0; i < 50; i++) {
           const x = Math.random() * width;
           const y = Math.random() * height;
           const size = Math.random() * 2;
-          ctx.beginPath();
-          ctx.arc(x, y, size, 0, Math.PI * 2);
-          ctx.fill();
+          overlay.circle(x, y, size);
+          overlay.fill(0xffffff);
         }
-        ctx.fillStyle = 'rgba(0, 0, 139, 0.4)';
         break;
     }
     
-    ctx.fillRect(0, 0, width, height);
+    this.overlayLayer.addChild(overlay);
   }
 
   // ==================== ANIMATIONSSYSTEM ====================
 
   public addAnimation(config: AnimationConfig): void {
+    config.startTime = Date.now();
     this.animations.push(config);
     
     // Automatisches Entfernen nach Ablauf
@@ -1097,24 +1078,30 @@ export class Graphics {
       endX: toX,
       endY: toY,
       duration,
-      color: '#ff3333',
-      size: 12
+      color: '0xff3333',
+      size: 12,
+      startTime: Date.now()
     });
   }
 
   public animateConstruction(x: number, y: number, _buildingType: string): void {
     // Partikeleffekt für Bau
     for (let i = 0; i < 20; i++) {
+      const particle = new PIXI.Graphics();
+      particle.circle(0, 0, 2 + Math.random() * 3);
+      particle.fill(0xFFD700);
+      particle.x = x;
+      particle.y = y;
+      
       this.particles.push({
-        x,
-        y,
+        sprite: particle,
         vx: (Math.random() - 0.5) * 4,
         vy: (Math.random() - 0.5) * 4,
         life: 1,
-        maxLife: 1,
-        color: '#FFD700',
-        size: 2 + Math.random() * 3
+        maxLife: 1
       });
+      
+      this.overlayLayer.addChild(particle);
     }
     
     this.addAnimation({
@@ -1122,73 +1109,14 @@ export class Graphics {
       startX: x,
       startY: y,
       duration: 1500,
-      color: '#32CD32',
-      size: 30
+      color: '0x32CD32',
+      size: 30,
+      startTime: Date.now()
     });
   }
 
   private updateAnimations(_deltaTime: number): void {
-    // Animationen aktualisieren (falls nötig)
-  }
-
-  private renderAnimations(): void {
-    this.animations.forEach(animation => {
-      switch (animation.type) {
-        case 'movement':
-          this.renderMovementAnimation(animation);
-          break;
-        case 'construction':
-          this.renderConstructionAnimation(animation);
-          break;
-      }
-    });
-  }
-
-  private renderMovementAnimation(animation: AnimationConfig): void {
-    const { ctx } = this;
-    const progress = Math.min(1, (Date.now() - (animation as any).startTime) / animation.duration);
-    
-    if (progress >= 1) return;
-    
-    const x = animation.startX + (animation.endX! - animation.startX) * progress;
-    const y = animation.startY + (animation.endY! - animation.startY) * progress;
-    
-    // Soldat während Bewegung zeichnen
-    this.drawSoldier(ctx, x, y, animation.color || '#ff3333', 'infantry');
-    
-    // Bewegungspfad
-    ctx.strokeStyle = 'rgba(255, 51, 51, 0.3)';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
-    ctx.moveTo(animation.startX, animation.startY);
-    ctx.lineTo(animation.endX!, animation.endY!);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
-
-  private renderConstructionAnimation(animation: AnimationConfig): void {
-    const { ctx } = this;
-    const progress = Math.min(1, (Date.now() - (animation as any).startTime) / animation.duration);
-    
-    // Wachsender Kreis um Bauplatz
-    const radius = animation.size! * progress;
-    
-    ctx.strokeStyle = animation.color || '#32CD32';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(animation.startX, animation.startY, radius, 0, Math.PI * 2);
-    ctx.stroke();
-    
-    // Pulsierender Effekt
-    if (progress < 0.8) {
-      const pulseRadius = radius * (1 + Math.sin(Date.now() / 200) * 0.2);
-      ctx.strokeStyle = 'rgba(50, 205, 50, 0.5)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(animation.startX, animation.startY, pulseRadius, 0, Math.PI * 2);
-      ctx.stroke();
-    }
+    // Animationen werden in der Renderloop automatisch gerendert
   }
 
   // ==================== PARTIKELSYSTEM ====================
@@ -1200,8 +1128,8 @@ export class Graphics {
       const particle = this.particles[i];
       
       // Update Position
-      particle.x += particle.vx * deltaSeconds * 60;
-      particle.y += particle.vy * deltaSeconds * 60;
+      particle.sprite.x += particle.vx * deltaSeconds * 60;
+      particle.sprite.y += particle.vy * deltaSeconds * 60;
       
       // Update Leben
       particle.life -= deltaSeconds * 2;
@@ -1209,31 +1137,27 @@ export class Graphics {
       // Gravitation
       particle.vy += 0.1 * deltaSeconds * 60;
       
+      // Update Alpha
+      const alpha = particle.life / particle.maxLife;
+      particle.sprite.alpha = alpha;
+      
       // Entferne tote Partikel
       if (particle.life <= 0) {
+        particle.sprite.destroy();
         this.particles.splice(i, 1);
       }
     }
-  }
-
-  private renderParticles(): void {
-    this.particles.forEach(particle => {
-      const alpha = particle.life / particle.maxLife;
-      
-      this.ctx.save();
-      this.ctx.globalAlpha = alpha;
-      this.ctx.fillStyle = particle.color;
-      this.ctx.beginPath();
-      this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-      this.ctx.fill();
-      this.ctx.restore();
-    });
   }
 
   // ==================== HILFSMETHODEN ====================
 
   public setRenderOptions(options: Partial<RenderOptions>): void {
     this.renderOptions = { ...this.renderOptions, ...options };
+    
+    // Re-render if we have a kingdom loaded
+    if (this.currentKingdom) {
+      this.renderKingdom(this.currentKingdom);
+    }
   }
 
   public getRenderOptions(): RenderOptions {
@@ -1242,18 +1166,34 @@ export class Graphics {
 
   public clearAnimations(): void {
     this.animations = [];
+    this.particles.forEach(p => p.sprite.destroy());
     this.particles = [];
   }
 
   public takeScreenshot(filename: string = 'kingdom-map'): void {
-    const link = document.createElement('a');
-    link.download = `${filename}.png`;
-    link.href = this.canvas.toDataURL('image/png');
-    link.click();
+    // Use renderer's canvas directly for screenshot
+    try {
+      const canvas = this.app.canvas;
+      const link = document.createElement('a');
+      link.download = `${filename}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Failed to take screenshot:', error);
+    }
   }
 
   public resize(width: number, height: number): void {
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this.app.renderer.resize(width, height);
+    
+    // Re-render if we have a kingdom loaded
+    if (this.currentKingdom) {
+      this.renderKingdom(this.currentKingdom);
+    }
+  }
+
+  public destroy(): void {
+    this.clearAnimations();
+    this.app.destroy(true, { children: true, texture: true, textureSource: true });
   }
 }
