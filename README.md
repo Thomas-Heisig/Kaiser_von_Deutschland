@@ -77,6 +77,16 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **Multiplayer**: Jeder Spieler kann jeden Bürger übernehmen!
 - **PixiJS Visualisierung**: Interaktive Bevölkerungskarten und Alterspyramiden
 
+### 🌍 Ökologische Simulation (v2.2.3 - NEU!)
+- **Dynamisches Klima-System**: Jahreszeiten, Klimawandel über Jahrhunderte, Wettervorhersage-Technologien
+- **Naturkatastrophen**: Überschwemmungen, Dürren, Stürme, Erdbeben, Waldbrände, Heuschrecken
+- **Ressourcen-Management**: Erschöpfung und Regeneration von Holz, Stein, Eisen, Wildtieren
+- **Landschafts-Veränderung**: Entwaldung, Wiederaufforstung, Flussläufe, Bodenerosion
+- **Terraforming**: Sumpftrockenlegung, Landgewinnung, Bewässerung, Bodenverbesserung
+- **Tierpopulationen**: Wildtiere (Hirsche, Wildschweine, Wölfe, Bären), Viehzucht, Fischerei
+- **Artenschutz**: Jagdbeschränkungen, Schutzgebiete, Zuchtprogramme, Aussterbe-Events
+- **Multiplayer**: Gemeinsame Umweltkrisen, Jagdkonflikte, Grenzstreitigkeiten
+
 ## 🚀 Technologie-Stack
 
 - **TypeScript** - Type-safe Entwicklung
