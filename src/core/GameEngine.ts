@@ -10,6 +10,9 @@ import { WikiIntegration } from './WikiIntegration';
 import { CitizenSystem } from './CitizenSystem';
 import { DemographicSystem } from './DemographicSystem';
 import { SocialNetworkSystem } from './SocialNetworkSystem';
+import { ClimateSystem } from './ClimateSystem';
+import { LandscapeSystem } from './LandscapeSystem';
+import { AnimalPopulationSystem } from './AnimalPopulationSystem';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -53,6 +56,9 @@ export class GameEngine {
   private citizenSystem: CitizenSystem;
   private demographicSystem: DemographicSystem;
   private socialNetworkSystem: SocialNetworkSystem;
+  private climateSystem: ClimateSystem;
+  private landscapeSystem: LandscapeSystem;
+  private animalPopulationSystem: AnimalPopulationSystem;
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -82,6 +88,11 @@ export class GameEngine {
     this.citizenSystem = new CitizenSystem();
     this.demographicSystem = new DemographicSystem();
     this.socialNetworkSystem = new SocialNetworkSystem();
+    
+    // Initialize ecological systems (v2.2.3)
+    this.climateSystem = new ClimateSystem();
+    this.landscapeSystem = new LandscapeSystem();
+    this.animalPopulationSystem = new AnimalPopulationSystem();
 
     // Initialize optional systems
     if (this.config.enableOllama) {
@@ -158,6 +169,10 @@ export class GameEngine {
   private async monthlyTick(): Promise<void> {
     if (this.gameState !== GameState.RUNNING) return;
 
+    // Update ecological systems
+    const avgIndustrialization = this.getAverageIndustrialization();
+    this.climateSystem.updateMonth(this.currentYear, this.currentMonth, avgIndustrialization);
+
     // process each player's month
     for (const player of this.players.values()) {
       await this.processPlayerMonth(player);
@@ -178,6 +193,9 @@ export class GameEngine {
       
       // Yearly processes for population
       this.socialNetworkSystem.generateSocialRelations(this.citizenSystem, this.currentYear);
+      
+      // Yearly processes for ecological systems
+      this.processEcologicalYear();
       
       this.emit('yearAdvanced', { year: this.currentYear });
     }
@@ -411,8 +429,12 @@ export class GameEngine {
     const saveData = {
       players: Array.from(this.players.values()).map(p => p.serialize()),
       currentYear: this.currentYear,
+      currentMonth: this.currentMonth,
       gameState: this.gameState,
       config: this.config,
+      climateSystem: this.climateSystem.serialize(),
+      landscapeSystem: this.landscapeSystem.serialize(),
+      animalPopulationSystem: this.animalPopulationSystem.serialize(),
       savedAt: new Date().toISOString()
     };
 
@@ -453,8 +475,20 @@ export class GameEngine {
     }
     
     this.currentYear = saveData.currentYear;
+    this.currentMonth = saveData.currentMonth || 1;
     this.gameState = saveData.gameState;
     this.config = saveData.config;
+    
+    // Load ecological systems (v2.2.3)
+    if (saveData.climateSystem) {
+      this.climateSystem = ClimateSystem.deserialize(saveData.climateSystem);
+    }
+    if (saveData.landscapeSystem) {
+      this.landscapeSystem = LandscapeSystem.deserialize(saveData.landscapeSystem);
+    }
+    if (saveData.animalPopulationSystem) {
+      this.animalPopulationSystem = AnimalPopulationSystem.deserialize(saveData.animalPopulationSystem);
+    }
     
     this.emit('gameLoaded', { slot });
   }
@@ -552,6 +586,27 @@ export class GameEngine {
   }
   
   /**
+   * Get the climate system (v2.2.3)
+   */
+  public getClimateSystem(): ClimateSystem {
+    return this.climateSystem;
+  }
+  
+  /**
+   * Get the landscape system (v2.2.3)
+   */
+  public getLandscapeSystem(): LandscapeSystem {
+    return this.landscapeSystem;
+  }
+  
+  /**
+   * Get the animal population system (v2.2.3)
+   */
+  public getAnimalPopulationSystem(): AnimalPopulationSystem {
+    return this.animalPopulationSystem;
+  }
+  
+  /**
    * Get population statistics
    */
   public getPopulationStats() {
@@ -563,5 +618,140 @@ export class GameEngine {
       activeFamines: this.demographicSystem.getActiveFamines(),
       activeMovements: this.socialNetworkSystem.getActiveMovements()
     };
+  }
+  
+  /**
+   * Get ecological statistics (v2.2.3)
+   */
+  public getEcologicalStats() {
+    return {
+      climate: {
+        currentSeason: this.climateSystem.getCurrentSeason(),
+        currentWeather: this.climateSystem.getCurrentWeather(),
+        climateChange: this.climateSystem.getClimateChange(),
+        activeDisasters: this.climateSystem.getActiveDisasters(),
+        resourceStates: this.climateSystem.getAllResourceStates()
+      },
+      landscape: {
+        forests: this.landscapeSystem.getForests(),
+        rivers: this.landscapeSystem.getRivers(),
+        landUse: this.landscapeSystem.getLandUse(),
+        recentChanges: this.landscapeSystem.getRecentChanges(10),
+        activeProjects: this.landscapeSystem.getActiveProjects(),
+        averageSoilQuality: this.landscapeSystem.getAverageSoilQuality()
+      },
+      animals: {
+        wildlife: this.animalPopulationSystem.getWildlifeSpecies(),
+        livestock: this.animalPopulationSystem.getLivestockSpecies(),
+        endangered: this.animalPopulationSystem.getEndangeredSpecies(),
+        extinct: this.animalPopulationSystem.getExtinctSpecies(),
+        activeMigrations: this.animalPopulationSystem.getActiveMigrations(),
+        totalWildlife: this.animalPopulationSystem.getTotalWildlifePopulation(),
+        totalLivestock: this.animalPopulationSystem.getTotalLivestockPopulation()
+      }
+    };
+  }
+  
+  /**
+   * Process yearly ecological updates
+   */
+  private processEcologicalYear(): void {
+    const totalPopulation = this.citizenSystem.getPopulation();
+    const avgIndustrialization = this.getAverageIndustrialization();
+    const climateData = this.climateSystem.getClimateChange();
+    const totalForestArea = this.landscapeSystem.getTotalForestArea();
+    
+    // Update landscape
+    this.landscapeSystem.updateYear(
+      this.currentYear,
+      totalPopulation,
+      avgIndustrialization,
+      climateData.globalTemperature
+    );
+    
+    // Update animal populations
+    const avgRiver = this.landscapeSystem.getRivers()[0];
+    const waterPollution = avgRiver ? avgRiver.pollution : 20;
+    const huntingPressure = this.getHuntingPressure();
+    
+    this.animalPopulationSystem.updateYear(
+      this.currentYear,
+      totalForestArea,
+      waterPollution,
+      huntingPressure,
+      climateData.globalTemperature
+    );
+    
+    // Apply ecological effects to players
+    this.applyEcologicalEffects();
+  }
+  
+  /**
+   * Get average industrialization level across all players
+   */
+  private getAverageIndustrialization(): number {
+    if (this.players.size === 0) return 0;
+    
+    let total = 0;
+    for (const player of this.players.values()) {
+      // Estimate industrialization from infrastructure
+      const kingdom = player.kingdom;
+      const industrial = 
+        (kingdom.infrastructure.workshops || 0) * 10 +
+        (kingdom.infrastructure.mines || 0) * 5 +
+        (kingdom.infrastructure.roads || 0) * 2;
+      total += Math.min(100, industrial);
+    }
+    
+    return total / this.players.size;
+  }
+  
+  /**
+   * Get hunting pressure across all players
+   */
+  private getHuntingPressure(): number {
+    // Base pressure from population
+    const totalPop = this.citizenSystem.getPopulation();
+    return Math.min(100, totalPop / 1000);
+  }
+  
+  /**
+   * Apply ecological effects to all players
+   */
+  private applyEcologicalEffects(): void {
+    const seasonalEffects = this.climateSystem.getSeasonalEffects();
+    const weatherEffects = this.climateSystem.getWeatherEffects();
+    const activeDisasters = this.climateSystem.getActiveDisasters();
+    
+    for (const player of this.players.values()) {
+      const kingdom = player.kingdom;
+      
+      // Apply seasonal effects
+      kingdom.happiness = Math.max(0, Math.min(100, 
+        kingdom.happiness * seasonalEffects.happinessModifier
+      ));
+      
+      // Apply weather effects
+      kingdom.happiness = Math.max(0, Math.min(100,
+        kingdom.happiness * weatherEffects.happinessModifier
+      ));
+      
+      // Apply disaster effects
+      for (const disaster of activeDisasters) {
+        kingdom.resources.gold = Math.max(0, kingdom.resources.gold - disaster.economicDamage);
+        kingdom.resources.food = Math.max(0, kingdom.resources.food - disaster.cropDamage);
+        kingdom.happiness = Math.max(0, kingdom.happiness - disaster.severity);
+        
+        // Emit disaster event
+        this.emit('naturalDisaster', {
+          playerId: player.id,
+          disaster: {
+            type: disaster.type,
+            severity: disaster.severity,
+            casualties: disaster.casualties
+          }
+        });
+      }
+    }
   }
 }

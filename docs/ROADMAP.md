@@ -76,35 +76,36 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 
 ---
 
-### Version 2.2.3 - Ökologische Simulation
+### Version 2.2.3 - Ökologische Simulation ✅
 
 **Priorität**: Hoch  
 **Geschätzter Aufwand**: 6-8 Wochen  
-**Abhängigkeiten**: Bevölkerungsdynamik
+**Abhängigkeiten**: Bevölkerungsdynamik  
+**Status**: ✅ Implementiert (Dezember 2025)
 
 #### 🔹 Dynamisches Klima-System
-- [ ] Jahreszeiten mit realistischen Effekten
-- [ ] Klimawandel über Jahrhunderte simuliert
-- [ ] Naturkatastrophen (Überflutungen, Dürren)
-- [ ] Ressourcen-Erschöpfung und Regeneration
-- [ ] Wettervorhersage-Technologien (ab Industrialisierung)
-- [ ] **Multiplayer**: Gemeinsame Umweltkrisen bewältigen
+- [x] Jahreszeiten mit realistischen Effekten
+- [x] Klimawandel über Jahrhunderte simuliert
+- [x] Naturkatastrophen (Überflutungen, Dürren, Stürme, Erdbeben, etc.)
+- [x] Ressourcen-Erschöpfung und Regeneration
+- [x] Wettervorhersage-Technologien (ab Industrialisierung)
+- [x] **Multiplayer**: Gemeinsame Umweltkrisen bewältigen
 
 #### 🔹 Landschafts-Veränderung
-- [ ] Entwaldung und Wiederaufforstung
-- [ ] Flussläufe verändern sich
-- [ ] Bodenqualität-Degradation/Erosion
-- [ ] Stadt-Land-Flächenkonkurrenz
-- [ ] Terraforming und Landgewinnung
-- [ ] **Multiplayer**: Grenzstreitigkeiten durch Landveränderungen
+- [x] Entwaldung und Wiederaufforstung
+- [x] Flussläufe verändern sich
+- [x] Bodenqualität-Degradation/Erosion
+- [x] Stadt-Land-Flächenkonkurrenz
+- [x] Terraforming und Landgewinnung
+- [x] **Multiplayer**: Grenzstreitigkeiten durch Landveränderungen
 
 #### 🔹 Tierpopulationen
-- [ ] Wildtier-Migrationen
-- [ ] Fischbestände in Gewässern
-- [ ] Jagd und Artenschutz
-- [ ] Viehzucht-Simulation
-- [ ] Ausgestorbene Arten und Konsequenzen
-- [ ] **Multiplayer**: Gemeinsame Jagdgebiete und Konflikte
+- [x] Wildtier-Migrationen
+- [x] Fischbestände in Gewässern
+- [x] Jagd und Artenschutz
+- [x] Viehzucht-Simulation
+- [x] Ausgestorbene Arten und Konsequenzen
+- [x] **Multiplayer**: Gemeinsame Jagdgebiete und Konflikte
 
 ---
 
