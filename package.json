@@ -16,6 +16,7 @@
     "@pixi/text": "^7.4.3",
     "localforage": "^1.10.0",
     "pixi.js": "^8.14.3",
+    "sql.js": "^1.13.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

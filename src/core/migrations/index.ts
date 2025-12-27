@@ -6,12 +6,14 @@
 
 import { Migration } from '../DatabaseAdapter';
 import { migration_001_initial_schema } from './001_initial_schema';
+import { migration_002_gameplay_modes } from './002_gameplay_modes';
 
 /**
  * All migrations in chronological order
  */
 export const allMigrations: Migration[] = [
   migration_001_initial_schema,
+  migration_002_gameplay_modes,
   // Add new migrations here
 ];
 
