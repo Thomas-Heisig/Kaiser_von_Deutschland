@@ -22,6 +22,23 @@ import { ArtSystem } from './ArtSystem';
 import { ScientificDiscoverySystem } from './ScientificDiscoverySystem';
 import { LegalSystem } from './LegalSystem';
 import { MilitaryUnitSystem } from './MilitaryUnitSystem';
+// Note: DiplomacySystem is per-player, imported where needed
+import { ReligionSystem } from './ReligionSystem';
+import { MigrationSystem } from './MigrationSystem';
+import { SocialMobilitySystem } from './SocialMobilitySystem';
+import { FamineSystem } from './FamineSystem';
+import { EconomicCohortSystem } from './EconomicCohortSystem';
+import { BattleTerrainWeatherSystem } from './BattleTerrainWeatherSystem';
+import { UnitFormationSystem } from './UnitFormationSystem';
+import { SupplyLogisticsSystem } from './SupplyLogisticsSystem';
+import { SiegeWarfareSystem } from './SiegeWarfareSystem';
+import { EspionageSystem } from './EspionageSystem';
+import { UrbanDistrictsSystem } from './UrbanDistrictsSystem';
+import { DayNightCycleSystem } from './DayNightCycleSystem';
+import { ArtsAndCultureSystem } from './ArtsAndCultureSystem';
+import { HistoricalEventSystem } from './HistoricalEventSystem';
+import { InformationSpreadSystem } from './InformationSpreadSystem';
+import { LegalAndCourtSystem } from './LegalAndCourtSystem';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -80,6 +97,25 @@ export class GameEngine {
   private legalSystem: LegalSystem;
   private militaryUnitSystem: MilitaryUnitSystem;
   
+  // Newly integrated roadmap systems (v2.4+)
+  // Note: Some systems are per-player and initialized on player creation
+  private religionSystem: ReligionSystem;
+  private migrationSystem: MigrationSystem;
+  private socialMobilitySystem: SocialMobilitySystem;
+  private famineSystem: FamineSystem;
+  private economicCohortSystem: EconomicCohortSystem;
+  private battleTerrainWeatherSystem: BattleTerrainWeatherSystem;
+  private unitFormationSystem: UnitFormationSystem;
+  private supplyLogisticsSystem: SupplyLogisticsSystem;
+  private siegeWarfareSystem: SiegeWarfareSystem;
+  private espionageSystem: EspionageSystem;
+  private urbanDistrictsSystem: UrbanDistrictsSystem;
+  private dayNightCycleSystem: DayNightCycleSystem;
+  private artsAndCultureSystem: ArtsAndCultureSystem;
+  private historicalEventSystem: HistoricalEventSystem;
+  private informationSpreadSystem: InformationSpreadSystem;
+  private legalAndCourtSystem: LegalAndCourtSystem;
+  
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -126,6 +162,25 @@ export class GameEngine {
     this.legalSystem = new LegalSystem();
     this.militaryUnitSystem = new MilitaryUnitSystem();
     
+    // Initialize newly integrated roadmap systems (v2.4+)
+    // Note: DiplomacySystem is per-player and will be created in addPlayer()
+    this.religionSystem = new ReligionSystem();
+    this.migrationSystem = new MigrationSystem();
+    this.socialMobilitySystem = new SocialMobilitySystem();
+    this.famineSystem = new FamineSystem();
+    this.economicCohortSystem = new EconomicCohortSystem();
+    this.battleTerrainWeatherSystem = new BattleTerrainWeatherSystem();
+    this.unitFormationSystem = new UnitFormationSystem();
+    this.supplyLogisticsSystem = new SupplyLogisticsSystem();
+    this.siegeWarfareSystem = new SiegeWarfareSystem();
+    this.espionageSystem = new EspionageSystem();
+    this.urbanDistrictsSystem = new UrbanDistrictsSystem();
+    this.dayNightCycleSystem = new DayNightCycleSystem();
+    this.artsAndCultureSystem = new ArtsAndCultureSystem();
+    this.historicalEventSystem = new HistoricalEventSystem();
+    this.informationSpreadSystem = new InformationSpreadSystem();
+    this.legalAndCourtSystem = new LegalAndCourtSystem();
+    
     // Initialize all data asynchronously (fire-and-forget is intentional - 
     // systems will be ready before game starts, as startGame() is user-triggered)
     this.initializeSystems();
@@ -153,6 +208,7 @@ export class GameEngine {
   private async initializeSystems(): Promise<void> {
     try {
       await Promise.all([
+        // Original systems
         this.historicalFiguresSystem.initialize(),
         this.diseaseSystem.initialize(),
         this.naturalDisasterSystem.initialize(),
@@ -162,6 +218,8 @@ export class GameEngine {
         this.scientificDiscoverySystem.initialize(),
         this.legalSystem.initialize(),
         this.militaryUnitSystem.initialize()
+        // Note: Some newly integrated systems don't have initialize() methods
+        // They will be ready to use immediately after construction
       ]);
       console.log('All roadmap feature systems initialized successfully');
     } catch (error) {
@@ -239,6 +297,9 @@ export class GameEngine {
     this.demographicSystem.processMonth(this.citizenSystem, this.currentYear, this.currentMonth);
     this.socialNetworkSystem.processInformationSpread(this.citizenSystem, this.currentYear, this.currentMonth);
     this.socialNetworkSystem.processMovements(this.citizenSystem, this.currentYear, this.currentMonth);
+    
+    // Note: Many newly integrated systems don't have processMonth() methods yet
+    // They are available via accessor methods for UI and manual triggering
 
     // advance month/year
     this.currentMonth++;
@@ -277,6 +338,9 @@ export class GameEngine {
       const event = await this.events.getRandomEvent(player, this.currentYear);
       if (event) await this.events.applyEvent(event, player, `${this.currentYear}-${this.currentMonth}`);
     }
+    
+    // Note: Newly integrated systems are available for manual access via getters
+    // but don't have automatic monthly processing yet
   }
 
   public async nextYear(): Promise<void> {
@@ -726,6 +790,73 @@ export class GameEngine {
   }
   
   /**
+   * Get newly integrated systems (v2.4+)
+   */
+  public getReligionSystem(): ReligionSystem {
+    return this.religionSystem;
+  }
+  
+  public getMigrationSystem(): MigrationSystem {
+    return this.migrationSystem;
+  }
+  
+  public getSocialMobilitySystem(): SocialMobilitySystem {
+    return this.socialMobilitySystem;
+  }
+  
+  public getFamineSystem(): FamineSystem {
+    return this.famineSystem;
+  }
+  
+  public getEconomicCohortSystem(): EconomicCohortSystem {
+    return this.economicCohortSystem;
+  }
+  
+  public getBattleTerrainWeatherSystem(): BattleTerrainWeatherSystem {
+    return this.battleTerrainWeatherSystem;
+  }
+  
+  public getUnitFormationSystem(): UnitFormationSystem {
+    return this.unitFormationSystem;
+  }
+  
+  public getSupplyLogisticsSystem(): SupplyLogisticsSystem {
+    return this.supplyLogisticsSystem;
+  }
+  
+  public getSiegeWarfareSystem(): SiegeWarfareSystem {
+    return this.siegeWarfareSystem;
+  }
+  
+  public getEspionageSystem(): EspionageSystem {
+    return this.espionageSystem;
+  }
+  
+  public getUrbanDistrictsSystem(): UrbanDistrictsSystem {
+    return this.urbanDistrictsSystem;
+  }
+  
+  public getDayNightCycleSystem(): DayNightCycleSystem {
+    return this.dayNightCycleSystem;
+  }
+  
+  public getArtsAndCultureSystem(): ArtsAndCultureSystem {
+    return this.artsAndCultureSystem;
+  }
+  
+  public getHistoricalEventSystem(): HistoricalEventSystem {
+    return this.historicalEventSystem;
+  }
+  
+  public getInformationSpreadSystem(): InformationSpreadSystem {
+    return this.informationSpreadSystem;
+  }
+  
+  public getLegalAndCourtSystem(): LegalAndCourtSystem {
+    return this.legalAndCourtSystem;
+  }
+  
+  /**
    * Get population statistics
    */
   public getPopulationStats() {
@@ -767,6 +898,58 @@ export class GameEngine {
         activeMigrations: this.animalPopulationSystem.getActiveMigrations(),
         totalWildlife: this.animalPopulationSystem.getTotalWildlifePopulation(),
         totalLivestock: this.animalPopulationSystem.getTotalLivestockPopulation()
+      }
+    };
+  }
+  
+  /**
+   * Get statistics for newly integrated systems (v2.4+)
+   * Note: Returns basic info - systems are accessible via individual getters for detailed operations
+   */
+  public getIntegratedSystemsStats() {
+    return {
+      // Note: Diplomacy is per-player and accessible via player.kingdom methods
+      religion: {
+        dominantReligion: this.religionSystem.getDominantReligion(),
+        allReligions: this.religionSystem.getAllReligions()
+      },
+      migration: {
+        stats: this.migrationSystem.getMigrationStats()
+      },
+      socialMobility: {
+        stats: this.socialMobilitySystem.getMobilityStats()
+      },
+      famine: {
+        activeFamines: this.famineSystem.getActiveFamines()
+      },
+      urbanDistricts: {
+        districts: this.urbanDistrictsSystem.getDistricts()
+      },
+      dayNight: {
+        currentTime: this.dayNightCycleSystem.getCurrentTime()
+      },
+      artsAndCulture: {
+        culturalCircles: this.artsAndCultureSystem.getCulturalCircles()
+      },
+      espionage: {
+        // Espionage data available via getEspionageSystem()
+        systemReady: true
+      },
+      military: {
+        activeSieges: this.siegeWarfareSystem.getActiveSieges(),
+        // Other military data available via individual system getters
+        systemsReady: true
+      },
+      legal: {
+        // Legal system data available via getLegalAndCourtSystem()
+        systemReady: true
+      },
+      information: {
+        // Information data available via getInformationSpreadSystem()
+        systemReady: true
+      },
+      economy: {
+        cohorts: this.economicCohortSystem.getCohorts()
       }
     };
   }
