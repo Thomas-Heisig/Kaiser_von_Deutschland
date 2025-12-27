@@ -683,12 +683,322 @@
         "publicApproval": 25,
         "longTermStability": 20
       }
+    },
+    {
+      "id": "bankier",
+      "name": "Bankier",
+      "femaleName": "Bankierin",
+      "rank": 6,
+      "category": "economic",
+      "description": "Finanzexperte und Geldverleiher",
+      "startingResources": {
+        "gold": 80000,
+        "land": 2000,
+        "population": 5000
+      },
+      "abilities": [
+        "grant_loans",
+        "manage_treasury",
+        "currency_trading",
+        "establish_bank",
+        "financial_speculation"
+      ],
+      "requirements": {
+        "prestige": 2000,
+        "wealth": 50000,
+        "economicSkill": 80,
+        "minYear": 1400
+      },
+      "bonuses": {
+        "tradePower": 30,
+        "goldIncome": 40,
+        "economicInfluence": 35
+      }
+    },
+    {
+      "id": "architekt",
+      "name": "Architekt",
+      "femaleName": "Architektin",
+      "rank": 5,
+      "category": "construction",
+      "description": "Meister des Bauens und Stadtplanung",
+      "startingResources": {
+        "gold": 25000,
+        "land": 5000,
+        "population": 8000
+      },
+      "abilities": [
+        "design_buildings",
+        "urban_planning",
+        "construct_wonders",
+        "improve_infrastructure",
+        "architectural_innovation"
+      ],
+      "requirements": {
+        "prestige": 1200,
+        "learning": 70,
+        "buildingSkill": 85,
+        "minYear": 1000
+      },
+      "bonuses": {
+        "buildingEfficiency": 40,
+        "culturalInfluence": 25,
+        "constructionSpeed": 30
+      }
+    },
+    {
+      "id": "spion",
+      "name": "Spion",
+      "femaleName": "Spionin",
+      "rank": 4,
+      "category": "espionage",
+      "description": "Meister der Täuschung und Geheimdienstarbeit",
+      "startingResources": {
+        "gold": 15000,
+        "land": 1000,
+        "population": 2000
+      },
+      "abilities": [
+        "gather_intelligence",
+        "sabotage_operations",
+        "infiltrate_enemy",
+        "assassinate_target",
+        "spread_misinformation"
+      ],
+      "requirements": {
+        "prestige": 800,
+        "stealth": 90,
+        "intrigue": 85,
+        "minYear": 1200
+      },
+      "bonuses": {
+        "espionageEffectiveness": 50,
+        "enemyIntelligence": 40,
+        "secretOperations": 45
+      }
+    },
+    {
+      "id": "admiral",
+      "name": "Admiral",
+      "femaleName": "Admiralin",
+      "rank": 7,
+      "category": "military",
+      "description": "Kommandant der Kriegsflotte",
+      "startingResources": {
+        "gold": 35000,
+        "land": 3000,
+        "population": 10000
+      },
+      "abilities": [
+        "command_fleet",
+        "naval_battles",
+        "blockade_ports",
+        "protect_trade_routes",
+        "amphibious_assault"
+      ],
+      "requirements": {
+        "prestige": 1500,
+        "martial": 75,
+        "navalSkill": 85,
+        "minYear": 1500
+      },
+      "bonuses": {
+        "navalStrength": 50,
+        "tradePowerSea": 30,
+        "marineRecruitment": 35
+      }
+    },
+    {
+      "id": "general",
+      "name": "General",
+      "femaleName": "Generalin",
+      "rank": 7,
+      "category": "military",
+      "description": "Oberbefehlshaber der Landstreitkräfte",
+      "startingResources": {
+        "gold": 40000,
+        "land": 5000,
+        "population": 15000
+      },
+      "abilities": [
+        "command_army",
+        "tactical_warfare",
+        "siege_warfare",
+        "military_reform",
+        "inspire_troops"
+      ],
+      "requirements": {
+        "prestige": 2000,
+        "martial": 85,
+        "leadership": 80,
+        "minYear": 1600
+      },
+      "bonuses": {
+        "armyMorale": 40,
+        "combatEffectiveness": 45,
+        "militaryDiscipline": 35
+      }
+    },
+    {
+      "id": "journalist",
+      "name": "Journalist",
+      "femaleName": "Journalistin",
+      "rank": 4,
+      "category": "cultural",
+      "description": "Nachrichtenverbreiter und Meinungsmacher",
+      "startingResources": {
+        "gold": 8000,
+        "land": 500,
+        "population": 3000
+      },
+      "abilities": [
+        "publish_news",
+        "investigate_scandals",
+        "influence_opinion",
+        "establish_newspaper",
+        "freedom_of_press"
+      ],
+      "requirements": {
+        "prestige": 400,
+        "learning": 70,
+        "charisma": 65,
+        "minYear": 1800
+      },
+      "bonuses": {
+        "publicOpinion": 35,
+        "informationSpread": 45,
+        "culturalInfluence": 25
+      }
+    },
+    {
+      "id": "erfinder",
+      "name": "Erfinder",
+      "femaleName": "Erfinderin",
+      "rank": 5,
+      "category": "academic",
+      "description": "Innovativer Schöpfer neuer Technologien",
+      "startingResources": {
+        "gold": 12000,
+        "land": 1000,
+        "population": 4000
+      },
+      "abilities": [
+        "develop_technology",
+        "patent_invention",
+        "scientific_breakthrough",
+        "industrial_innovation",
+        "research_funding"
+      ],
+      "requirements": {
+        "prestige": 600,
+        "learning": 85,
+        "innovation": 90,
+        "minYear": 1700
+      },
+      "bonuses": {
+        "technologicalProgress": 50,
+        "scientificDiscovery": 45,
+        "industrialOutput": 30
+      }
+    },
+    {
+      "id": "diplomat",
+      "name": "Diplomat",
+      "femaleName": "Diplomatin",
+      "rank": 6,
+      "category": "diplomatic",
+      "description": "Vermittler zwischen Nationen",
+      "startingResources": {
+        "gold": 20000,
+        "land": 1500,
+        "population": 5000
+      },
+      "abilities": [
+        "negotiate_treaties",
+        "establish_embassy",
+        "mediate_conflicts",
+        "diplomatic_immunity",
+        "international_relations"
+      ],
+      "requirements": {
+        "prestige": 1000,
+        "diplomacy": 85,
+        "charisma": 75,
+        "minYear": 1500
+      },
+      "bonuses": {
+        "diplomaticPower": 45,
+        "treatySuccess": 40,
+        "internationalPrestige": 35
+      }
+    },
+    {
+      "id": "fabrikbesitzer",
+      "name": "Fabrikbesitzer",
+      "femaleName": "Fabrikbesitzerin",
+      "rank": 6,
+      "category": "industrial",
+      "description": "Industrieller Großproduzent",
+      "startingResources": {
+        "gold": 60000,
+        "land": 10000,
+        "population": 20000
+      },
+      "abilities": [
+        "mass_production",
+        "employ_workers",
+        "industrial_expansion",
+        "automation",
+        "labor_management"
+      ],
+      "requirements": {
+        "prestige": 1500,
+        "wealth": 40000,
+        "management": 80,
+        "minYear": 1800
+      },
+      "bonuses": {
+        "productionOutput": 50,
+        "economicGrowth": 40,
+        "employmentCapacity": 45
+      }
+    },
+    {
+      "id": "philosoph",
+      "name": "Philosoph",
+      "femaleName": "Philosophin",
+      "rank": 5,
+      "category": "academic",
+      "description": "Denker und Weltweiser",
+      "startingResources": {
+        "gold": 10000,
+        "land": 800,
+        "population": 3000
+      },
+      "abilities": [
+        "philosophical_discourse",
+        "influence_ideology",
+        "write_treatise",
+        "teach_wisdom",
+        "challenge_dogma"
+      ],
+      "requirements": {
+        "prestige": 700,
+        "learning": 90,
+        "wisdom": 85,
+        "minYear": 500
+      },
+      "bonuses": {
+        "culturalInfluence": 40,
+        "ideologicalImpact": 45,
+        "intellectualMovement": 35
+      }
     }
   ],
   "metadata": {
-    "version": "2.1.0",
-    "lastUpdated": "2024-12-26",
-    "totalRoles": 25,
+    "version": "2.3.0",
+    "lastUpdated": "2025-12-27",
+    "totalRoles": 35,
     "categories": [
       "imperial",
       "royal",
