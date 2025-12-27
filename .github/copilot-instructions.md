@@ -87,20 +87,44 @@ src/
 - Cache expensive calculations when possible
 
 ### Scalability Requirements (CRITICAL)
-- **Population Limits**: Design systems to scale from 10,000 to 10,000,000 citizens
+- **Population Limits**: Design systems to scale from 10,000 to 100,000,000 citizens (target: 80M for Germany)
 - **Configurable Thresholds**: Use configuration objects for all scalability limits
-- **Aggregation Strategy**: When population > 100,000, use statistical aggregation instead of individual simulation
-- **Sampling**: For social interactions (relationships, information spread), sample a subset of the population
+- **Three-Tier Simulation Strategy**:
+  - **Below 10,000**: Full individual simulation (every citizen tracked individually)
+  - **10,000-100,000**: Hybrid simulation (VIPs individually, others aggregated)
+  - **Above 100,000**: Statistical aggregation (demographic cohorts, representative sampling)
+- **Economic Scaling for 80M+ Citizens**:
+  - Use **economic cohorts** (groups of similar citizens) instead of individual tracking
+  - Aggregate production/consumption by profession and region
+  - Calculate trade at macro level (region-to-region, not person-to-person)
+  - Cache market prices and update periodically, not per transaction
+  - Use supply/demand curves instead of individual buyer/seller matching
+- **Event Simulation Scalability**:
+  - **Event Batching**: Process similar events in batches (all births, all deaths, all marriages)
+  - **Event Sampling**: For large populations, sample subset for random events
+  - **Event Pooling**: Reuse event objects instead of creating millions
+  - **Probability-Based**: Use statistical probabilities for mass events instead of individual rolls
+  - **Regional Aggregation**: Events affect regions, not individual citizens
+- **Social Network Scaling**:
+  - **Relationship Limits**: Max 5-20 relationships per citizen (configurable by population)
+  - **Network Sampling**: For information spread, sample 0.1-1% of population
+  - **Dunbar's Number**: Limit meaningful relationships based on cognitive limits (~150 max)
+  - **Weak Ties**: Use statistical models for casual connections
 - **Spatial Partitioning**: Use quadtrees, grids, or regions to partition large populations
-- **Event Batching**: Batch similar events together to reduce processing overhead
 - **Lazy Evaluation**: Don't calculate values until they're needed for display or decision-making
 - **Resource Pooling**: Reuse objects instead of creating/destroying them repeatedly
 - **Performance Monitoring**: Include performance metrics and warnings when thresholds are exceeded
 - **Degradation Strategy**: Automatically reduce simulation detail when performance suffers
-- **Economic Scaling**: Scale economic calculations to work with both small kingdoms and empires
 - **Military Scaling**: Support both small skirmishes (10s of units) and massive battles (100,000+ units)
+  - Use unit formations as single entities for large armies
+  - Aggregate casualties statistically for huge battles
+  - Simplified combat resolution when >10,000 units per side
 - **Data Structures**: Use Map/Set for O(1) lookups, avoid O(n²) algorithms for large datasets
 - **Memory Management**: Implement cleanup for old/irrelevant data to prevent memory leaks
+- **Cache Strategy**:
+  - Cache frequently accessed calculations (GDP, population stats, resource totals)
+  - Invalidate caches only when underlying data changes
+  - Use time-based cache expiry for non-critical data
 
 ### Multiplayer Development
 - Design all systems with multiplayer synchronization in mind
