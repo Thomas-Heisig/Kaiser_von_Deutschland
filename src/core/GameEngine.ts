@@ -163,7 +163,8 @@ export class GameEngine {
     this.militaryUnitSystem = new MilitaryUnitSystem();
     
     // Initialize newly integrated roadmap systems (v2.4+)
-    // Note: DiplomacySystem is per-player and will be created in addPlayer()
+    // Note: DiplomacySystem is per-player (requires kingdomId) and not instantiated here
+    // All other systems below are global and initialized immediately
     this.religionSystem = new ReligionSystem();
     this.migrationSystem = new MigrationSystem();
     this.socialMobilitySystem = new SocialMobilitySystem();
@@ -206,9 +207,11 @@ export class GameEngine {
 
   // Initialize all systems asynchronously
   private async initializeSystems(): Promise<void> {
+    // Note: Some newly integrated systems don't have initialize() methods
+    // They will be ready to use immediately after construction
     try {
       await Promise.all([
-        // Original systems
+        // Original systems with initialize() methods
         this.historicalFiguresSystem.initialize(),
         this.diseaseSystem.initialize(),
         this.naturalDisasterSystem.initialize(),
@@ -218,8 +221,6 @@ export class GameEngine {
         this.scientificDiscoverySystem.initialize(),
         this.legalSystem.initialize(),
         this.militaryUnitSystem.initialize()
-        // Note: Some newly integrated systems don't have initialize() methods
-        // They will be ready to use immediately after construction
       ]);
       console.log('All roadmap feature systems initialized successfully');
     } catch (error) {

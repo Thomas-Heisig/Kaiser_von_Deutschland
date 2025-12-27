@@ -376,7 +376,7 @@ const legalAndCourtSystem = gameEngine.getLegalAndCourtSystem();
 ```
 
 **Wichtige Methoden**:
-- `file Case(case)` - Fall einreichen
+- `fileCase(case)` - Fall einreichen
 - `conductTrial(caseId)` - Gerichtsverfahren durchführen
 - `sendToPrison(citizenId, duration)` - Ins Gefängnis schicken
 
