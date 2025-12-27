@@ -736,10 +736,9 @@ export class Graphics {
     // Waffe basierend auf Typ
     switch (type) {
       case 'infantry':
-        // Schwert
+        // Schwert - draw both lines then stroke
         soldier.moveTo(x, y - 4);
         soldier.lineTo(x, y + 8);
-        soldier.stroke({ width: 2, color: 0x8b4513 });
         soldier.moveTo(x - 3, y);
         soldier.lineTo(x + 3, y);
         soldier.stroke({ width: 2, color: 0x8b4513 });
@@ -945,14 +944,19 @@ export class Graphics {
       const size = 3 + intensity * 5;
       
       const node = new PIXI.Graphics();
+      
+      // Main node
       node.circle(x, y, size);
       node.fill(color);
       
-      // Glüheffekt
-      node.circle(x - size/3, y - size/3, size/3);
-      node.fill({ color: 0xffffff, alpha: 0.5 });
-      
       this.overlayLayer.addChild(node);
+      
+      // Glüheffekt as separate graphic
+      const glow = new PIXI.Graphics();
+      glow.circle(x - size/3, y - size/3, size/3);
+      glow.fill({ color: 0xffffff, alpha: 0.5 });
+      
+      this.overlayLayer.addChild(glow);
     }
   }
 
@@ -1017,18 +1021,15 @@ export class Graphics {
     const centerX = this.app.screen.width / 2;
     const centerY = this.app.screen.height / 2;
     
-    const fog = new PIXI.Graphics();
-    fog.rect(0, 0, this.app.screen.width, this.app.screen.height);
-    
-    // Create a radial gradient effect using multiple circles
+    // Create radial gradient effect using multiple overlaid circles
     for (let i = 0; i < 10; i++) {
+      const fog = new PIXI.Graphics();
       const radius = 50 + (i * 25);
       const alpha = (1 - i / 10) * 0.7;
       fog.circle(centerX, centerY, radius);
       fog.fill({ color: 0x000000, alpha });
+      this.overlayLayer.addChild(fog);
     }
-    
-    this.overlayLayer.addChild(fog);
   }
 
   private applyTimeOfDayEffects(): void {
@@ -1039,32 +1040,34 @@ export class Graphics {
     const height = this.app.screen.height;
     
     const overlay = new PIXI.Graphics();
+    overlay.rect(0, 0, width, height);
     
     switch (time) {
       case 'dawn':
-        overlay.rect(0, 0, width, height);
         overlay.fill({ color: 0xffa500, alpha: 0.2 });
         break;
       case 'dusk':
-        overlay.rect(0, 0, width, height);
         overlay.fill({ color: 0x8b0000, alpha: 0.3 });
         break;
       case 'night':
-        overlay.rect(0, 0, width, height);
         overlay.fill({ color: 0x00008b, alpha: 0.4 });
-        
-        // Sterne
-        for (let i = 0; i < 50; i++) {
-          const x = Math.random() * width;
-          const y = Math.random() * height;
-          const size = Math.random() * 2;
-          overlay.circle(x, y, size);
-          overlay.fill(0xffffff);
-        }
         break;
     }
     
     this.overlayLayer.addChild(overlay);
+    
+    // Add stars for night time as separate graphics
+    if (time === 'night') {
+      for (let i = 0; i < 50; i++) {
+        const star = new PIXI.Graphics();
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const size = Math.random() * 2;
+        star.circle(x, y, size);
+        star.fill(0xffffff);
+        this.overlayLayer.addChild(star);
+      }
+    }
   }
 
   // ==================== ANIMATIONSSYSTEM ====================
@@ -1093,7 +1096,6 @@ export class Graphics {
       endX: toX,
       endY: toY,
       duration,
-      color: '0xff3333',
       size: 12,
       startTime: Date.now()
     });
@@ -1124,7 +1126,6 @@ export class Graphics {
       startX: x,
       startY: y,
       duration: 1500,
-      color: '0x32CD32',
       size: 30,
       startTime: Date.now()
     });
