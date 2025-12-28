@@ -10,7 +10,8 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Aktuelle Version:** v2.5.1  
+> **Aktuelle Version:** v2.5.1 → v2.3.6  
+> **Neu in 2.3.6:** 💰 **Kriegsfinanzierung & Kriegsanleihen** - Finanziere Kriege mit historischen Methoden!
 > **Neu in 2.5.1:** ⚔️ **Kriegsgefangene-System (PoW)** - Manage prisoners of war with historical accuracy!
 > **Neu in 2.6.0:** 🚢 **Handelsrouten & Transport-System** - Verwalte globale Handelsrouten!
 > **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System** + **20 Roadmap Features**  
@@ -169,7 +170,7 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **🛡️ Befestigungssystem**: Stadtmauern von Holzpalisaden bis Bunkern
 - **⚓ Marinekriegsführung**: 8 Schiffstypen, 10 Naval-Technologien, Seeschlachten, Blockaden, Piraterie
 - **🕵️ Spionage-System**: Agentennetzwerke, Missionen, Sabotage, Attentate, Doppelagenten
-- **⚔️ Kriegsgefangene-System (v2.5.1 - NEU!)**: 
+- **⚔️ Kriegsgefangene-System (v2.5.1)**: 
   - Gefangenennahme aus Schlachten und Belagerungen
   - 6 Behandlungsrichtlinien (Menschlich, Standard, Hart, Zwangsarbeit, Lösegeld, Hinrichtung)
   - Gefangenenlager mit konfigurierbarer Sicherheit und Bedingungen
@@ -180,6 +181,15 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
   - Monatliche Gesundheit, Moral und Wirtschaftskosten
   - Historische Ereignisse und berühmte Gefangene
   - Umfassendes PoW-Verwaltungs-UI-Panel
+- **💰 Kriegsfinanzierung & Kriegsanleihen (v2.3.6 - NEU!)**:
+  - 12 historische Finanzierungsmethoden (Plünderung, Kriegssteuern, Kriegsanleihen, etc.)
+  - Authentische Kriegsanleihen aus WW1 & WW2 (Liberty Bonds, Deutsche Kriegsanleihen)
+  - Kreditsystem mit Zinsen und Rückzahlungsfristen
+  - 5 Rückzahlungsstrategien (Regulär, Sparpolitik, Zahlungsausfall, Neuverhandlung, Inflation)
+  - Historische Events (Hyperinflation 1923, Marshall-Plan 1948, Bretton Woods)
+  - Wirtschaftliche Konsequenzen: Inflation, Popularität, Stabilität, Schuldenmanagement
+  - Monatliche Schuldenzahlungen mit automatischem Management
+  - Umfassendes UI-Panel mit 5 Tabs (Übersicht, Methoden, Kredite, Rückzahlung, Geschichte)
 - **🏙️ Stadtbezirks-System**: Slums, Nobelviertel, Gentrifizierung, Kriminalität
 - **🌙 Tag/Nacht-Zyklus**: Tagesrhythmus mit unterschiedlichen Aktivitäten (Märkte morgens, Theater abends)
 - **🎨 Kunst & Kultur**: Künstler, Kunstwerke, Aufführungen, kulturelle Kreise, Konzerte

@@ -197,7 +197,7 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] Versorgungslinien und Nachschubwege ✅ (SupplyLogisticsSystem - v2.4.0)
 - [x] Winterquartiere und Lager ✅ (SupplyLogisticsSystem - v2.4.0)
 - [x] Kriegsgefangene und deren Behandlung ✅ (PrisonerOfWarSystem - v2.5.1)
-- [ ] Kriegsfinanzierung und Kriegsanleihen
+- [x] Kriegsfinanzierung und Kriegsanleihen ✅ (WarFinancingSystem - v2.3.6)
 - [ ] **Multiplayer**: Spieler als Quartiermeister oder Logistiker
 - [ ] **Multiplayer**: Nachschubkonvois überfallen/verteidigen
 
