@@ -114,7 +114,7 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] Jeder Bürger hat Name, Alter, Beruf, Bedürfnisse ✅ (Bereits implementiert)
 - [x] Familienbildung und Dynastien innerhalb der Bevölkerung ✅ (Bereits implementiert)
 - [x] Migrationsbewegungen zwischen Regionen ✅ (v2.1.5 - Dezember 2025)
-- [ ] Berufswechsel und soziale Mobilität
+- [x] Berufswechsel und soziale Mobilität ✅ (v2.1.5 - Dezember 2025)
 - [ ] **Multiplayer**: Jeder Spieler kann jeden Bürger übernehmen
 - [ ] **Multiplayer**: Bürger-Interaktionen zwischen Spielern
 
