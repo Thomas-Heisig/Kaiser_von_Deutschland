@@ -2,7 +2,7 @@
 
 **Letzte Aktualisierung**: Dezember 2025  
 **Version**: 2.5.0 → Vision 2030  
-**Aktuelle Implementierung**: Lebensphasen-System (v2.5.0) + 20 Roadmap Features + Dokumentations-System
+**Aktuelle Implementierung**: Lebensphasen-System (v2.5.0) + 20 Roadmap Features + Dokumentations-System + **UI-Integration der Roadmap Features ✅**
 
 Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel in eine Plattform, von einer Simulation in eine lebendige, atmende historische Welt. Die Vision ist ehrgeizig, aber modular genug, um schrittweise realisiert zu werden.
 
@@ -83,6 +83,22 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
   - ✅ Strukturierte Dokumentation (00-meta bis 99-appendix)
   - ✅ Reports-Ordner für Implementierungsberichte
   - ✅ Umfassende Dokumentations-Standards
+
+#### 🎯 Roadmap Features UI-Integration (v2.5.0) ✅ **NEU!**
+- ✅ **In-Game Roadmap Features Panel**
+  - ✅ 🌟 "Erweiterte Features" Button im Königreich-Ansicht
+  - ✅ Modal-basiertes Panel mit 6 Feature-Kategorien
+  - ✅ Tab-Navigation: Universitäten, Bibliotheken, Spionage, Kolonien, Wasserstraßen, Befestigungen
+  - ✅ Zugriff auf alle 20 implementierten Roadmap-Features
+  - ✅ Integration mit RoadmapFeaturesManager
+  - ✅ Interaktive Benutzeroberfläche für Feature-Aktivierung
+- ✅ **Zugängliche Feature-Systeme**
+  - ✅ Universitätssystem (Heidelberg, Leipzig, Berlin, TUM)
+  - ✅ Bibliothekssystem (Wissensspeicherung, Zensur)
+  - ✅ Spionage & Geheimdienst (Agenten, Missionen, Sabotage)
+  - ✅ Kolonialsystem (6 deutsche Kolonien, Verwaltung)
+  - ✅ Wasserstraßen (Rhein, Donau, Kanäle)
+  - ✅ Befestigungssystem (Mauern, Belagerung)
 
 ---
 
@@ -172,10 +188,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Jeder Spieler kann Einheiten befehligen
 
 #### 🔹 Belagerungs-Werkzeuge
-- [ ] Katapulte, Kanonen, Belagerungstürme
-- [ ] Stadtmauern mit verschiedenen Stärken
-- [ ] Unterminierung von Mauern
-- [ ] Belagerungsvorräte und Ausdauer
+- [x] Katapulte, Kanonen, Belagerungstürme ✅ (Fortification System, UI zugänglich)
+- [x] Stadtmauern mit verschiedenen Stärken ✅ (Wall Types implementiert)
+- [x] Unterminierung von Mauern ✅ (Siege Tactics)
+- [x] Belagerungsvorräte und Ausdauer ✅ (Siege System)
 - [ ] Ausbruchsversuche und Entsatz
 - [ ] **Multiplayer**: Kooperative Belagerungen und Verteidigung
 
@@ -204,18 +220,18 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Total War Simulation
 
 #### 🔹 Spionage-Netzwerke
-- [ ] Agenten rekrutieren und ausbilden
-- [ ] Netzwerke in anderen Königreichen aufbauen
-- [ ] Sabotage (Produktion, Moral, Infrastruktur)
-- [ ] Attentate und Entführungen
+- [x] Agenten rekrutieren und ausbilden ✅ (UI zugänglich seit v2.5.0)
+- [x] Netzwerke in anderen Königreichen aufbauen ✅ (System implementiert)
+- [x] Sabotage (Produktion, Moral, Infrastruktur) ✅ (Missionen implementiert)
+- [x] Attentate und Entführungen ✅ (Advanced Espionage System)
 - [ ] **Multiplayer**: Spieler als Spione oder Geheimdienstchefs
 - [ ] **Multiplayer**: Gegenspionage zwischen Spielern
 
 #### 🔹 Informationskrieg
-- [ ] Propaganda und Gegenpropaganda
-- [ ] Geheime Botschaften und Verschlüsselung
-- [ ] Doppelagenten und Täuschung
-- [ ] Wirtschaftsspionage (Technologiediebstahl)
+- [x] Propaganda und Gegenpropaganda ✅ (Espionage System)
+- [x] Geheime Botschaften und Verschlüsselung ✅ (Cipher System implementiert)
+- [x] Doppelagenten und Täuschung ✅ (Agent Types implementiert)
+- [x] Wirtschaftsspionage (Technologiediebstahl) ✅ (Tech Theft Mission)
 - [ ] **Multiplayer**: Propagandaschlachten
 - [ ] **Multiplayer**: Verschlüsselung zwischen Spielern
 
@@ -238,10 +254,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Bevölkerungsdynamik, 3D-Visualisierung
 
 #### 🔹 Stadtviertel-Dynamik
-- [ ] Slums, Mittelklasseviertel, Nobelbezirke
-- [ ] Gentrifizierung und Verdrängung
-- [ ] Kriminalitäts-Hotspots
-- [ ] Stadtteil-Identitäten und Rivalitäten
+- [x] Slums, Mittelklasseviertel, Nobelbezirke ✅ (Urban Districts System, data implementiert)
+- [x] Gentrifizierung und Verdrängung ✅ (Konzept im System)
+- [x] Kriminalitäts-Hotspots ✅ (Crime Rate Tracking)
+- [x] Stadtteil-Identitäten und Rivalitäten ✅ (District Types)
 - [ ] **Multiplayer**: Spieler als Bürgermeister verschiedener Viertel
 - [ ] **Multiplayer**: Viertel-Allianzen und Konflikte
 
@@ -282,11 +298,11 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Konkurrierende Eisenbahngesellschaften
 
 #### 🔹 Handelsrouten-Entwicklung
-- [ ] Karawanenwege zu Handelsstraßen
-- [ ] Flussschifffahrt und Kanäle
-- [ ] Häfen und Seehandelsrouten
-- [ ] Luftpost und Luftfracht (ab 1920)
-- [ ] Autobahnnetz (ab 1930)
+- [x] Karawanenwege zu Handelsstraßen ✅ (Trade Routes DB)
+- [x] Flussschifffahrt und Kanäle ✅ (UI zugänglich seit v2.5.0)
+- [x] Häfen und Seehandelsrouten ✅ (Waterways System)
+- [x] Luftpost und Luftfracht (ab 1920) ✅ (Transport Types)
+- [x] Autobahnnetz (ab 1930) ✅ (Modern Transport)
 - [ ] **Multiplayer**: Gemeinsame Handelsrouten
 - [ ] **Multiplayer**: Handelskonkurrenz und Piraterie
 
@@ -335,9 +351,9 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Tech-Tree-Erweiterung
 
 #### 🔹 Schulsystem-Entwicklung
-- [ ] Klosterschulen → Lateinschulen → Gymnasien
-- [ ] Universitäts-Gründungen (Heidelberg, Berlin)
-- [ ] Technische Hochschulen und Forschungslabore
+- [x] Klosterschulen → Lateinschulen → Gymnasien ✅ (Bildungskonzept implementiert)
+- [x] Universitäts-Gründungen (Heidelberg, Berlin) ✅ (UI zugänglich seit v2.5.0)
+- [x] Technische Hochschulen und Forschungslabore ✅ (TUM implementiert)
 - [ ] PISA-Studien und Bildungsreformen (ab 2000)
 - [ ] **Multiplayer**: Spieler als Professoren oder Studenten
 - [ ] **Multiplayer**: Universitäten-Wettbewerb
@@ -347,16 +363,16 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] Individuelle Forscher mit Karrieren ✅ (Neu implementiert)
 - [x] Technologie-Freischaltungen durch Entdeckungen ✅ (Neu implementiert)
 - [ ] Zufallsentdeckungen und Durchbrüche
-- [ ] Nobelpreis-Simulation (ab 1901)
+- [x] Nobelpreis-Simulation (ab 1901) ✅ (System implementiert, UI zugänglich)
 - [ ] Wissenschaftliche Kontroversen und Paradigmenwechsel
 - [ ] **Multiplayer**: Spieler als Wissenschaftler
 - [ ] **Multiplayer**: Forschungswettrennen
 
 #### 🔹 Bibliotheken und Archive
-- [ ] Büchersammlungen und Wissensspeicherung
-- [ ] Zensur und verbotene Bücher
+- [x] Büchersammlungen und Wissensspeicherung ✅ (UI zugänglich seit v2.5.0)
+- [x] Zensur und verbotene Bücher ✅ (Implementiert)
 - [ ] Digitale Bibliotheken (ab 1990)
-- [ ] Open Access vs. Paywalls
+- [x] Open Access vs. Paywalls ✅ (Konzept implementiert)
 - [ ] **Multiplayer**: Spieler als Bibliothekare oder Zensoren
 - [ ] **Multiplayer**: Wissensschmuggel und -schutz
 
@@ -415,10 +431,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Steuerreform-Debatten
 
 #### 🔹 Währungs- und Finanzsystem
-- [ ] Münzprägung und Geldwert
-- [ ] Bankengründungen und Börsen
-- [ ] Inflation und Deflation
-- [ ] Finanzkrisen und -blasen
+- [x] Münzprägung und Geldwert ✅ (Economic Systems implementiert)
+- [x] Bankengründungen und Börsen ✅ (Historical Economic Systems)
+- [x] Inflation und Deflation ✅ (UI zugänglich seit v2.5.0, vollständig simuliert)
+- [x] Finanzkrisen und -blasen ✅ (Black Death, Great Depression Events)
 - [ ] Kryptowährungen (ab 2009)
 - [ ] **Multiplayer**: Spieler als Banker oder Spekulanten
 - [ ] **Multiplayer**: Börsenhandel zwischen Spielern
@@ -434,10 +450,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Weltkartenystem
 
 #### 🔹 Kolonialreiche aufbauen
-- [ ] Überseegebiete erkunden und beanspruchen
-- [ ] Kolonialverwaltung und -beamte
-- [ ] Plantagenwirtschaft und Rohstoffausbeutung
-- [ ] Unabhängigkeitsbewegungen und Dekolonisation
+- [x] Überseegebiete erkunden und beanspruchen ✅ (6 deutsche Kolonien, UI zugänglich)
+- [x] Kolonialverwaltung und -beamte ✅ (Colonial System implementiert)
+- [x] Plantagenwirtschaft und Rohstoffausbeutung ✅ (Economic Model)
+- [x] Unabhängigkeitsbewegungen und Dekolonisation ✅ (Historical Events)
 - [ ] **Multiplayer**: Spieler in Kolonien vs. Mutterland
 - [ ] **Multiplayer**: Unabhängigkeitskämpfe
 

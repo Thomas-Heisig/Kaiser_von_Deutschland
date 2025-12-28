@@ -6,6 +6,7 @@ import { NewGameRenderer } from './NewGameRenderer';
 import { SaveManager } from './SaveManager';
 import { NotificationSystem } from './NotificationSystem';
 import { HelpSystem } from './HelpSystem';
+import { RoadmapFeaturesUI } from './RoadmapFeaturesUI';
 
 export class GameUI {
   private game: GameEngine;
@@ -16,6 +17,7 @@ export class GameUI {
   private saveManager: SaveManager;
   private notificationSystem: NotificationSystem;
   private helpSystem: HelpSystem;
+  private roadmapFeaturesUI?: RoadmapFeaturesUI;
   private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
@@ -300,6 +302,16 @@ export class GameUI {
             <h3>Königliche Anordnungen</h3>
             
             <div class="action-group">
+              <h4>🎯 Spezielle Features</h4>
+              <div class="special-actions">
+                <button id="show-roadmap-features-btn" class="btn-special" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                  🌟 Erweiterte Features (v2.5.0)
+                  <br><small style="opacity: 0.9;">Universitäten, Bibliotheken, Spionage, Kolonien & mehr</small>
+                </button>
+              </div>
+            </div>
+            
+            <div class="action-group">
               <h4>Steuerpolitik</h4>
               <div class="tax-controls">
                 <label>Steuersatz: <span id="tax-percentage">${Math.round(player.kingdom.taxRate * 100)}%</span></label>
@@ -411,6 +423,11 @@ export class GameUI {
   }
 
   private setupKingdomControls(player: Player): void {
+    // Roadmap Features Button
+    this.mainView.querySelector('#show-roadmap-features-btn')?.addEventListener('click', () => {
+      this.showRoadmapFeaturesPanel(player);
+    });
+
     // Steuersatz
     const taxSlider = this.mainView.querySelector('#tax-slider') as HTMLInputElement;
     const taxPercentage = this.mainView.querySelector('#tax-percentage')!;
@@ -678,5 +695,94 @@ export class GameUI {
     } catch (error) {
       console.warn('Audio nicht verfügbar:', error);
     }
+  }
+
+  private showRoadmapFeaturesPanel(player: Player): void {
+    // Create roadmap features UI if it doesn't exist
+    if (!this.roadmapFeaturesUI) {
+      // Create a modal container for roadmap features
+      const modalContainer = document.createElement('div');
+      modalContainer.id = 'roadmap-features-modal';
+      modalContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+      `;
+      
+      const panelWrapper = document.createElement('div');
+      panelWrapper.id = 'roadmap-features-panel-wrapper';
+      panelWrapper.style.cssText = `
+        background: #1a1a2e;
+        border-radius: 12px;
+        padding: 24px;
+        max-width: 1200px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+        position: relative;
+      `;
+      
+      const closeButton = document.createElement('button');
+      closeButton.textContent = '✕';
+      closeButton.style.cssText = `
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: #ff4757;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      `;
+      closeButton.addEventListener('click', () => {
+        document.body.removeChild(modalContainer);
+      });
+      
+      panelWrapper.appendChild(closeButton);
+      
+      const featuresContainer = document.createElement('div');
+      featuresContainer.id = 'roadmap-features-container';
+      panelWrapper.appendChild(featuresContainer);
+      
+      modalContainer.appendChild(panelWrapper);
+      document.body.appendChild(modalContainer);
+      
+      this.roadmapFeaturesUI = new RoadmapFeaturesUI(
+        this.game,
+        'roadmap-features-container',
+        this.notificationSystem
+      );
+    } else {
+      // Show existing panel
+      const modal = document.getElementById('roadmap-features-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+    
+    // Set the current player for the roadmap UI
+    this.roadmapFeaturesUI.setPlayer(player);
+    
+    this.notificationSystem.show(
+      '🌟 Erweiterte Features',
+      'Willkommen zu den neuen Roadmap-Features von v2.5.0!'
+    );
   }
 }
