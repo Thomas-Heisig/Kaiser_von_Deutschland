@@ -25,6 +25,7 @@ export class Migration001InitialSchema extends BaseMigration {
         current_year INTEGER NOT NULL,
         current_month INTEGER NOT NULL DEFAULT 1,
         is_ai BOOLEAN NOT NULL DEFAULT 0,
+        data TEXT NOT NULL,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
       )

@@ -1,11 +1,14 @@
 // src/core/database/repositories/PlayerRepository.ts
 
 import { DatabaseAdapter } from '../DatabaseAdapter';
-import { Player } from '../../Player';
+import { Player, PlayerSaveData } from '../../Player';
 
 /**
  * Repository for Player data persistence
  * Implements the Repository Pattern for clean separation of concerns
+ * 
+ * Note: For simplicity, we store full player data as JSON initially.
+ * Future optimization: normalize data into separate tables for better performance.
  */
 export class PlayerRepository {
   constructor(private db: DatabaseAdapter) {}
@@ -16,24 +19,29 @@ export class PlayerRepository {
   async save(player: Player): Promise<void> {
     const data = player.serialize();
     
+    // Store full serialized data as JSON for now
+    // Extract key fields for indexing and querying
     const sql = `
       INSERT OR REPLACE INTO players (
         id, name, role_id, kingdom_name, color, treasury, prestige,
-        current_year, current_month, is_ai, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        current_year, current_month, is_ai, data, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `;
+
+    const kingdom = data.kingdom || { name: '', treasury: 0, prestige: 0 };
 
     await this.db.execute(sql, [
       player.id,
       data.name,
-      data.roleId,
-      data.kingdomName || null,
-      data.color,
-      data.resources?.treasury || 0,
-      data.prestige || 0,
-      data.currentYear || 0,
-      data.currentMonth || 1,
-      data.isAI ? 1 : 0
+      data.title?.name || 'Commoner',  // Use title name as role
+      kingdom.name || null,
+      kingdom.color || null,
+      kingdom.treasury || 0,
+      kingdom.prestige || 0,
+      kingdom.year || 0,
+      kingdom.month || 1,
+      0, // is_ai - always false for players for now
+      JSON.stringify(data)  // Store full data
     ]);
   }
 
@@ -109,24 +117,8 @@ export class PlayerRepository {
    * Helper method to deserialize database row to Player object
    */
   private deserializePlayer(row: any): Player {
-    // Reconstruct the player data format expected by Player.deserialize()
-    const playerData = {
-      id: row.id,
-      name: row.name,
-      roleId: row.role_id,
-      kingdomName: row.kingdom_name,
-      color: row.color,
-      resources: {
-        treasury: row.treasury,
-        // Add other resources as needed
-      },
-      prestige: row.prestige,
-      currentYear: row.current_year,
-      currentMonth: row.current_month,
-      isAI: Boolean(row.is_ai),
-      // Add other fields as needed
-    };
-
+    // Parse the full data from JSON column
+    const playerData: PlayerSaveData = JSON.parse(row.data);
     return Player.deserialize(playerData);
   }
 }
