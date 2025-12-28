@@ -235,7 +235,7 @@ export class MonthlyPlannerSystem {
   /**
    * Lädt verfügbare Aktionen für eine Rolle
    */
-  loadActionsForRole(role: string, career: CareerCategory): void {
+  loadActionsForRole(_role: string, career: CareerCategory): void {
     // Hier würden normalerweise Aktionen aus JSON geladen
     // Für jetzt: Beispiel-Aktionen
     this.availableActions = this.generateSampleActions(career);
