@@ -1,8 +1,8 @@
 # 🌟 Kaiser von Deutschland - Massive Roadmap Expansion 🚀
 
 **Letzte Aktualisierung**: Dezember 2025  
-**Version**: 2.0.0 → Vision 2030  
-**Aktuelle Implementierung**: 20 Features aus verschiedenen Kapiteln (siehe ✅ Markierungen)
+**Version**: 2.5.0 → Vision 2030  
+**Aktuelle Implementierung**: Lebensphasen-System + 20 Features aus verschiedenen Kapiteln (siehe ✅ Markierungen)
 
 Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel in eine Plattform, von einer Simulation in eine lebendige, atmende historische Welt. Die Vision ist ehrgeizig, aber modular genug, um schrittweise realisiert zu werden.
 
@@ -25,8 +25,9 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 
 ## 📊 Aktueller Status
 
-### ✅ Implementiert (v2.0.0)
+### ✅ Implementiert (v2.0.0-2.5.0)
 
+#### Basis-Systeme (v2.0.0)
 - ✅ 15 verschiedene Spielerrollen (Arbeiter bis Kaiser)
 - ✅ 27 historische Ereignisse (Jahr 0 bis 2050)
 - ✅ 23 Gebäudetypen über 6 historische Ären
@@ -40,6 +41,33 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - ✅ Save/Load System mit LocalForage
 - ✅ Responsive UI mit Dark Theme
 - ✅ TypeScript-basierte Architektur
+
+#### 🎮 NEU: Lebensphasen-basiertes Gameplay (v2.5.0) ✅
+- ✅ **Intro-Sequenz & Charakter-Erstellung**
+  - ✅ 5 philosophische Fragen für Persönlichkeitsprofil
+  - ✅ 4 Persönlichkeitswerte (Charisma, Intellekt, Pragmatismus, Spiritualität)
+  - ✅ Dynamische Charakterbildung durch Spielerantworten
+- ✅ **Zeitperioden-Auswahl**
+  - ✅ 9 Epochen (500-2100): Antike bis Zukunft
+  - ✅ Historischer Kontext pro Epoche
+  - ✅ Epochenspezifische verfügbare Rollen
+- ✅ **Lebensabschnitts-System**
+  - ✅ 3 Startoptionen: Geburt (5-10J), Kindheit (10-14J), Erwachsen (18-25J)
+  - ✅ BirthPhase mit Familienhintergrund (Adel, Bürger, Bauern, Klerus)
+  - ✅ ChildhoodPhase mit Schulsystem und Mentoren
+  - ✅ AdulthoodPhase mit 5 Karriere-Kategorien
+- ✅ **Monatliche Zyklen & Zeitmanagement**
+  - ✅ 24h-Zeitverteilung (Arbeit, Familie, Bildung, Freizeit, Schlaf)
+  - ✅ Berufsspezifische Monats-Aktionen
+  - ✅ Budget-Allokation (6 Kategorien)
+  - ✅ 3 Geschwindigkeitsmodi (Detailreich, Ausgewogen, Strategisch)
+  - ✅ Monatsergebnis-Berechnung mit Skill-Gewinnen
+- ✅ **Karrierepfade & Aufstieg**
+  - ✅ 5 Hauptpfade: Handwerk, Politik, Militär, Klerus, Gelehrte
+  - ✅ Je 5 Karriere-Stufen pro Pfad (25 Ränge insgesamt)
+  - ✅ Aufstiegsbedingungen (Jahre, Fertigkeiten, Prestige, Spezial-Aufgaben)
+  - ✅ Automatischer Beförderungs-Check
+  - ✅ Karriere-Fortschritt-Tracking
 
 ---
 
