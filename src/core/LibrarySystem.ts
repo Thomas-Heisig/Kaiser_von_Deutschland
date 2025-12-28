@@ -55,6 +55,7 @@ export class LibrarySystem {
   
   private ownedLibraries: Map<string, Library> = new Map();
   private bookCollection: Set<string> = new Set();
+  // @ts-expect-error - Reserved for future active censorship tracking
   private activeCensorship: string | null = null;
 
   constructor() {

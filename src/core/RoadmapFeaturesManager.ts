@@ -78,8 +78,8 @@ export class RoadmapFeaturesManager {
   private colonies: Colony[] = [];
   private waterways: Waterway[] = [];
   private urbanDistricts: UrbanDistrict[] = [];
-  private navalTechnologies: any[] = [];
-  private militaryLogistics: any[] = [];
+  private navalTechnologies: any[] = []; // Future use for naval tech tree
+  private militaryLogistics: any[] = []; // Future use for logistics system
   
   // State
   private ownedUniversities: Set<string> = new Set();
@@ -171,7 +171,7 @@ export class RoadmapFeaturesManager {
 
   // === UNIVERSITY SYSTEM ===
   
-  public foundUniversity(universityId: string, resources: Record<string, number>): {
+  public foundUniversity(universityId: string, _resources: Record<string, number>): {
     success: boolean;
     message: string;
   } {
@@ -225,7 +225,7 @@ export class RoadmapFeaturesManager {
 
   // === COLONIAL SYSTEM ===
   
-  public establishColony(colonyId: string, resources: Record<string, number>): {
+  public establishColony(colonyId: string, _resources: Record<string, number>): {
     success: boolean;
     colony?: Colony;
   } {
@@ -330,7 +330,7 @@ export class RoadmapFeaturesManager {
 
   // === GAME UPDATE ===
   
-  public update(year: number, deltaTime: number): void {
+  public update(year: number, _deltaTime: number): void {
     // Update inflation
     const inflation = this.economicSystems.calculateInflation(year, {
       warStatus: false, // Get from game state

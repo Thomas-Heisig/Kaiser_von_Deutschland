@@ -61,10 +61,12 @@ export interface Agent {
 export class AdvancedEspionageSystem {
   private operations: EspionageOperation[] = [];
   private propagandaCampaigns: PropagandaCampaign[] = [];
+  // @ts-expect-error - Reserved for future secret society mechanics
   private secretSocieties: SecretSociety[] = [];
   private cipherSystems: CipherSystem[] = [];
   
   private agents: Map<string, Agent> = new Map();
+  // @ts-expect-error - Reserved for future ongoing operations tracking
   private activeOperations: Map<string, EspionageOperation> = new Map();
   private activePropaganda: Set<string> = new Set();
   private infiltratedKingdoms: Set<string> = new Set();
@@ -274,7 +276,7 @@ export class AdvancedEspionageSystem {
   /**
    * Get available operations for year
    */
-  public getAvailableOperations(year: number): EspionageOperation[] {
+  public getAvailableOperations(_year: number): EspionageOperation[] {
     // All operations are available - filter by specific requirements if needed
     return this.operations;
   }
