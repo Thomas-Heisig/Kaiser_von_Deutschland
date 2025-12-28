@@ -18,6 +18,7 @@ import { DiseaseSystem } from './DiseaseSystem';
 import { NaturalDisasterSystem } from './NaturalDisasterSystem';
 import { BattleSystem } from './BattleSystem';
 import { TransportSystem } from './TransportSystem';
+import { NavalSystem } from './NavalSystem';
 import { ArtSystem } from './ArtSystem';
 import { ScientificDiscoverySystem } from './ScientificDiscoverySystem';
 import { LegalSystem } from './LegalSystem';
@@ -93,6 +94,7 @@ export class GameEngine {
   private naturalDisasterSystem: NaturalDisasterSystem;
   private battleSystem: BattleSystem;
   private transportSystem: TransportSystem;
+  private navalSystem: NavalSystem;
   private artSystem: ArtSystem;
   private scientificDiscoverySystem: ScientificDiscoverySystem;
   private legalSystem: LegalSystem;
@@ -161,6 +163,7 @@ export class GameEngine {
     this.naturalDisasterSystem = new NaturalDisasterSystem();
     this.battleSystem = new BattleSystem();
     this.transportSystem = new TransportSystem();
+    this.navalSystem = new NavalSystem();
     this.artSystem = new ArtSystem();
     this.scientificDiscoverySystem = new ScientificDiscoverySystem();
     this.legalSystem = new LegalSystem();
@@ -224,6 +227,7 @@ export class GameEngine {
         this.naturalDisasterSystem.initialize(),
         this.battleSystem.initialize(),
         this.transportSystem.initialize(),
+        this.navalSystem.initialize(),
         this.artSystem.initialize(),
         this.scientificDiscoverySystem.initialize(),
         this.legalSystem.initialize(),
@@ -305,6 +309,9 @@ export class GameEngine {
     this.demographicSystem.processMonth(this.citizenSystem, this.currentYear, this.currentMonth);
     this.socialNetworkSystem.processInformationSpread(this.citizenSystem, this.currentYear, this.currentMonth);
     this.socialNetworkSystem.processMovements(this.citizenSystem, this.currentYear, this.currentMonth);
+    
+    // Process naval system monthly updates (v2.3.5)
+    this.navalSystem.monthlyUpdate(this.currentYear, this.currentMonth);
     
     // Note: Many newly integrated systems don't have processMonth() methods yet
     // They are available via accessor methods for UI and manual triggering
@@ -771,6 +778,13 @@ export class GameEngine {
    */
   public getTransportSystem(): TransportSystem {
     return this.transportSystem;
+  }
+  
+  /**
+   * Get the naval system (v2.3.5)
+   */
+  public getNavalSystem(): NavalSystem {
+    return this.navalSystem;
   }
   
   /**

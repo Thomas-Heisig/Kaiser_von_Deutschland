@@ -186,11 +186,11 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Kooperative Belagerungen und Verteidigung
 
 #### 🔹 Marinekriegsführung
-- [ ] Fluss- und Seegefechte
-- [ ] Marineeinheiten (Galeeren bis Dreadnoughts)
-- [ ] Hafengefechte und Blockaden
-- [ ] Marine-Technologie-Baum
-- [ ] Piraterie und Kaperei
+- [x] Fluss- und Seegefechte ✅ (NavalSystem - v2.3.5)
+- [x] Marineeinheiten (Galeeren bis Dreadnoughts) ✅ (NavalSystem mit 8 Schiffstypen - v2.3.5)
+- [x] Hafengefechte und Blockaden ✅ (Blockade-System implementiert - v2.3.5)
+- [x] Marine-Technologie-Baum ✅ (10 Technologien von Rudertechnik bis Nuklearantrieb - v2.3.5)
+- [x] Piraterie und Kaperei ✅ (Piraterie-Event-System - v2.3.5)
 - [ ] **Multiplayer**: Flottenverbände und Seeschlachten
 
 #### 🔹 Kriegslogistik
