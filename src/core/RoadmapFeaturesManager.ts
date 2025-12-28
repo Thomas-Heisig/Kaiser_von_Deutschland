@@ -7,6 +7,7 @@ import { EconomicSystemsManager } from './EconomicSystemsManager';
 import { LibrarySystem } from './LibrarySystem';
 import { FortificationSystem } from './FortificationSystem';
 import { AdvancedEspionageSystem } from './AdvancedEspionageSystem';
+import { UndergroundMovementSystem } from './UndergroundMovementSystem';
 
 export interface University {
   id: string;
@@ -71,6 +72,7 @@ export class RoadmapFeaturesManager {
   private librarySystem: LibrarySystem;
   private fortificationSystem: FortificationSystem;
   private espionageSystem: AdvancedEspionageSystem;
+  private undergroundMovements: UndergroundMovementSystem;
   
   // Additional data
   private universities: University[] = [];
@@ -93,6 +95,7 @@ export class RoadmapFeaturesManager {
     this.librarySystem = new LibrarySystem();
     this.fortificationSystem = new FortificationSystem();
     this.espionageSystem = new AdvancedEspionageSystem();
+    this.undergroundMovements = new UndergroundMovementSystem();
     
     this.loadAllData();
   }
@@ -386,6 +389,14 @@ export class RoadmapFeaturesManager {
         activeAgents: this.espionageSystem.getAgents().length,
         stolenTech: this.espionageSystem.getStolenTechnologies().length
       },
+      underground: {
+        activeRebelGroups: this.undergroundMovements.getActiveRebelGroups().length,
+        totalFighters: this.undergroundMovements.getActiveRebelGroups().reduce((sum, g) => sum + g.fighters, 0),
+        revolutionaryCells: this.undergroundMovements.getActiveRevolutionaryCells().length,
+        secretSocieties: this.undergroundMovements.getActiveSecretSocieties().length,
+        publicFear: this.undergroundMovements.getPublicFearLevel(),
+        revolutionThreat: this.undergroundMovements.getRevolutionThreat()
+      },
       colonial: {
         colonies: this.ownedColonies.size,
         revenue: this.getColonialRevenue()
@@ -395,5 +406,12 @@ export class RoadmapFeaturesManager {
         tradeBonus: this.getTradeBonus()
       }
     };
+  }
+
+  /**
+   * Get underground movement system
+   */
+  public getUndergroundMovements(): UndergroundMovementSystem {
+    return this.undergroundMovements;
   }
 }

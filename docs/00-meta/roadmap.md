@@ -226,10 +226,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Verschlüsselung zwischen Spielern
 
 #### 🔹 Untergrund-Bewegungen
-- [ ] Rebellen und Guerilla-Kämpfer
-- [ ] Geheime Gesellschaften
-- [ ] Revolutionäre Zellen
-- [ ] Terroranschläge (ab Industrialisierung)
+- [x] Rebellen und Guerilla-Kämpfer ✅ (UndergroundMovementSystem - v2.4.2)
+- [x] Geheime Gesellschaften ✅ (UndergroundMovementSystem - v2.4.2)
+- [x] Revolutionäre Zellen ✅ (UndergroundMovementSystem - v2.4.2)
+- [x] Terroranschläge (ab Industrialisierung) ✅ (UndergroundMovementSystem - v2.4.2)
 - [ ] **Multiplayer**: Spieler können Rebellenführer sein
 - [ ] **Multiplayer**: Koordinierte Aufstände
 
