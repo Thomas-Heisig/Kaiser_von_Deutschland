@@ -5,6 +5,7 @@ import { Graphics } from './Graphics';
 import { NewGameRenderer } from './NewGameRenderer';
 import { SaveManager } from './SaveManager';
 import { NotificationSystem } from './NotificationSystem';
+import { HelpSystem } from './HelpSystem';
 
 export class GameUI {
   private game: GameEngine;
@@ -14,6 +15,7 @@ export class GameUI {
   private useNewRenderer: boolean = true; // Toggle für neue Grafik-Engine
   private saveManager: SaveManager;
   private notificationSystem: NotificationSystem;
+  private helpSystem: HelpSystem;
   private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
@@ -30,6 +32,7 @@ export class GameUI {
     this.container = document.getElementById(containerId) || this.createRoot(containerId);
     this.saveManager = new SaveManager(game);
     this.notificationSystem = new NotificationSystem();
+    this.helpSystem = new HelpSystem();
     
     this.initializeUI();
     this.setupEventListeners();
@@ -59,6 +62,11 @@ export class GameUI {
             <span id="current-month">Monat: Jan</span>
             <span id="current-year">Jahr: 1200</span>
             <span id="game-state">Lobby</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button id="help-btn" class="help-btn" title="Hilfe & Dokumentation">
+              📖 Hilfe
+            </button>
           </div>
         </header>
         
@@ -114,6 +122,11 @@ export class GameUI {
     // Spieler Management
     this.container.querySelector('#add-player-btn')?.addEventListener('click', () => this.showPlayerCreation());
     
+    // Help button
+    this.container.querySelector('#help-btn')?.addEventListener('click', () => {
+      this.helpSystem.toggle();
+    });
+
     // Spielsteuerung
     this.container.querySelector('#new-game-btn')?.addEventListener('click', () => this.startNewGame());
     this.container.querySelector('#next-year-btn')?.addEventListener('click', () => this.advanceYear());

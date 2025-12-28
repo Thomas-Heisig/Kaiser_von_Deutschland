@@ -1,8 +1,8 @@
 # 🌟 Kaiser von Deutschland - Massive Roadmap Expansion 🚀
 
 **Letzte Aktualisierung**: Dezember 2025  
-**Version**: 2.0.0 → Vision 2030  
-**Aktuelle Implementierung**: 20 Features aus verschiedenen Kapiteln (siehe ✅ Markierungen)
+**Version**: 2.5.0 → Vision 2030  
+**Aktuelle Implementierung**: Lebensphasen-System (v2.5.0) + 20 Roadmap Features + Dokumentations-System
 
 Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel in eine Plattform, von einer Simulation in eine lebendige, atmende historische Welt. Die Vision ist ehrgeizig, aber modular genug, um schrittweise realisiert zu werden.
 
@@ -25,8 +25,9 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 
 ## 📊 Aktueller Status
 
-### ✅ Implementiert (v2.0.0)
+### ✅ Implementiert (v2.0.0-2.5.0)
 
+#### Basis-Systeme (v2.0.0-2.3.0)
 - ✅ 15 verschiedene Spielerrollen (Arbeiter bis Kaiser)
 - ✅ 27 historische Ereignisse (Jahr 0 bis 2050)
 - ✅ 23 Gebäudetypen über 6 historische Ären
@@ -40,6 +41,21 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - ✅ Save/Load System mit LocalForage
 - ✅ Responsive UI mit Dark Theme
 - ✅ TypeScript-basierte Architektur
+
+#### 📚 Dokumentations- & Hilfe-System (v2.5.0) ✅ **NEU!**
+- ✅ **In-Game Dokumentation**
+  - ✅ Dokumentations-Viewer direkt im Spiel
+  - ✅ 📖 Hilfe-Button im Header
+  - ✅ Zugriff auf alle Markdown-Dokumentationen
+  - ✅ Strukturierte Navigation (Schnelleinstieg, Features, Entwicklung, etc.)
+  - ✅ Suchfunktion für Dokumentation
+  - ✅ Markdown-zu-HTML-Konverter
+  - ✅ Responsive Design für mobile Geräte
+- ✅ **Dokumentations-Reorganisation**
+  - ✅ Vollständiger Dokumentations-Index (INDEX.md)
+  - ✅ Strukturierte Dokumentation (00-meta bis 99-appendix)
+  - ✅ Reports-Ordner für Implementierungsberichte
+  - ✅ Umfassende Dokumentations-Standards
 
 ---
 
