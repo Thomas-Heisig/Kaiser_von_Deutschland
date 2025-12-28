@@ -11,8 +11,8 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
 > **Aktuelle Version:** v2.5.0  
-> **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System**  
-> **In Entwicklung:** UI-Integration für neues Gameplay-System  
+> **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System** + **20 Roadmap Features**  
+> **MASSIV ERWEITERT in v2.4.0:** 🚀 **17 neue Kernsysteme** für Population, Krieg, Spionage, Städte, Kultur & Recht!  
 > Siehe [ROADMAP](docs/00-meta/roadmap.md) für geplante Features und [STATUS](docs/00-meta/status.md) für Details.
 
 ## ✨ Hauptmerkmale
@@ -160,15 +160,20 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **📈 Soziale Mobilitätssystem**: Klassenwechsel, Berufsaufstieg, soziale Bewegungen
 - **🌾 Hungersnot-System**: Regionale Hungersnöte mit Ursachen und Auswirkungen
 - **💰 Ökonomische Kohorten**: Skalierbare Wirtschaft für bis zu 80 Millionen Bürger
-- **⚔️ Belagerungs-System**: Stadtbelagerungen mit Werkzeugen, Mauern, Versorgung
-- **🕵️ Spionage-System**: Agentennetzwerke, Missionen, Sabotage, Attentate
+- **⚔️ Gelände & Wetter im Kampf**: Terraineffekte (Höhen, Wälder, Flüsse) und Wettereinflüsse in Schlachten
+- **🎖️ Militärformationen**: Keil, Phalanx, Linie und weitere taktische Formationen
+- **📦 Versorgungslogistik**: Versorgungslinien, Winterquartiere, Lager für Armeen
+- **🏰 Belagerungs-System**: Stadtbelagerungen mit Werkzeugen (Katapulte, Kanonen), Mauern, Versorgung
+- **🛡️ Befestigungssystem**: Stadtmauern von Holzpalisaden bis Bunkern
+- **🕵️ Spionage-System**: Agentennetzwerke, Missionen, Sabotage, Attentate, Doppelagenten
 - **🏙️ Stadtbezirks-System**: Slums, Nobelviertel, Gentrifizierung, Kriminalität
-- **🌙 Tag/Nacht-Zyklus**: Tagesrhythmus mit unterschiedlichen Aktivitäten
-- **🎨 Kunst & Kultur**: Künstler, Kunstwerke, Aufführungen, kulturelle Kreise
-- **📰 Informationsverbreitung**: Nachrichten, Gerüchte, Propaganda, soziale Netzwerke
-- **⚖️ Rechtssystem & Gerichte**: Gerichtsverfahren, Richter, Gefängnisse, Bürokratie
+- **🌙 Tag/Nacht-Zyklus**: Tagesrhythmus mit unterschiedlichen Aktivitäten (Märkte morgens, Theater abends)
+- **🎨 Kunst & Kultur**: Künstler, Kunstwerke, Aufführungen, kulturelle Kreise, Konzerte
+- **📰 Informationsverbreitung**: Nachrichten, Gerüchte, Propaganda, Medien von Flugblättern bis Internet
+- **⚖️ Rechtssystem & Gerichte**: Gerichtsverfahren, Richter, Gefängnisse, Bürokratie, Korruption
+- **📚 Bibliothekssystem**: Büchersammlungen, Zensur, digitale Bibliotheken, Open Access
+- **🎓 Universitätssystem**: Historische deutsche Universitäten, Nobelpreise, Forschung
 - **📜 Historische Events**: Erweiterte Event-Datenbank mit Event-Ketten
-- **⚔️ Militär-Erweiterungen**: Formationen, Geländeeffekte, Wettereinflüsse, Versorgungslinien
 
 ## 🚀 Technologie-Stack
 
