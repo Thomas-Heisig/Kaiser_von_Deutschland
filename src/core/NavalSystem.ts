@@ -449,6 +449,8 @@ export class NavalSystem {
 
     // Calculate battle outcome
     const outcome = this.calculateBattleOutcome(
+      attackerFleet,
+      defenderFleet,
       attackerStrength,
       defenderStrength,
       environment
@@ -474,6 +476,8 @@ export class NavalSystem {
    * Calculate battle outcome based on strengths and environment
    */
   private calculateBattleOutcome(
+    attackerFleet: Fleet,
+    defenderFleet: Fleet,
     attackerStrength: number,
     defenderStrength: number,
     environment: NavalBattle['environment']
@@ -518,21 +522,48 @@ export class NavalSystem {
       ? defenderStrength * winnerLossRate 
       : defenderStrength * loserLossRate;
 
+    // Calculate ship losses based on casualty rates
+    const attackerShipsLost = this.calculateShipLosses(
+      attackerFleet,
+      winner === 'attacker' ? winnerLossRate : loserLossRate
+    );
+    
+    const defenderShipsLost = this.calculateShipLosses(
+      defenderFleet,
+      winner === 'defender' ? winnerLossRate : loserLossRate
+    );
+
     return {
-      winner: winner === 'attacker' ? 'attacker' : 'defender',
+      winner,
       casualties: {
         attacker: Math.floor(attackerCasualties),
         defender: Math.floor(defenderCasualties)
       },
       shipsLost: {
-        attacker: new Map(),
-        defender: new Map()
+        attacker: attackerShipsLost,
+        defender: defenderShipsLost
       },
       shipsCaptured: {
         attacker: new Map(),
         defender: new Map()
       }
     };
+  }
+
+  /**
+   * Calculate ship losses for a fleet based on loss rate
+   */
+  private calculateShipLosses(fleet: Fleet, lossRate: number): Map<string, number> {
+    const losses = new Map<string, number>();
+    
+    fleet.ships.forEach((count, shipTypeId) => {
+      const shipsLost = Math.floor(count * lossRate);
+      if (shipsLost > 0) {
+        losses.set(shipTypeId, shipsLost);
+      }
+    });
+    
+    return losses;
   }
 
   /**
