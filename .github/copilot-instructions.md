@@ -198,6 +198,110 @@ src/
 
 ### KI Integration
 - Support both local and remote KI services
+
+## 🎯 New Roadmap Features (20 Random Features - v2.5.0)
+
+### Economic Systems (v2.5.0)
+- **Inflation and Deflation**: Dynamic currency valuation system with historical inflation rates
+  - Uses `EconomicSystemsManager` class
+  - Tracks price levels, inflation rates, and monetary policies
+  - Historical systems from medieval to modern era
+  - Supports deflation events (Black Death, Great Depression)
+  - Data: `src/data/json/economic-systems.json`
+- **Libraries & Knowledge**: Book collections, libraries, censorship, Open Access vs Paywalls
+  - Uses `LibrarySystem` class
+  - Supports multiple library types from monastery to digital libraries
+  - Book collection with cultural and research values
+  - Censorship policies affect research and culture
+  - Data: `src/data/json/libraries.json`
+
+### Military & Defense Systems (v2.5.0)
+- **Fortifications**: City walls, siege weapons, siege tactics
+  - Uses `FortificationSystem` class
+  - Wall types from wooden palisade to modern bunkers
+  - Siege weapons: battering rams, catapults, trebuchets, cannons
+  - Siege tactics: undermining, starvation, escalade
+  - Data: `src/data/json/fortifications.json`
+- **Military Logistics**: Supply lines, winter quarters, military camps
+  - Supply line types: road, river, rail, motorized
+  - Camp types: tent camps, forts, winter quarters, barracks, bases
+  - Logistics upgrades affect capacity and efficiency
+  - Data: `src/data/json/military-logistics.json`
+- **Naval Systems**: Marine technology tree, naval units, combat tactics
+  - Technologies from rowing to nuclear propulsion
+  - Ship types: galleys, cogs, carracks, ironclads, submarines, carriers
+  - Naval combat tactics and blockades
+  - Data: `src/data/json/naval-systems.json`
+
+### Espionage & Information Warfare (v2.5.0)
+- **Advanced Espionage**: Agents, double agents, sabotage, assassinations
+  - Uses `AdvancedEspionageSystem` class
+  - Agent recruitment and network building
+  - Operations: sabotage, tech theft, assassinations, kidnapping
+  - Double agent mechanics with loyalty and skill
+  - Cipher systems for message encryption
+  - Data: `src/data/json/espionage-systems.json`
+- **Propaganda Systems**: Campaigns, counter-propaganda, information warfare
+  - Patriotic propaganda, enemy demonization
+  - Radio and social media campaigns (era-dependent)
+  - Secret societies and revolutionary cells
+  - Effects on morale and war support
+
+### Education & Science (v2.5.0)
+- **Universities**: Historical German universities (Heidelberg, Leipzig, Berlin, TUM)
+  - University founding and management
+  - Specializations and research bonuses
+  - Student capacity and prestige tracking
+  - Educational reforms from Latin schools to PISA
+  - Data: `src/data/json/universities.json`
+- **Nobel Prize Simulation**: Scientific awards system (from 1901)
+  - Six Nobel categories: Physics, Chemistry, Medicine, Literature, Peace, Economics
+  - Track Nobel laureates by year
+  - Prestige and cultural bonuses
+  - Famous scholars database (Einstein, Planck, Koch)
+
+### Urban Development (v2.5.0)
+- **Urban Districts**: Slums, working-class, middle-class, noble districts
+  - District types with quality, density, crime metrics
+  - Gentrification mechanics and displacement
+  - Crime hotspots and urban policies
+  - District identities (artistic, financial, immigrant, university)
+  - Data: `src/data/json/urban-districts.json`
+- **Social Policies**: Rent control, social housing, slum clearance
+  - Effects on affordability and inequality
+  - Displacement and social tension tracking
+
+### Colonial Systems (v2.5.0)
+- **Colonial Administration**: German colonies, governors, economic exploitation
+  - Six historical German colonies (East Africa, Southwest Africa, Cameroon, etc.)
+  - Colonial officials: governor-general, district officers, native chiefs
+  - Plantation economy and mining operations
+  - Independence movements and decolonization
+  - Data: `src/data/json/colonial-systems.json`
+- **Colonial Economics**: Revenue vs. costs, resource extraction
+  - Annual revenue and maintenance costs per colony
+  - Colonial policies: direct rule, indirect rule, civilizing mission
+
+### Waterways & Trade (v2.5.0)
+- **River Systems**: Rhine, Danube, Elbe, Oder with cargo capacity
+  - Major rivers with navigation and trade bonuses
+  - River shipping from medieval barges to container ships
+  - Data: `src/data/json/waterways.json`
+- **Canal Systems**: Ludwig Canal, Kiel Canal, Mittelland Canal, Rhine-Main-Danube
+  - Historical canal construction and costs
+  - Economic and military value
+  - Waterway improvements: dredging, locks, straightening
+- **Ports**: Hamburg, Bremen, Kiel with facilities
+  - Seaports and naval bases
+  - Container terminals, shipyards, customs facilities
+
+### Integration Guidelines for New Features
+- **Manager Class**: Use `RoadmapFeaturesManager` as main integration point
+- **Sub-systems**: Access via getter methods (e.g., `getEconomicSystems()`)
+- **JSON Data**: All features use JSON databases in `src/data/json/`
+- **TypeScript Types**: Each system has complete type definitions
+- **Update Loop**: Call `RoadmapFeaturesManager.update(year, deltaTime)` each game tick
+- **Feature Summary**: Use `getFeaturesSummary()` for UI display
 - Implement fallback mechanisms when KI is unavailable
 - Cache KI responses appropriately
 - Rate limit KI API calls to prevent abuse
