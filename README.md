@@ -10,7 +10,8 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Aktuelle Version:** v2.6.0  
+> **Aktuelle Version:** v2.5.1  
+> **Neu in 2.5.1:** ⚔️ **Kriegsgefangene-System (PoW)** - Manage prisoners of war with historical accuracy!
 > **Neu in 2.6.0:** 🚢 **Handelsrouten & Transport-System** - Verwalte globale Handelsrouten!
 > **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System** + **20 Roadmap Features**  
 > **MASSIV ERWEITERT in v2.4.0:** 🚀 **17 neue Kernsysteme** für Population, Krieg, Spionage, Städte, Kultur & Recht!  
@@ -168,6 +169,17 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **🛡️ Befestigungssystem**: Stadtmauern von Holzpalisaden bis Bunkern
 - **⚓ Marinekriegsführung**: 8 Schiffstypen, 10 Naval-Technologien, Seeschlachten, Blockaden, Piraterie
 - **🕵️ Spionage-System**: Agentennetzwerke, Missionen, Sabotage, Attentate, Doppelagenten
+- **⚔️ Kriegsgefangene-System (v2.5.1 - NEU!)**: 
+  - Gefangenennahme aus Schlachten und Belagerungen
+  - 6 Behandlungsrichtlinien (Menschlich, Standard, Hart, Zwangsarbeit, Lösegeld, Hinrichtung)
+  - Gefangenenlager mit konfigurierbarer Sicherheit und Bedingungen
+  - Gefangenenaustausch und Lösegeldverhandlungen
+  - Fluchtversuche mit sicherheitsbasierten Erfolgsraten
+  - Genfer Konvention Compliance (ab 1929)
+  - Diplomatische Konsequenzen für Behandlung
+  - Monatliche Gesundheit, Moral und Wirtschaftskosten
+  - Historische Ereignisse und berühmte Gefangene
+  - Umfassendes PoW-Verwaltungs-UI-Panel
 - **🏙️ Stadtbezirks-System**: Slums, Nobelviertel, Gentrifizierung, Kriminalität
 - **🌙 Tag/Nacht-Zyklus**: Tagesrhythmus mit unterschiedlichen Aktivitäten (Märkte morgens, Theater abends)
 - **🎨 Kunst & Kultur**: Künstler, Kunstwerke, Aufführungen, kulturelle Kreise, Konzerte
