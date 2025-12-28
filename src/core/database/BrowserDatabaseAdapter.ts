@@ -19,9 +19,25 @@ export class BrowserDatabaseAdapter implements DatabaseAdapter {
 
     try {
       // Initialize sql.js
-      this.SQL = await initSqlJs({
-        locateFile: (file: string) => `https://sql.js.org/dist/${file}`
-      });
+      // In test/Node.js environment, load from node_modules
+      // In browser, load from CDN
+      const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
+      
+      this.SQL = await initSqlJs(
+        isNode
+          ? {
+              // In Node.js/test environment, load from node_modules
+              locateFile: (file: string) => {
+                // Dynamically import path only in Node environment
+                const path = require('path');
+                return path.join(process.cwd(), 'node_modules', 'sql.js', 'dist', file);
+              }
+            }
+          : {
+              // In browser, load from CDN
+              locateFile: (file: string) => `https://sql.js.org/dist/${file}`
+            }
+      );
 
       // Create a new database
       this.db = new this.SQL.Database();

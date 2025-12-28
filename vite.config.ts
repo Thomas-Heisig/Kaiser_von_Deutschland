@@ -41,5 +41,9 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['localforage', 'uuid']
+  },
+  test: {
+    environment: 'node',
+    globals: true
   }
 });
