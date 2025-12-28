@@ -10,8 +10,9 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Aktuelle Version:** v2.4.0  
-> **In Entwicklung:** Gameplay System Integration - 17 neue Systeme ins Gameplay integriert  
+> **Aktuelle Version:** v2.5.0  
+> **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System**  
+> **In Entwicklung:** UI-Integration für neues Gameplay-System  
 > Siehe [ROADMAP](docs/00-meta/roadmap.md) für geplante Features und [STATUS](docs/00-meta/status.md) für Details.
 
 ## ✨ Hauptmerkmale
@@ -96,6 +97,20 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **Kriegserklärungen**: Kriegssystem mit Causus Belli, Verbündeten und Kriegspunkten
 - **Friedensverhandlungen**: Friedensangebote mit Bedingungen für Gold, Territorium und Handel
 - **Multiplayer**: Verhandlungen zwischen echten Spielern, Mehrspieler-Verträge
+
+### 🎮 Lebensphasen-basiertes Gameplay (v2.5.0 - NEU!)
+- **🎬 Intro-Sequenz**: Historisches Cinematic + Philosophische Fragen für Persönlichkeitsprofil
+- **⏳ 9 Zeitperioden**: Von Antike (500) bis Zukunft (2100) - Wähle deine Ära!
+- **👶 3 Lebensphasen**: Starte als Kind (5-10J), Schüler (10-14J) oder Erwachsener (18-25J)
+- **📅 Monatliche Zyklen**: 24h-Zeitmanagement (Arbeit, Familie, Bildung, Freizeit, Schlaf)
+- **🎯 5 Karrierepfade**: Handwerk, Politik, Militär, Klerus, Gelehrte (je 5 Aufstiegsstufen)
+- **⚡ 3 Geschwindigkeitsmodi**: Detailreich (Tag), Ausgewogen (Monat), Strategisch (Jahr)
+- **💼 Berufsspezifische Aktionen**: Jede Rolle hat einzigartige monatliche Entscheidungen
+- **📈 Aufstiegssystem**: Vom Lehrling zum Meister - realistische Karriereentwicklung
+- **🧠 Persönlichkeitssystem**: Charisma, Intellekt, Pragmatismus, Spiritualität beeinflussen Gameplay
+- **📜 Historische Szenarien**: Vordefinierte Startpunkte in verschiedenen Epochen
+
+**Siehe [GAMEPLAY_SYSTEM.md](docs/GAMEPLAY_SYSTEM.md) für Details**
 
 ### ⛪ Religions- & Kultursystem (v2.3.0 - NEU!)
 - **7 Religionen**: Katholizismus, Protestantismus, Orthodoxie, Islam, Judentum, Heidentum, Atheismus
