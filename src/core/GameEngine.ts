@@ -345,6 +345,9 @@ export class GameEngine {
     // Apply monthly policy effects
     this.policySystem.applyMonthlyEffects(player);
 
+    // Apply trade route benefits (v2.6.0)
+    this.applyTradeRouteBenefits(player);
+
     // small monthly stat adjustments
     this.updatePlayerStats(player);
 
@@ -501,6 +504,44 @@ export class GameEngine {
 
     // Spielerstatistiken aktualisieren
     this.updatePlayerStats(player);
+  }
+
+  /**
+   * Applies benefits from active trade routes to a player's kingdom (v2.6.0)
+   * @param player The player whose kingdom receives trade route benefits
+   */
+  private applyTradeRouteBenefits(player: Player): void {
+    const kingdom = player.kingdom;
+    
+    // Monthly gold income from trade routes
+    const tradeIncome = kingdom.calculateTradeRouteIncome(this.transportSystem) / 12;
+    if (tradeIncome > 0) {
+      kingdom.resources.gold += Math.floor(tradeIncome);
+    }
+    
+    // Cultural influence boost
+    const culturalBoost = kingdom.calculateTradeRouteCulturalInfluence(this.transportSystem) / 12;
+    if (culturalBoost > 0) {
+      kingdom.stats.culturalInfluence = Math.min(100, 
+        kingdom.stats.culturalInfluence + culturalBoost
+      );
+    }
+    
+    // Prestige from major trade routes
+    const prestigeBoost = kingdom.calculateTradeRoutePrestige(this.transportSystem) / 12;
+    if (prestigeBoost > 0) {
+      player.updateStats({
+        prestige: player.stats.prestige + prestigeBoost
+      });
+    }
+    
+    // Trade power increases with active routes
+    const tradePowerBoost = Math.min(5, kingdom.getActiveTradeRoutes().length * 0.5);
+    if (tradePowerBoost > 0) {
+      kingdom.stats.tradePower = Math.min(100,
+        kingdom.stats.tradePower + tradePowerBoost
+      );
+    }
   }
 
   private updatePlayerStats(player: Player): void {
@@ -888,6 +929,118 @@ export class GameEngine {
    */
   public getRoadmapFeaturesManager(): RoadmapFeaturesManager {
     return this.roadmapFeaturesManager;
+  }
+  
+  // ===== Trade Routes Management API (v2.6.0) =====
+  
+  /**
+   * Get available trade routes for a player based on current year and technologies
+   * @param player The player
+   * @returns Array of available trade routes
+   */
+  public getAvailableTradeRoutes(player: Player) {
+    const technologies = player.technologies.unlockedTechs;
+    return this.transportSystem.getAvailableRoutes(this.currentYear, technologies);
+  }
+  
+  /**
+   * Activate a trade route for a player
+   * @param player The player
+   * @param routeId ID of the route to activate
+   * @returns Success message or error
+   */
+  public activateTradeRoute(player: Player, routeId: string): { success: boolean; message: string } {
+    const route = this.transportSystem.getTradeRoute(routeId);
+    
+    if (!route) {
+      return { success: false, message: 'Handelsroute nicht gefunden' };
+    }
+    
+    // Check if route is available based on year and technology
+    if (route.period.start > this.currentYear) {
+      return { success: false, message: 'Diese Route ist noch nicht verfügbar' };
+    }
+    
+    if (route.period.end && route.period.end < this.currentYear) {
+      return { success: false, message: 'Diese Route ist nicht mehr verfügbar' };
+    }
+    
+    if (route.requiredTechnology && !player.technologies.unlockedTechs.includes(route.requiredTechnology)) {
+      return { success: false, message: `Erfordert Technologie: ${route.requiredTechnology}` };
+    }
+    
+    // Check infrastructure requirements (e.g., ports for sea routes)
+    if (route.id.includes('sea') || route.id.includes('naval')) {
+      if (player.kingdom.infrastructure.ports < 1) {
+        return { success: false, message: 'Erfordert mindestens einen Hafen' };
+      }
+    }
+    
+    // Check if already active
+    if (player.kingdom.isTradeRouteActive(routeId)) {
+      return { success: false, message: 'Route ist bereits aktiv' };
+    }
+    
+    // Activation cost (based on route length and danger)
+    const activationCost = Math.floor(route.length * 10 + route.danger * 100);
+    if (player.kingdom.resources.gold < activationCost) {
+      return { success: false, message: `Erfordert ${activationCost} Gold` };
+    }
+    
+    // Activate route
+    player.kingdom.resources.gold -= activationCost;
+    player.kingdom.activateTradeRoute(routeId);
+    this.transportSystem.activateRoute(routeId);
+    
+    return { 
+      success: true, 
+      message: `Handelsroute ${route.name} aktiviert! Einkommen: +${route.effects.trade_income} Gold/Jahr` 
+    };
+  }
+  
+  /**
+   * Deactivate a trade route for a player
+   * @param player The player
+   * @param routeId ID of the route to deactivate
+   */
+  public deactivateTradeRoute(player: Player, routeId: string): { success: boolean; message: string } {
+    if (!player.kingdom.isTradeRouteActive(routeId)) {
+      return { success: false, message: 'Route ist nicht aktiv' };
+    }
+    
+    player.kingdom.deactivateTradeRoute(routeId);
+    this.transportSystem.deactivateRoute(routeId);
+    
+    return { success: true, message: 'Handelsroute deaktiviert' };
+  }
+  
+  /**
+   * Get transport types available for a player
+   * @param player The player
+   * @returns Array of available transport types
+   */
+  public getAvailableTransportTypes(player: Player) {
+    const technologies = player.technologies.unlockedTechs;
+    return this.transportSystem.getAvailableTransport(this.currentYear, technologies);
+  }
+  
+  /**
+   * Get detailed stats about a player's trade network
+   * @param player The player
+   */
+  public getTradeNetworkStats(player: Player) {
+    const activeRoutes = player.kingdom.getActiveTradeRoutes();
+    const routes = activeRoutes.map(id => this.transportSystem.getTradeRoute(id)).filter(r => r);
+    
+    return {
+      activeRoutes: routes.length,
+      routes: routes,
+      monthlyIncome: Math.floor(player.kingdom.calculateTradeRouteIncome(this.transportSystem) / 12),
+      yearlyIncome: player.kingdom.calculateTradeRouteIncome(this.transportSystem),
+      culturalInfluence: player.kingdom.calculateTradeRouteCulturalInfluence(this.transportSystem),
+      prestigeBonus: player.kingdom.calculateTradeRoutePrestige(this.transportSystem),
+      availableTransportTypes: player.kingdom.getAvailableTransportTypes()
+    };
   }
   
   /**
