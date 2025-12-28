@@ -198,16 +198,40 @@ Jedes Dokument hat am Ende:
 
 ## Migration alter Dokumentation
 
-Bestehende Dokumentation wird schrittweise migriert:
+Die Dokumentation wurde reorganisiert und ist nun vollständig migriert:
 
-**Alte Struktur** (docs/):
-- `ARCHITECTURE.md` → `05-technical-architecture/system-overview.md`
-- `API_REFERENCE.md` → `05-technical-architecture/data-model.md`
-- `USER_GUIDE.md` → Bleibt im Root (Spieler-Einstieg)
+**Alte Struktur** → **Neue Struktur**:
+- `ARCHITECTURE.md` → `05-technical-architecture/ARCHITECTURE.md` ✅
+- `API_REFERENCE.md` → `05-technical-architecture/API_REFERENCE.md` ✅
+- `PIXIJS_OVERHAUL.md` → `05-technical-architecture/PIXIJS_OVERHAUL.md` ✅
+- `GAMEPLAY_SYSTEM.md` → `03-game-design/GAMEPLAY_SYSTEM.md` ✅
+- `POPULATION_API.md` → `04-domains/population/api.md` ✅
+- `POPULATION_GUIDE.md` → `04-domains/population/guide.md` ✅
+- `ECOLOGY_API.md` → `04-domains/ecology/api.md` ✅
+- `NAVAL_SYSTEM.md` → `04-domains/naval/system.md` ✅
+- `MIGRATION_SYSTEM.md` → `04-domains/migration/system.md` ✅
+- `SOCIAL_MOBILITY_GUIDE.md` → `04-domains/population/social-mobility.md` ✅
+- `TESTING_SCREENSHOTS.md` → `06-development/TESTING_SCREENSHOTS.md` ✅
+- `USER_GUIDE.md` → Bleibt im Root (Spieler-Einstieg) ✅
+- `INDEX.md` → Bleibt im Root (Hauptnavigation) ✅
 - `ROADMAP.md` → `00-meta/roadmap.md` ✅
-- etc.
 
-**Status**: In Arbeit (siehe `00-meta/status.md`)
+**Implementation Reports** → `reports/`:
+- `20_FEATURES_IMPLEMENTATION.md` ✅
+- `FEATURES_IMPLEMENTATION_V2.3.1.md` ✅
+- `SCALABLE_FEATURES_IMPLEMENTATION.md` ✅
+- `INTEGRATED_SYSTEMS_GUIDE.md` ✅
+- `COMPLETION_REPORT.md` ✅
+- `ECOLOGY_COMPLETION_REPORT.md` ✅
+- `NEW_FEATURES.md` ✅
+
+**Archivierte Dateien** → `outdated/`:
+- `DOCUMENTATION.md` (ersetzt durch INDEX.md und README.md) ✅
+- `IMPLEMENTATION_SUMMARY.md` (veraltet) ✅
+- `IMPLEMENTATION_SUMMARY_ROADMAP.md` (veraltet) ✅
+- `implementation-summary-v2.4.0-old.md` (alte Version) ✅
+
+**Status**: Migration abgeschlossen ✅ (Dezember 2025)
 
 ## Beitragen zur Dokumentation
 
