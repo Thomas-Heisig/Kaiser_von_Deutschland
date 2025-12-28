@@ -34,17 +34,12 @@ export class NewFeaturesPanel {
     this.container.innerHTML = `
       <div class="features-tabs">
         <button class="tab-btn active" data-tab="policies">📋 Politik</button>
-        <button class="tab-btn" data-tab="ollama">🤖 KI Berater</button>
         <button class="tab-btn" data-tab="multiplayer">🌐 Multiplayer</button>
         <button class="tab-btn" data-tab="wiki">📚 Wiki</button>
       </div>
       
       <div class="tab-content active" id="policies-tab">
         ${this.renderPoliciesTab()}
-      </div>
-      
-      <div class="tab-content" id="ollama-tab">
-        ${this.renderOllamaTab()}
       </div>
       
       <div class="tab-content" id="multiplayer-tab">
@@ -187,66 +182,6 @@ export class NewFeaturesPanel {
       : '';
   }
 
-  private renderOllamaTab(): string {
-    const ollamaService = this.game.getOllamaService();
-    
-    if (!ollamaService) {
-      return `
-        <div class="ollama-status">
-          <h3>🤖 Ollama KI-Integration</h3>
-          <p class="info-text">Ollama ist nicht aktiviert.</p>
-          <button class="btn-primary" id="enable-ollama-btn">Ollama aktivieren</button>
-          <div class="ollama-info">
-            <h4>Was ist Ollama?</h4>
-            <p>Ollama ermöglicht die Integration von KI-Modellen als Spieler und Berater.</p>
-            <h4>Installation:</h4>
-            <ol>
-              <li>Ollama herunterladen: <a href="https://ollama.ai" target="_blank">ollama.ai</a></li>
-              <li>Installieren und starten</li>
-              <li>Modell herunterladen: <code>ollama pull llama2</code></li>
-            </ol>
-          </div>
-        </div>
-      `;
-    }
-
-    const models = ollamaService.getAvailableModels();
-    const currentModel = ollamaService.getCurrentModel();
-
-    return `
-      <div class="ollama-panel">
-        <h3>🤖 KI-Berater (Ollama)</h3>
-        
-        <div class="model-selector">
-          <label>Aktives Modell:</label>
-          <select id="ollama-model-select">
-            ${models.map(model => `
-              <option value="${model.name}" ${model.name === currentModel ? 'selected' : ''}>
-                ${model.displayName} (${model.size}) - ${model.personality}
-              </option>
-            `).join('')}
-          </select>
-        </div>
-        
-        <div class="ollama-actions">
-          <button class="btn-primary" id="get-advisor-suggestion">💡 Rat einholen</button>
-          <button class="btn-primary" id="get-ai-decision">🎲 KI-Entscheidung</button>
-        </div>
-        
-        <div class="ollama-chat">
-          <h4>Chat mit KI</h4>
-          <div id="ollama-chat-history" class="chat-history"></div>
-          <div class="chat-input-group">
-            <input type="text" id="ollama-chat-input" placeholder="Nachricht an KI...">
-            <button class="btn-primary" id="send-ollama-chat">Senden</button>
-          </div>
-        </div>
-        
-        <div id="ollama-response" class="response-area"></div>
-      </div>
-    `;
-  }
-
   private renderMultiplayerTab(): string {
     const multiplayerSystem = this.game.getMultiplayerSystem();
     
@@ -298,7 +233,6 @@ export class NewFeaturesPanel {
         
         ${session.status === 'lobby' ? `
           <div class="lobby-controls">
-            <button class="btn-primary" id="add-ai-player-btn">KI-Spieler hinzufügen</button>
             <button class="btn-primary" id="start-multiplayer-btn">Spiel starten</button>
           </div>
         ` : ''}
@@ -379,15 +313,6 @@ export class NewFeaturesPanel {
       });
     });
 
-    // Enable Ollama
-    const enableOllamaBtn = this.container.querySelector('#enable-ollama-btn');
-    if (enableOllamaBtn) {
-      enableOllamaBtn.addEventListener('click', () => {
-        this.game.enableOllama();
-        this.render();
-      });
-    }
-
     // Enable Multiplayer
     const enableMultiplayerBtn = this.container.querySelector('#enable-multiplayer-btn');
     if (enableMultiplayerBtn) {
@@ -395,12 +320,6 @@ export class NewFeaturesPanel {
         this.game.enableMultiplayer();
         this.render();
       });
-    }
-
-    // Ollama chat
-    const sendChatBtn = this.container.querySelector('#send-ollama-chat');
-    if (sendChatBtn) {
-      sendChatBtn.addEventListener('click', () => this.sendOllamaChat());
     }
 
     // Multiplayer chat
@@ -450,37 +369,6 @@ export class NewFeaturesPanel {
       this.render();
     } else {
       this.notificationSystem.show('Fehler', 'Politik konnte nicht widerrufen werden.', 'error');
-    }
-  }
-
-  private async sendOllamaChat(): Promise<void> {
-    const input = this.container.querySelector('#ollama-chat-input') as HTMLInputElement;
-    if (!input || !input.value.trim()) return;
-    
-    const message = input.value.trim();
-    input.value = '';
-    
-    const ollamaService = this.game.getOllamaService();
-    if (!ollamaService) return;
-    
-    const responseArea = this.container.querySelector('#ollama-response');
-    if (responseArea) {
-      responseArea.innerHTML = '<p>⏳ KI denkt nach...</p>';
-    }
-    
-    try {
-      const response = await ollamaService.chat(message, {
-        playerName: this.currentPlayer?.name,
-        role: 'Spieler'
-      });
-      
-      if (responseArea) {
-        responseArea.innerHTML = `<div class="ai-response"><strong>KI:</strong> ${response}</div>`;
-      }
-    } catch (error) {
-      if (responseArea) {
-        responseArea.innerHTML = '<p class="error">❌ Fehler bei der Kommunikation mit Ollama</p>';
-      }
     }
   }
 

@@ -56,12 +56,6 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - Soziale Spannungen
 - Ballungsräume
 
-### 🤖 KI-Integration (NEU)
-- **Ollama AI**: 6 verschiedene KI-Modelle als Spieler oder Berater
-- Intelligente Entscheidungshilfe
-- Event-Analyse und Empfehlungen
-- Chat-Funktion
-
 ### 🌐 Multiplayer-System (NEU)
 - Bis zu 6 Spieler (Menschen + KI)
 - Echtzeit- oder Rundenbasiert
@@ -275,7 +269,6 @@ src/
 │   ├── TechnologySystem.ts     # Technologie-Baum
 │   ├── HistoricalEventSystem.ts # Historische Ereignisse
 │   ├── PolicySystem.ts         # 33 Politik-Maßnahmen (NEU)
-│   ├── OllamaService.ts        # KI-Integration (NEU)
 │   ├── MultiplayerSystem.ts    # Multiplayer-Framework (NEU)
 │   ├── WikiIntegration.ts      # Wikipedia-Anbindung (NEU)
 │   ├── Economy.ts              # Wirtschafts-Engine

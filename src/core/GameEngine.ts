@@ -4,7 +4,6 @@ import { EconomySystem } from './Economy';
 import { EventSystem } from './Events';
 import { TitleSystem } from '../data/Titles';
 import { PolicySystem } from './PolicySystem';
-import { OllamaService } from './OllamaService';
 import { MultiplayerSystem } from './MultiplayerSystem';
 import { WikiIntegration } from './WikiIntegration';
 import { CitizenSystem } from './CitizenSystem';
@@ -59,8 +58,6 @@ export interface GameConfig {
   enableMultiplayer: boolean;
   randomEvents: boolean;
   startingYear: number;
-  enableOllama?: boolean;
-  ollamaUrl?: string;
   enableWiki?: boolean;
 }
 
@@ -80,7 +77,6 @@ export class GameEngine {
   private _economy: EconomySystem;
   private events: EventSystem;
   private policySystem: PolicySystem;
-  private ollamaService?: OllamaService;
   private multiplayerSystem?: MultiplayerSystem;
   private wikiIntegration?: WikiIntegration;
   private citizenSystem: CitizenSystem;
@@ -141,7 +137,6 @@ export class GameEngine {
       enableMultiplayer: false,
       randomEvents: true,
       startingYear: 1200,
-      enableOllama: false,
       enableWiki: true,
       ...config
     };
@@ -211,12 +206,6 @@ export class GameEngine {
     this.initializeSystems();
 
     // Initialize optional systems
-    if (this.config.enableOllama) {
-      this.ollamaService = new OllamaService({
-        baseUrl: this.config.ollamaUrl
-      });
-    }
-
     if (this.config.enableMultiplayer) {
       this.multiplayerSystem = new MultiplayerSystem();
     }
@@ -722,13 +711,6 @@ export class GameEngine {
   }
 
   /**
-   * Get the Ollama service (if enabled)
-   */
-  public getOllamaService(): OllamaService | undefined {
-    return this.ollamaService;
-  }
-
-  /**
    * Get the multiplayer system (if enabled)
    */
   public getMultiplayerSystem(): MultiplayerSystem | undefined {
@@ -740,16 +722,6 @@ export class GameEngine {
    */
   public getWikiIntegration(): WikiIntegration | undefined {
     return this.wikiIntegration;
-  }
-
-  /**
-   * Enable Ollama service at runtime
-   */
-  public enableOllama(config?: { baseUrl?: string; model?: string }): void {
-    if (!this.ollamaService) {
-      this.ollamaService = new OllamaService(config);
-      this.config.enableOllama = true;
-    }
   }
 
   /**
