@@ -274,7 +274,9 @@ export class NavalSystem {
   }
 
   /**
-   * Get available ship types for a kingdom based on year and technologies
+   * Get available ship types for a kingdom based on year
+   * Note: Ships are unlocked by year, not technology. Technologies enhance naval capabilities.
+   * This allows historical progression where ships evolve naturally over time.
    */
   getAvailableShips(_kingdomId: string, year: number): NavalUnit[] {
     return Array.from(this.navalUnits.values()).filter(ship => {
@@ -672,6 +674,7 @@ export class NavalSystem {
   private getEraFromYear(year: number): string {
     if (year < 500) return 'Antike';
     if (year < 1000) return 'Frühmittelalter';
+    if (year < 1200) return 'Mittelalter';
     if (year < 1500) return 'Spätmittelalter';
     if (year < 1800) return 'Frühe Neuzeit';
     if (year < 1900) return 'Industrialisierung';
