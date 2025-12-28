@@ -347,6 +347,20 @@ export class RoadmapFeaturesManager {
   }
 
   /**
+   * Get naval technologies (for future implementation)
+   */
+  public getNavalTechnologies(): any[] {
+    return this.navalTechnologies;
+  }
+
+  /**
+   * Get military logistics data (for future implementation)
+   */
+  public getMilitaryLogistics(): any[] {
+    return this.militaryLogistics;
+  }
+
+  /**
    * Get summary of all features
    */
   public getFeaturesSummary(): Record<string, any> {

@@ -39,6 +39,7 @@ import { ArtsAndCultureSystem } from './ArtsAndCultureSystem';
 import { HistoricalEventSystem } from './HistoricalEventSystem';
 import { InformationSpreadSystem } from './InformationSpreadSystem';
 import { LegalAndCourtSystem } from './LegalAndCourtSystem';
+import { RoadmapFeaturesManager } from './RoadmapFeaturesManager';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -116,6 +117,9 @@ export class GameEngine {
   private informationSpreadSystem: InformationSpreadSystem;
   private legalAndCourtSystem: LegalAndCourtSystem;
   
+  // Roadmap Features Manager (v2.5.0) - Integrates 20 new features
+  private roadmapFeaturesManager: RoadmapFeaturesManager;
+  
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -181,6 +185,9 @@ export class GameEngine {
     this.historicalEventSystem = new HistoricalEventSystem();
     this.informationSpreadSystem = new InformationSpreadSystem();
     this.legalAndCourtSystem = new LegalAndCourtSystem();
+    
+    // Initialize Roadmap Features Manager (v2.5.0) - 20 new features
+    this.roadmapFeaturesManager = new RoadmapFeaturesManager();
     
     // Initialize all data asynchronously (fire-and-forget is intentional - 
     // systems will be ready before game starts, as startGame() is user-triggered)
@@ -354,6 +361,10 @@ export class GameEngine {
     }
 
     this.currentYear++;
+    
+    // Update roadmap features manager (v2.5.0)
+    this.roadmapFeaturesManager.update(this.currentYear, 1.0);
+    
     this.checkForPromotions();
     this.emit('yearAdvanced', { year: this.currentYear });
   }
@@ -855,6 +866,14 @@ export class GameEngine {
   
   public getLegalAndCourtSystem(): LegalAndCourtSystem {
     return this.legalAndCourtSystem;
+  }
+  
+  /**
+   * Get Roadmap Features Manager (v2.5.0)
+   * @returns RoadmapFeaturesManager instance with 20 new features
+   */
+  public getRoadmapFeaturesManager(): RoadmapFeaturesManager {
+    return this.roadmapFeaturesManager;
   }
   
   /**
