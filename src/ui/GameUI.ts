@@ -3,6 +3,7 @@ import { GameEngine, GameState } from '../core/GameEngine';
 import { Player } from '../core/Player';
 import { Graphics } from './Graphics';
 import { NewGameRenderer } from './NewGameRenderer';
+import { EnhancedPixiRenderer } from './EnhancedPixiRenderer';
 import { SaveManager } from './SaveManager';
 import { NotificationSystem } from './NotificationSystem';
 import { HelpSystem } from './HelpSystem';
@@ -15,7 +16,9 @@ export class GameUI {
   private container: HTMLElement;
   private graphics?: Graphics;
   private newRenderer?: NewGameRenderer;
-  private useNewRenderer: boolean = true; // Toggle für neue Grafik-Engine
+  private enhancedRenderer?: EnhancedPixiRenderer;
+  private useEnhancedRenderer: boolean = true; // Use new complete PixiJS overhaul
+  private useNewRenderer: boolean = false; // Old renderer toggle
   private saveManager: SaveManager;
   private notificationSystem: NotificationSystem;
   private helpSystem: HelpSystem;
@@ -40,13 +43,36 @@ export class GameUI {
     this.notificationSystem = new NotificationSystem();
     this.helpSystem = new HelpSystem();
     
-    this.initializeUI();
-    this.setupEventListeners();
-    this.setupGameEvents();
+    // Use enhanced PixiJS renderer instead of DOM
+    if (this.useEnhancedRenderer) {
+      this.initializeEnhancedRenderer();
+    } else {
+      this.initializeUI();
+      this.setupEventListeners();
+      this.setupGameEvents();
 
-    // Initial render of lists
-    this.renderPlayers();
-    this.renderSavesList();
+      // Initial render of lists
+      this.renderPlayers();
+      this.renderSavesList();
+    }
+  }
+
+  private async initializeEnhancedRenderer(): Promise<void> {
+    try {
+      this.enhancedRenderer = await EnhancedPixiRenderer.create({
+        containerId: this.container.id,
+      });
+      console.log('✨ Enhanced PixiJS Renderer initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize Enhanced PixiJS Renderer:', error);
+      // Fallback to DOM UI
+      this.useEnhancedRenderer = false;
+      this.initializeUI();
+      this.setupEventListeners();
+      this.setupGameEvents();
+      this.renderPlayers();
+      this.renderSavesList();
+    }
   }
 
   private createRoot(id: string): HTMLElement {
@@ -267,6 +293,18 @@ export class GameUI {
 
   public showKingdomView(player: Player): void {
     this._currentPlayerId = player.id;
+
+    // Use enhanced renderer if available
+    if (this.useEnhancedRenderer && this.enhancedRenderer) {
+      this.enhancedRenderer.showKingdomView(player);
+      return;
+    }
+
+    // Fallback to old renderer
+    if (this.useNewRenderer && this.newRenderer) {
+      this.newRenderer.renderKingdom(player.kingdom);
+      return;
+    }
     
     this.mainView.innerHTML = `
       <div class="kingdom-view" data-player-id="${player.id}">
