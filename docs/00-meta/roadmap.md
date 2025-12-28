@@ -270,11 +270,12 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 
 ---
 
-### Version 2.6.0 - Transport-Revolution
+### Version 2.6.0 - Transport-Revolution ✅ **CORE IMPLEMENTIERT**
 
 **Priorität**: Mittel  
 **Geschätzter Aufwand**: 6-8 Wochen  
-**Abhängigkeiten**: Wirtschaftssystem-Erweiterung
+**Abhängigkeiten**: Wirtschaftssystem-Erweiterung  
+**Status**: ✅ Kern-Features implementiert (Dezember 2025) - UI & Backend vollständig
 
 #### 🔹 Historische Transportmittel
 - [x] Transporttypen-Datenbank mit 15 Transportmitteln ✅ (Neu implementiert)
@@ -287,12 +288,29 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Spieler als Transport-Unternehmer
 - [ ] **Multiplayer**: Konkurrierende Eisenbahngesellschaften
 
-#### 🔹 Handelsrouten-Entwicklung
-- [ ] Karawanenwege zu Handelsstraßen
-- [ ] Flussschifffahrt und Kanäle
-- [ ] Häfen und Seehandelsrouten
-- [ ] Luftpost und Luftfracht (ab 1920)
-- [ ] Autobahnnetz (ab 1930)
+#### 🔹 Handelsrouten-Entwicklung **✅ NEU!**
+- [x] **Handelsrouten-System implementiert** ✅
+  - [x] 10 historische Handelsrouten (Bernsteinstraße, Hanseatic, EU-Binnenmarkt, etc.)
+  - [x] Aktivierung/Deaktivierung von Routen
+  - [x] Kosten-System basierend auf Länge und Gefahr
+  - [x] Voraussetzungen: Infrastruktur (Häfen) und Technologie
+- [x] **Wirtschaftliche Integration** ✅
+  - [x] Monatliches Einkommen aus aktiven Routen
+  - [x] Modifikatoren: Infrastruktur, Trade Power, Stabilität, Krieg
+  - [x] Kultureinfluss-Bonus
+  - [x] Prestige-Gewinn
+  - [x] Trade Power Steigerung
+- [x] **UI-Panel für Handelsrouten** ✅ (v2.6.0)
+  - [x] 4 Tabs: Aktive Routen, Verfügbare Routen, Transportmittel, Statistiken
+  - [x] Detaillierte Route-Karten mit allen Informationen
+  - [x] Aktivierungs-/Deaktivierungs-Buttons
+  - [x] Statistiken-Dashboard
+  - [x] Transportmittel-Galerie nach Kategorie
+- [x] Karawanenwege zu Handelsstraßen ✅ (Daten vorhanden, System aktiv)
+- [x] Flussschifffahrt und Kanäle ✅ (Waterways System integriert)
+- [x] Häfen und Seehandelsrouten ✅ (Infrastruktur-Anforderungen implementiert)
+- [x] Luftpost und Luftfracht (ab 1920) ✅ (Transport Types)
+- [x] Autobahnnetz (ab 1930) ✅ (Transport Types)
 - [ ] **Multiplayer**: Gemeinsame Handelsrouten
 - [ ] **Multiplayer**: Handelskonkurrenz und Piraterie
 

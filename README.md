@@ -10,7 +10,8 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Aktuelle Version:** v2.5.0  
+> **Aktuelle Version:** v2.6.0  
+> **Neu in 2.6.0:** 🚢 **Handelsrouten & Transport-System** - Verwalte globale Handelsrouten!
 > **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System** + **20 Roadmap Features**  
 > **MASSIV ERWEITERT in v2.4.0:** 🚀 **17 neue Kernsysteme** für Population, Krieg, Spionage, Städte, Kultur & Recht!  
 > Siehe [ROADMAP](docs/00-meta/roadmap.md) für geplante Features und [STATUS](docs/00-meta/status.md) für Details.
@@ -175,6 +176,26 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **📚 Bibliothekssystem**: Büchersammlungen, Zensur, digitale Bibliotheken, Open Access
 - **🎓 Universitätssystem**: Historische deutsche Universitäten, Nobelpreise, Forschung
 - **📜 Historische Events**: Erweiterte Event-Datenbank mit Event-Ketten
+
+### 🚢 Handelsrouten & Transport (v2.6.0 - NEU!)
+- **🗺️ Handelsrouten-System**: 10 historische Handelsrouten aktivieren und verwalten
+  - Bernsteinstraße, Hanseatic Trade, Seidenstraße-Extension, EU-Binnenmarkt, etc.
+  - Kosten-basierte Aktivierung (Länge × Gefahr)
+  - Voraussetzungen: Infrastruktur (Häfen) und Technologie
+- **💰 Wirtschaftliche Integration**:
+  - Monatliches Einkommen aus aktiven Routen
+  - Modifikatoren: Infrastruktur (+Märkte, Häfen, Straßen, Lagerhäuser)
+  - Bonus: Kultureinfluss, Prestige, Trade Power
+  - Malus: Stabilität, Kriegsstatus
+- **🚂 15 Transporttypen**: Vom Fußgänger bis Hochgeschwindigkeitszug
+  - Kategorien: Zu Fuß, Reittiere, Gespanne, Schiffe, Eisenbahn, Kraftfahrzeuge, Luftfahrt
+  - Historische Epochen: Antike → Zeitgenössisch
+  - Eigenschaften: Geschwindigkeit, Kapazität, Kosten, Wartung, Reichweite
+- **📊 Umfangreiches UI-Panel**:
+  - Tab: Aktive Routen (mit Deaktivierungs-Option)
+  - Tab: Verfügbare Routen (mit Aktivierungs-Button)
+  - Tab: Transportmittel-Galerie
+  - Tab: Statistiken-Dashboard (Einkommen, Kultureinfluss, Modifikatoren)
 
 ## 🚀 Technologie-Stack
 

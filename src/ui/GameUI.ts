@@ -7,6 +7,7 @@ import { SaveManager } from './SaveManager';
 import { NotificationSystem } from './NotificationSystem';
 import { HelpSystem } from './HelpSystem';
 import { RoadmapFeaturesUI } from './RoadmapFeaturesUI';
+import { TradeRoutesPanel } from './TradeRoutesPanel';
 
 export class GameUI {
   private game: GameEngine;
@@ -18,6 +19,7 @@ export class GameUI {
   private notificationSystem: NotificationSystem;
   private helpSystem: HelpSystem;
   private roadmapFeaturesUI?: RoadmapFeaturesUI;
+  private tradeRoutesPanel?: TradeRoutesPanel;
   private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
@@ -304,9 +306,13 @@ export class GameUI {
             <div class="action-group">
               <h4>🎯 Spezielle Features</h4>
               <div class="special-actions">
-                <button id="show-roadmap-features-btn" class="btn-special" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                <button id="show-roadmap-features-btn" class="btn-special" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 10px;">
                   🌟 Erweiterte Features (v2.5.0)
                   <br><small style="opacity: 0.9;">Universitäten, Bibliotheken, Spionage, Kolonien & mehr</small>
+                </button>
+                <button id="show-trade-routes-btn" class="btn-special" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                  🚢 Handelsrouten (v2.6.0)
+                  <br><small style="opacity: 0.9;">Verwalte Handelsrouten & Transport</small>
                 </button>
               </div>
             </div>
@@ -426,6 +432,11 @@ export class GameUI {
     // Roadmap Features Button
     this.mainView.querySelector('#show-roadmap-features-btn')?.addEventListener('click', () => {
       this.showRoadmapFeaturesPanel(player);
+    });
+
+    // Trade Routes Button (v2.6.0)
+    this.mainView.querySelector('#show-trade-routes-btn')?.addEventListener('click', () => {
+      this.showTradeRoutesPanel(player);
     });
 
     // Steuersatz
@@ -783,6 +794,95 @@ export class GameUI {
     this.notificationSystem.show(
       '🌟 Erweiterte Features',
       'Willkommen zu den neuen Roadmap-Features von v2.5.0!'
+    );
+  }
+
+  private showTradeRoutesPanel(player: Player): void {
+    // Create trade routes panel if it doesn't exist
+    if (!this.tradeRoutesPanel) {
+      // Create a modal container for trade routes
+      const modalContainer = document.createElement('div');
+      modalContainer.id = 'trade-routes-modal';
+      modalContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+      `;
+      
+      const panelWrapper = document.createElement('div');
+      panelWrapper.id = 'trade-routes-panel-wrapper';
+      panelWrapper.style.cssText = `
+        background: #1a1a2e;
+        border-radius: 12px;
+        padding: 24px;
+        max-width: 1200px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+        position: relative;
+      `;
+      
+      const closeButton = document.createElement('button');
+      closeButton.textContent = '✕';
+      closeButton.style.cssText = `
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: #ff4757;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      `;
+      closeButton.addEventListener('click', () => {
+        document.body.removeChild(modalContainer);
+      });
+      
+      panelWrapper.appendChild(closeButton);
+      
+      const tradeRoutesContainer = document.createElement('div');
+      tradeRoutesContainer.id = 'trade-routes-container';
+      panelWrapper.appendChild(tradeRoutesContainer);
+      
+      modalContainer.appendChild(panelWrapper);
+      document.body.appendChild(modalContainer);
+      
+      this.tradeRoutesPanel = new TradeRoutesPanel(
+        this.game,
+        'trade-routes-container',
+        this.notificationSystem
+      );
+    } else {
+      // Show existing panel
+      const modal = document.getElementById('trade-routes-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+    
+    // Set the current player for the trade routes panel
+    this.tradeRoutesPanel.setPlayer(player);
+    
+    this.notificationSystem.show(
+      '🚢 Handelsrouten',
+      'Verwalte deine Handelsrouten und baue dein Transportnetzwerk aus!'
     );
   }
 }

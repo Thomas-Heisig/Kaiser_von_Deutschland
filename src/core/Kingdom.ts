@@ -127,6 +127,10 @@ export class Kingdom {
   public alliances: string[] = [];
   public vassals: string[] = [];
   public tradePartners: string[] = [];
+  
+  // Trade Routes (v2.6.0)
+  public activeTradeRoutes: Set<string> = new Set();
+  public availableTransportTypes: Set<string> = new Set();
 
   // Produktions- und Verbrauchsraten
   private productionRates!: ProductionRates;
@@ -1032,6 +1036,147 @@ export class Kingdom {
     }
   }
 
+  // ===== Trade Routes Management (v2.6.0) =====
+
+  /**
+   * Aktiviert eine Handelsroute
+   * @param routeId ID der Handelsroute
+   * @returns true wenn erfolgreich aktiviert
+   */
+  public activateTradeRoute(routeId: string): boolean {
+    if (!this.activeTradeRoutes.has(routeId)) {
+      this.activeTradeRoutes.add(routeId);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Deaktiviert eine Handelsroute
+   * @param routeId ID der Handelsroute
+   */
+  public deactivateTradeRoute(routeId: string): void {
+    this.activeTradeRoutes.delete(routeId);
+  }
+
+  /**
+   * Prüft ob eine Handelsroute aktiv ist
+   * @param routeId ID der Handelsroute
+   */
+  public isTradeRouteActive(routeId: string): boolean {
+    return this.activeTradeRoutes.has(routeId);
+  }
+
+  /**
+   * Gibt alle aktiven Handelsrouten zurück
+   */
+  public getActiveTradeRoutes(): string[] {
+    return Array.from(this.activeTradeRoutes);
+  }
+
+  /**
+   * Berechnet das Einkommen aus aktiven Handelsrouten
+   * Wird vom GameEngine's TransportSystem verwendet
+   * @param transportSystem Das TransportSystem aus der GameEngine
+   */
+  public calculateTradeRouteIncome(transportSystem: any): number {
+    let totalIncome = 0;
+    
+    for (const routeId of this.activeTradeRoutes) {
+      const route = transportSystem.getTradeRoute(routeId);
+      if (route) {
+        // Basis-Einkommen aus der Route
+        let routeIncome = route.effects.trade_income || 0;
+        
+        // Modifikatoren basierend auf Infrastruktur
+        const infrastructureBonus = (
+          (this.infrastructure.ports || 0) * 0.15 +
+          (this.infrastructure.markets || 0) * 0.10 +
+          (this.infrastructure.roads || 0) * 0.05 +
+          (this.infrastructure.warehouses || 0) * 0.08
+        );
+        
+        // Trade Power Bonus
+        const tradePowerBonus = (this.stats.tradePower / 100) * 0.5;
+        
+        // Handelspartner-Bonus (mehr Partner = mehr Handel)
+        const partnerBonus = Math.min(this.tradePartners.length * 0.05, 0.25);
+        
+        // Sicherheits-Malus bei niedrigem Stabilitätswert
+        const stabilityPenalty = this.stats.stability < 50 ? (50 - this.stats.stability) * 0.01 : 0;
+        
+        // Kriegs-Malus
+        const warPenalty = this.isAtWar ? 0.3 : 0;
+        
+        routeIncome = routeIncome * (
+          1 + infrastructureBonus + tradePowerBonus + partnerBonus - stabilityPenalty - warPenalty
+        );
+        
+        totalIncome += Math.floor(routeIncome);
+      }
+    }
+    
+    return totalIncome;
+  }
+
+  /**
+   * Berechnet kulturellen Einfluss aus Handelsrouten
+   * @param transportSystem Das TransportSystem aus der GameEngine
+   */
+  public calculateTradeRouteCulturalInfluence(transportSystem: any): number {
+    let totalInfluence = 0;
+    
+    for (const routeId of this.activeTradeRoutes) {
+      const route = transportSystem.getTradeRoute(routeId);
+      if (route) {
+        const influence = route.effects.cultural_influence || route.culturalExchange || 0;
+        totalInfluence += influence;
+      }
+    }
+    
+    return totalInfluence / Math.max(1, this.activeTradeRoutes.size);
+  }
+
+  /**
+   * Berechnet Prestige aus Handelsrouten
+   * @param transportSystem Das TransportSystem aus der GameEngine
+   */
+  public calculateTradeRoutePrestige(transportSystem: any): number {
+    let totalPrestige = 0;
+    
+    for (const routeId of this.activeTradeRoutes) {
+      const route = transportSystem.getTradeRoute(routeId);
+      if (route) {
+        totalPrestige += route.effects.prestige || 0;
+      }
+    }
+    
+    return totalPrestige;
+  }
+
+  /**
+   * Fügt einen verfügbaren Transporttyp hinzu
+   * @param transportId ID des Transporttyps
+   */
+  public unlockTransportType(transportId: string): void {
+    this.availableTransportTypes.add(transportId);
+  }
+
+  /**
+   * Prüft ob ein Transporttyp verfügbar ist
+   * @param transportId ID des Transporttyps
+   */
+  public hasTransportType(transportId: string): boolean {
+    return this.availableTransportTypes.has(transportId);
+  }
+
+  /**
+   * Gibt alle verfügbaren Transporttypen zurück
+   */
+  public getAvailableTransportTypes(): string[] {
+    return Array.from(this.availableTransportTypes);
+  }
+
   /**
    * Serialisiert das Königreich für Speicherung
    */
@@ -1058,6 +1203,8 @@ export class Kingdom {
       alliances: this.alliances,
       vassals: this.vassals,
       tradePartners: this.tradePartners,
+      activeTradeRoutes: Array.from(this.activeTradeRoutes),
+      availableTransportTypes: Array.from(this.availableTransportTypes),
       productionRates: this.productionRates,
       consumptionRates: this.consumptionRates
     };
@@ -1091,6 +1238,8 @@ export class Kingdom {
     kingdom.alliances = data.alliances || [];
     kingdom.vassals = data.vassals || [];
     kingdom.tradePartners = data.tradePartners || [];
+    kingdom.activeTradeRoutes = new Set(data.activeTradeRoutes || []);
+    kingdom.availableTransportTypes = new Set(data.availableTransportTypes || []);
 
     // Private Felder
     (kingdom as any).productionRates = data.productionRates;
