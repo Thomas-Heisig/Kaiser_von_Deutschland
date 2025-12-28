@@ -2,6 +2,21 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
+// Migration constants
+const MIGRATION_DESIRE_CONSTANTS = {
+  UNHAPPY_INCREASE: 10,
+  HAPPY_DECREASE: 5,
+  YOUNG_ADULT_BONUS: 3,
+  FAMILY_PENALTY: 5,
+  UNHAPPY_THRESHOLD: 50,
+  HAPPY_THRESHOLD: 70,
+  LOW_ATTRACTIVENESS_THRESHOLD: 40,
+  HIGH_ATTRACTIVENESS_THRESHOLD: 60,
+  YOUNG_ADULT_MIN_AGE: 18,
+  YOUNG_ADULT_MAX_AGE: 35,
+  FAMILY_THRESHOLD: 3
+} as const;
+
 /**
  * Beruf eines Bürgers
  */
@@ -626,21 +641,32 @@ export class CitizenSystem {
       const avgNeeds = Object.values(citizen.needs).reduce((a, b) => a + b, 0) / Object.keys(citizen.needs).length;
       
       // If needs are not met or attractiveness is low, increase migration desire
-      if (avgNeeds < 50 || attractiveness < 40) {
-        citizen.migrationDesire = Math.min(100, citizen.migrationDesire + Math.random() * 10);
-      } else if (avgNeeds > 70 && attractiveness > 60) {
+      if (avgNeeds < MIGRATION_DESIRE_CONSTANTS.UNHAPPY_THRESHOLD || 
+          attractiveness < MIGRATION_DESIRE_CONSTANTS.LOW_ATTRACTIVENESS_THRESHOLD) {
+        citizen.migrationDesire = Math.min(100, 
+          citizen.migrationDesire + Math.random() * MIGRATION_DESIRE_CONSTANTS.UNHAPPY_INCREASE
+        );
+      } else if (avgNeeds > MIGRATION_DESIRE_CONSTANTS.HAPPY_THRESHOLD && 
+                 attractiveness > MIGRATION_DESIRE_CONSTANTS.HIGH_ATTRACTIVENESS_THRESHOLD) {
         // If happy and region is good, decrease migration desire
-        citizen.migrationDesire = Math.max(0, citizen.migrationDesire - Math.random() * 5);
+        citizen.migrationDesire = Math.max(0, 
+          citizen.migrationDesire - Math.random() * MIGRATION_DESIRE_CONSTANTS.HAPPY_DECREASE
+        );
       }
       
       // Age factor: young adults more likely to migrate
-      if (citizen.age >= 18 && citizen.age <= 35) {
-        citizen.migrationDesire = Math.min(100, citizen.migrationDesire + Math.random() * 3);
+      if (citizen.age >= MIGRATION_DESIRE_CONSTANTS.YOUNG_ADULT_MIN_AGE && 
+          citizen.age <= MIGRATION_DESIRE_CONSTANTS.YOUNG_ADULT_MAX_AGE) {
+        citizen.migrationDesire = Math.min(100, 
+          citizen.migrationDesire + Math.random() * MIGRATION_DESIRE_CONSTANTS.YOUNG_ADULT_BONUS
+        );
       }
       
       // Family factor: people with families less likely to migrate
-      if (citizen.familyRelations.length > 3) {
-        citizen.migrationDesire = Math.max(0, citizen.migrationDesire - Math.random() * 5);
+      if (citizen.familyRelations.length > MIGRATION_DESIRE_CONSTANTS.FAMILY_THRESHOLD) {
+        citizen.migrationDesire = Math.max(0, 
+          citizen.migrationDesire - Math.random() * MIGRATION_DESIRE_CONSTANTS.FAMILY_PENALTY
+        );
       }
     }
   }

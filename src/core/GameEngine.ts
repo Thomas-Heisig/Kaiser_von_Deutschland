@@ -1211,6 +1211,20 @@ export class GameEngine {
     return Math.min(100, totalPop / 1000);
   }
   
+  // Migration processing constants
+  private static readonly MIGRATION_CONSTANTS = {
+    DEFAULT_EMPLOYMENT: 70 as number,
+    DEFAULT_WAGES: 50 as number,
+    DEFAULT_SAFETY: 80 as number,
+    DEFAULT_INFRASTRUCTURE: 50 as number,
+    DEFAULT_FOOD: 70 as number,
+    DEFAULT_DISEASE: 10 as number,
+    MIN_DISTANCE: 300 as number,
+    MAX_DISTANCE_VARIANCE: 400 as number,
+    BASE_CULTURAL_SIMILARITY: 0.5 as number,
+    CULTURAL_VARIANCE: 0.3 as number
+  };
+  
   /**
    * Process migrations between regions (v2.1.5)
    * Calculates region attractiveness and moves citizens accordingly
@@ -1228,12 +1242,12 @@ export class GameEngine {
     
     for (const regionId of activeRegions) {
       // Get region data from players (aggregate across all players)
-      let employment = 70;
-      let wages = 50;
-      let safety = 80;
-      let infrastructure = 50;
-      let food = 70;
-      let disease = 10;
+      let employment = GameEngine.MIGRATION_CONSTANTS.DEFAULT_EMPLOYMENT;
+      let wages = GameEngine.MIGRATION_CONSTANTS.DEFAULT_WAGES;
+      let safety = GameEngine.MIGRATION_CONSTANTS.DEFAULT_SAFETY;
+      let infrastructure = GameEngine.MIGRATION_CONSTANTS.DEFAULT_INFRASTRUCTURE;
+      let food = GameEngine.MIGRATION_CONSTANTS.DEFAULT_FOOD;
+      let disease = GameEngine.MIGRATION_CONSTANTS.DEFAULT_DISEASE;
       
       // Calculate based on player kingdoms in this region (simplified)
       for (const player of this.players.values()) {
@@ -1289,9 +1303,15 @@ export class GameEngine {
         if (toData) {
           neighbors.set(toRegionId, toData.data);
           // Simplified distance calculation (could be improved with real geography)
-          distances.set(toRegionId, 300 + Math.random() * 400);
+          distances.set(toRegionId, 
+            GameEngine.MIGRATION_CONSTANTS.MIN_DISTANCE + 
+            Math.random() * GameEngine.MIGRATION_CONSTANTS.MAX_DISTANCE_VARIANCE
+          );
           // Simplified cultural similarity (could be improved with region traits)
-          culturalSimilarities.set(toRegionId, 0.5 + Math.random() * 0.3);
+          culturalSimilarities.set(toRegionId, 
+            GameEngine.MIGRATION_CONSTANTS.BASE_CULTURAL_SIMILARITY + 
+            Math.random() * GameEngine.MIGRATION_CONSTANTS.CULTURAL_VARIANCE
+          );
         }
       }
       

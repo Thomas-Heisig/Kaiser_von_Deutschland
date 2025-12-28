@@ -3,6 +3,13 @@
 import type { GameEngine } from '../core/GameEngine';
 import type { MigrationStats } from '../core/MigrationSystem';
 
+// UI update and threshold constants
+const MIGRATION_PANEL_CONSTANTS = {
+  UPDATE_INTERVAL_MS: 2000,
+  HIGH_THRESHOLD: 70,
+  MEDIUM_THRESHOLD: 40
+} as const;
+
 /**
  * Panel to display migration statistics and flows between regions
  */
@@ -61,7 +68,9 @@ export class MigrationPanel {
     this.render();
 
     // Auto-update every 2 seconds
-    this.updateInterval = window.setInterval(() => this.render(), 2000);
+    this.updateInterval = window.setInterval(() => this.render(), 
+      MIGRATION_PANEL_CONSTANTS.UPDATE_INTERVAL_MS
+    );
   }
 
   /**
@@ -309,8 +318,8 @@ export class MigrationPanel {
    * Gets CSS class for migration desire
    */
   private getMigrationDesireClass(desire: number): string {
-    if (desire > 70) return 'high-desire';
-    if (desire > 40) return 'medium-desire';
+    if (desire > MIGRATION_PANEL_CONSTANTS.HIGH_THRESHOLD) return 'high-desire';
+    if (desire > MIGRATION_PANEL_CONSTANTS.MEDIUM_THRESHOLD) return 'medium-desire';
     return 'low-desire';
   }
 
@@ -318,8 +327,8 @@ export class MigrationPanel {
    * Gets CSS class for happiness
    */
   private getHappinessClass(happiness: number): string {
-    if (happiness > 70) return 'high-happiness';
-    if (happiness > 40) return 'medium-happiness';
+    if (happiness > MIGRATION_PANEL_CONSTANTS.HIGH_THRESHOLD) return 'high-happiness';
+    if (happiness > MIGRATION_PANEL_CONSTANTS.MEDIUM_THRESHOLD) return 'medium-happiness';
     return 'low-happiness';
   }
 
