@@ -10,6 +10,7 @@ import { HelpSystem } from './HelpSystem';
 import { RoadmapFeaturesUI } from './RoadmapFeaturesUI';
 import { TradeRoutesPanel } from './TradeRoutesPanel';
 import { MigrationPanel } from './MigrationPanel';
+import { SocialMobilityPanel } from './SocialMobilityPanel';
 
 export class GameUI {
   private game: GameEngine;
@@ -25,6 +26,7 @@ export class GameUI {
   private roadmapFeaturesUI?: RoadmapFeaturesUI;
   private tradeRoutesPanel?: TradeRoutesPanel;
   private migrationPanel?: MigrationPanel;
+  private socialMobilityPanel?: SocialMobilityPanel;
   private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
@@ -354,9 +356,13 @@ export class GameUI {
                   🚢 Handelsrouten (v2.6.0)
                   <br><small style="opacity: 0.9;">Verwalte Handelsrouten & Transport</small>
                 </button>
-                <button id="show-migration-panel-btn" class="btn-special" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                <button id="show-migration-panel-btn" class="btn-special" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 10px;">
                   🚶 Migrations-Ströme (v2.1.5)
                   <br><small style="opacity: 0.9;">Bevölkerungsbewegung zwischen Regionen</small>
+                </button>
+                <button id="show-social-mobility-btn" class="btn-special" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                  📈 Berufswechsel (v2.1.5)
+                  <br><small style="opacity: 0.9;">Soziale Mobilität & Karrieren</small>
                 </button>
               </div>
             </div>
@@ -486,6 +492,11 @@ export class GameUI {
     // Migration Panel Button (v2.1.5)
     this.mainView.querySelector('#show-migration-panel-btn')?.addEventListener('click', () => {
       this.showMigrationPanel();
+    });
+
+    // Social Mobility Panel Button (v2.1.5)
+    this.mainView.querySelector('#show-social-mobility-btn')?.addEventListener('click', () => {
+      this.showSocialMobilityPanel();
     });
 
     // Steuersatz
@@ -854,6 +865,16 @@ export class GameUI {
     
     // Show the panel
     this.migrationPanel.show();
+  }
+
+  private showSocialMobilityPanel(): void {
+    // Create social mobility panel if it doesn't exist
+    if (!this.socialMobilityPanel) {
+      this.socialMobilityPanel = new SocialMobilityPanel(this.game);
+    }
+    
+    // Show the panel
+    this.socialMobilityPanel.show();
   }
 
   private showTradeRoutesPanel(player: Player): void {
