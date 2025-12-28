@@ -1,5 +1,6 @@
 // src/ui/PixiUISystem.ts
 import * as PIXI from 'pixi.js';
+import { PixiGraphicsHelpers } from './PixiGraphicsHelpers';
 
 /**
  * Complete PixiJS UI System - Modern glassmorphic design
@@ -125,11 +126,10 @@ export class PixiUISystem {
     const container = new PIXI.Container();
     const background = new PIXI.Graphics();
 
-    // Glassmorphic background with gradient
-    background.beginFill(this.theme.colors.glass, alpha);
-    background.lineStyle(borderWidth, borderColor, 0.1);
-    background.drawRoundedRect(0, 0, width, height, this.theme.borderRadius);
-    background.endFill();
+    // Glassmorphic background with gradient - using PixiJS 8.x API
+    background.roundRect(0, 0, width, height, this.theme.borderRadius);
+    background.fill({ color: this.theme.colors.glass, alpha });
+    background.stroke({ color: borderColor, alpha: 0.1, width: borderWidth });
 
     container.addChild(background);
 
@@ -229,7 +229,7 @@ export class PixiUISystem {
   }
 
   /**
-   * Create styled text
+   * Create styled text using PixiJS 8.x API
    */
   public createText(
     text: string,
@@ -243,7 +243,7 @@ export class PixiUISystem {
       ...style,
     };
 
-    return new PIXI.Text(text, new PIXI.TextStyle(defaultStyle));
+    return PixiGraphicsHelpers.createText(text, defaultStyle);
   }
 
   /**
@@ -269,18 +269,16 @@ export class PixiUISystem {
 
     const container = new PIXI.Container();
 
-    // Background
+    // Background - using PixiJS 8.x API
     const bg = new PIXI.Graphics();
-    bg.beginFill(backgroundColor, 0.5);
-    bg.drawRoundedRect(0, 0, width, height, height / 2);
-    bg.endFill();
+    bg.roundRect(0, 0, width, height, height / 2);
+    bg.fill({ color: backgroundColor, alpha: 0.5 });
 
-    // Fill
+    // Fill - using PixiJS 8.x API
     const fill = new PIXI.Graphics();
     const fillWidth = Math.max(height, width * progress); // Minimum width = height for rounded ends
-    fill.beginFill(fillColor);
-    fill.drawRoundedRect(0, 0, fillWidth, height, height / 2);
-    fill.endFill();
+    fill.roundRect(0, 0, fillWidth, height, height / 2);
+    fill.fill({ color: fillColor });
 
     container.addChild(bg);
     container.addChild(fill);
@@ -314,7 +312,7 @@ export class PixiUISystem {
   }
 
   /**
-   * Create a separator line
+   * Create a separator line using PixiJS 8.x API
    */
   public createSeparator(
     width: number,
@@ -322,9 +320,9 @@ export class PixiUISystem {
     alpha: number = 0.1
   ): PIXI.Graphics {
     const line = new PIXI.Graphics();
-    line.lineStyle(1, color, alpha);
     line.moveTo(0, 0);
     line.lineTo(width, 0);
+    line.stroke({ color, alpha, width: 1 });
     return line;
   }
 
@@ -354,30 +352,28 @@ export class PixiUISystem {
 
       panel.container.on('pointerover', () => {
         panel.background.clear();
-        panel.background.beginFill(this.theme.colors.glass, 0.2);
-        panel.background.lineStyle(1, this.theme.colors.accent, 0.3);
-        panel.background.drawRoundedRect(
+        panel.background.roundRect(
           0,
           0,
           width,
           height,
           this.theme.borderRadius
         );
-        panel.background.endFill();
+        panel.background.fill({ color: this.theme.colors.glass, alpha: 0.2 });
+        panel.background.stroke({ color: this.theme.colors.accent, alpha: 0.3, width: 1 });
       });
 
       panel.container.on('pointerout', () => {
         panel.background.clear();
-        panel.background.beginFill(this.theme.colors.glass, 0.1);
-        panel.background.lineStyle(1, 0xffffff, 0.1);
-        panel.background.drawRoundedRect(
+        panel.background.roundRect(
           0,
           0,
           width,
           height,
           this.theme.borderRadius
         );
-        panel.background.endFill();
+        panel.background.fill({ color: this.theme.colors.glass, alpha: 0.1 });
+        panel.background.stroke({ color: 0xffffff, alpha: 0.1, width: 1 });
       });
     }
 
@@ -432,7 +428,7 @@ export class PixiUISystem {
   }
 
   /**
-   * Draw button background with gradient
+   * Draw button background with gradient using PixiJS 8.x API
    */
   private drawButtonBackground(
     graphics: PIXI.Graphics,
@@ -440,23 +436,22 @@ export class PixiUISystem {
     height: number,
     color: number
   ): void {
-    graphics.beginFill(color);
-    graphics.drawRoundedRect(0, 0, width, height, this.theme.borderRadius);
-    graphics.endFill();
+    graphics.roundRect(0, 0, width, height, this.theme.borderRadius);
+    graphics.fill({ color });
 
     // Add subtle shadow/highlight
-    graphics.lineStyle(1, 0xffffff, 0.2);
-    graphics.drawRoundedRect(
+    graphics.roundRect(
       0,
       0,
       width,
       height / 2,
       this.theme.borderRadius
     );
+    graphics.stroke({ color: 0xffffff, alpha: 0.2, width: 1 });
   }
 
   /**
-   * Create a tooltip
+   * Create a tooltip using PixiJS 8.x API
    */
   public createTooltip(text: string, maxWidth: number = 200): PIXI.Container {
     const container = new PIXI.Container();
@@ -476,10 +471,9 @@ export class PixiUISystem {
     const height = tooltipText.height + padding * 2;
 
     const bg = new PIXI.Graphics();
-    bg.beginFill(0x1a1a2e, 0.95);
-    bg.lineStyle(1, this.theme.colors.accent, 0.5);
-    bg.drawRoundedRect(0, 0, width, height, 6);
-    bg.endFill();
+    bg.roundRect(0, 0, width, height, 6);
+    bg.fill({ color: 0x1a1a2e, alpha: 0.95 });
+    bg.stroke({ color: this.theme.colors.accent, alpha: 0.5, width: 1 });
 
     tooltipText.x = padding;
     tooltipText.y = padding;
@@ -491,7 +485,7 @@ export class PixiUISystem {
   }
 
   /**
-   * Create particle effect
+   * Create particle effect using PixiJS 8.x API
    */
   public createParticle(
     x: number,
@@ -500,9 +494,8 @@ export class PixiUISystem {
     size: number = 4
   ): PIXI.Graphics {
     const particle = new PIXI.Graphics();
-    particle.beginFill(color);
-    particle.drawCircle(0, 0, size);
-    particle.endFill();
+    particle.circle(0, 0, size);
+    particle.fill({ color });
     particle.x = x;
     particle.y = y;
     return particle;

@@ -156,7 +156,7 @@ export class EnhancedPixiRenderer {
   }
 
   /**
-   * Create animated background with particles
+   * Create animated background with particles using PixiJS 8.x API
    */
   private createAnimatedBackground(): void {
     const width = this.app.screen.width;
@@ -164,9 +164,8 @@ export class EnhancedPixiRenderer {
 
     // Radial gradient background
     const bg = new PIXI.Graphics();
-    bg.beginFill(defaultTheme.colors.background);
-    bg.drawRect(0, 0, width, height);
-    bg.endFill();
+    bg.rect(0, 0, width, height);
+    bg.fill({ color: defaultTheme.colors.background });
 
     // Add gradient overlay using Graphics
     const gradient = new PIXI.Graphics();
@@ -179,9 +178,8 @@ export class EnhancedPixiRenderer {
     for (let i = 0; i < 10; i++) {
       const radius = (maxRadius / 10) * (i + 1);
       const alpha = 0.06 - (i * 0.006);
-      gradient.beginFill(defaultTheme.colors.accentSecondary, alpha);
-      gradient.drawCircle(centerX, centerY, radius);
-      gradient.endFill();
+      gradient.circle(centerX, centerY, radius);
+      gradient.fill({ color: defaultTheme.colors.accentSecondary, alpha });
     }
     
     this.backgroundLayer.addChild(bg);
@@ -200,14 +198,14 @@ export class EnhancedPixiRenderer {
   }
 
   /**
-   * Create a star particle
+   * Create a star particle using PixiJS 8.x API
    */
   private createStar(): PIXI.Graphics {
     const star = new PIXI.Graphics();
     const size = Math.random() * 2 + 1;
-    star.beginFill(0xffffff, Math.random() * 0.5 + 0.3);
-    star.drawCircle(0, 0, size);
-    star.endFill();
+    const alpha = Math.random() * 0.5 + 0.3;
+    star.circle(0, 0, size);
+    star.fill({ color: 0xffffff, alpha });
     return star;
   }
 
