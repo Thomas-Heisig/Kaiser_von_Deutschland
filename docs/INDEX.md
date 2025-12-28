@@ -17,8 +17,8 @@
 - **[Changelog](../CHANGELOG.md)** - Versionshistorie
 
 ### 👨‍💻 Für Entwickler
-- **[Architektur](ARCHITECTURE.md)** - System-Architektur
-- **[API-Referenz](API_REFERENCE.md)** - Code-Dokumentation
+- **[Architektur](05-technical-architecture/ARCHITECTURE.md)** - System-Architektur
+- **[API-Referenz](05-technical-architecture/API_REFERENCE.md)** - Code-Dokumentation
 - **[Beitragen](../CONTRIBUTING.md)** - Wie Sie zum Projekt beitragen können
 
 ### 📖 Detaillierte Dokumentation
@@ -63,33 +63,40 @@
 ### 🎯 Features & Implementierung
 
 #### Bevölkerungssystem (v2.1.5)
-- **[Population Guide](POPULATION_GUIDE.md)** - Benutzerhandbuch
-- **[Population API](POPULATION_API.md)** - API-Dokumentation
+- **[Population Guide](04-domains/population/guide.md)** - Benutzerhandbuch
+- **[Population API](04-domains/population/api.md)** - API-Dokumentation
+- **[Social Mobility](04-domains/population/social-mobility.md)** - Soziale Mobilität
 
 #### Ökologisches System (v2.2.3)
-- **[Ecology Completion Report](ECOLOGY_COMPLETION_REPORT.md)** - Implementierungsbericht
-- **[Ecology API](ECOLOGY_API.md)** - API-Dokumentation
+- **[Ecology Completion Report](reports/ECOLOGY_COMPLETION_REPORT.md)** - Implementierungsbericht
+- **[Ecology API](04-domains/ecology/api.md)** - API-Dokumentation
+
+#### Marine-System (v2.3.5)
+- **[Naval System](04-domains/naval/system.md)** - Marine-Kriegsführung
+
+#### Migration & Soziales
+- **[Migration System](04-domains/migration/system.md)** - Bevölkerungswanderung
 
 #### Gameplay-System (v2.5.0)
-- **[Gameplay System](GAMEPLAY_SYSTEM.md)** - Lebensphasen-basiertes Gameplay
+- **[Gameplay System](03-game-design/GAMEPLAY_SYSTEM.md)** - Lebensphasen-basiertes Gameplay
 
 #### Roadmap Features (v2.3.1+)
-- **[20 Features Implementation](20_FEATURES_IMPLEMENTATION.md)** - 20 neue Features
-- **[Features v2.3.1](FEATURES_IMPLEMENTATION_V2.3.1.md)** - Features v2.3.1
-- **[Scalable Features](SCALABLE_FEATURES_IMPLEMENTATION.md)** - Skalierbare Features
-- **[Integrated Systems Guide](INTEGRATED_SYSTEMS_GUIDE.md)** - Integrierte Systeme
+- **[20 Features Implementation](reports/20_FEATURES_IMPLEMENTATION.md)** - 20 neue Features
+- **[Features v2.3.1](reports/FEATURES_IMPLEMENTATION_V2.3.1.md)** - Features v2.3.1
+- **[Scalable Features](reports/SCALABLE_FEATURES_IMPLEMENTATION.md)** - Skalierbare Features
+- **[Integrated Systems Guide](reports/INTEGRATED_SYSTEMS_GUIDE.md)** - Integrierte Systeme
+- **[New Features](reports/NEW_FEATURES.md)** - Neue Features (v2.0)
 
 #### Berichte & Zusammenfassungen
-- **[Implementation Summary](IMPLEMENTATION_SUMMARY.md)** - Implementierungsübersicht
-- **[Implementation Summary Roadmap](IMPLEMENTATION_SUMMARY_ROADMAP.md)** - Roadmap-Implementierung
-- **[Completion Report](COMPLETION_REPORT.md)** - Abschlussbericht
-- **[New Features](NEW_FEATURES.md)** - Neue Features
+- **[Completion Report](reports/COMPLETION_REPORT.md)** - Abschlussbericht
+- Weitere Berichte siehe [reports/](reports/)
 
-### 📸 Testing & Screenshots
-- **[Testing Screenshots](TESTING_SCREENSHOTS.md)** - Screenshots und Tests
+### 📸 Testing & Development
+- **[Testing Screenshots](06-development/TESTING_SCREENSHOTS.md)** - Screenshots und Tests
+- **[PixiJS Overhaul](05-technical-architecture/PIXIJS_OVERHAUL.md)** - PixiJS Integration
 
 ### 🗂️ Archiv & Legacy
-- **[Documentation](DOCUMENTATION.md)** - Dokumentations-Übersicht (Legacy)
+- **[Veraltete Dokumentation](outdated/)** - Archivierte alte Dateien
 - **[sourcecode Kaiser 2](sourcecode%20Kaiser%202/)** - Originaler Kaiser II Code
 
 ## Organisationsprinzipien

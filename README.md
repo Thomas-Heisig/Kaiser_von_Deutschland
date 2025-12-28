@@ -111,7 +111,7 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **🧠 Persönlichkeitssystem**: Charisma, Intellekt, Pragmatismus, Spiritualität beeinflussen Gameplay
 - **📜 Historische Szenarien**: Vordefinierte Startpunkte in verschiedenen Epochen
 
-**Siehe [GAMEPLAY_SYSTEM.md](docs/GAMEPLAY_SYSTEM.md) für Details**
+**Siehe [GAMEPLAY_SYSTEM.md](docs/03-game-design/GAMEPLAY_SYSTEM.md) für Details**
 
 ### ⛪ Religions- & Kultursystem (v2.3.0 - NEU!)
 - **7 Religionen**: Katholizismus, Protestantismus, Orthodoxie, Islam, Judentum, Heidentum, Atheismus
@@ -317,8 +317,8 @@ Wir verwenden eine **strukturierte Dokumentation** nach professionellen Standard
 
 ### 👨‍💻 Für Entwickler
 
-- **[System-Architektur](docs/ARCHITECTURE.md)** - Technischer Überblick (Legacy)
-- **[API-Referenz](docs/API_REFERENCE.md)** - Code-Dokumentation
+- **[System-Architektur](docs/05-technical-architecture/ARCHITECTURE.md)** - Technischer Überblick
+- **[API-Referenz](docs/05-technical-architecture/API_REFERENCE.md)** - Code-Dokumentation
 - **[Datenbank-Implementation](docs/06-development/database-implementation.md)** - SQLite Integration (NEU)
 - **[ADR-0001: Database Technology](docs/08-decisions/adr-0001-database-technology.md)** - Datenbank-Entscheidung
 
