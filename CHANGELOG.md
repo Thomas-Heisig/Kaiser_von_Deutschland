@@ -7,6 +7,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2025-12-28
+
+### Added - ⚔️ Kriegsgefangene & Behandlung (Prisoners of War System)
+
+#### Core Systems
+- **PrisonerOfWarSystem**: Complete prisoner of war management
+  - Prisoner capture mechanics from battles and sieges
+  - Individual prisoner tracking (name, rank, nationality, health, morale)
+  - Prisoner camps with configurable capacity and security
+  - 6 treatment policies (humane, standard, harsh, forced labor, ransom, execution)
+  - Treatment policy effects on diplomatic relations, morale, and health
+  - Historical accuracy with Geneva Convention compliance (post-1929)
+  - Prisoner exchange and ransom negotiations
+  - Escape attempt mechanics with security-based success rates
+  - Monthly health decay, morale changes, and death tracking
+  - Economic costs for camp maintenance
+  - PoW event system tracking all major prisoner-related events
+
+#### Data Assets
+- **prisoner-of-war.json**: Comprehensive historical data
+  - 6 treatment policy definitions with era availability
+  - Historical camps (Colditz Castle, Stalag Luft III)
+  - Timeline of PoW-related historical events (1215-1977)
+  - Ransom price structures by era
+  - Escape statistics by camp type and era
+  - Famous historical prisoners (Richard I, François I, Napoleon)
+  - Work type definitions with legal status
+
+#### Game Integration
+- Monthly prisoner health and morale updates
+- Automatic escape attempt processing
+- Integration with battle outcomes for prisoner capture
+- Diplomatic consequences for treatment policies
+- Economic costs integrated into kingdom finances
+- Event system for captures, escapes, exchanges, releases
+
+#### Features
+- Capture prisoners from defeated enemies (configurable rank distribution)
+- Create and manage prisoner camps with varying security levels
+- Choose treatment policies affecting prisoner welfare and diplomatic standing
+- Negotiate prisoner exchanges with other kingdoms
+- Release prisoners (end of war, amnesty)
+- Track prisoner statistics (by status, rank, nationality)
+- Historical compliance with international law (Geneva Convention after 1929)
+- War crime consequences for execution policy
+
+### Technical
+- TypeScript strict mode compliance
+- Comprehensive type definitions
+- Scalable architecture supporting thousands of prisoners
+- Full documentation with JSDoc comments
+- Integration with GameEngine monthly tick system
+- Public API via `getPrisonerOfWarSystem()` getter
+
+### Documentation
+- Updated roadmap.md to mark PoW feature as complete (v2.5.1)
+- Added comprehensive inline documentation
+- JSON schema documentation for all data structures
+
+---
+
 ### Added - 📈 Berufswechsel & Soziale Mobilität (Career Changes & Social Mobility)
 
 #### Core Systems

@@ -41,6 +41,7 @@ import { HistoricalEventSystem } from './HistoricalEventSystem';
 import { InformationSpreadSystem } from './InformationSpreadSystem';
 import { LegalAndCourtSystem } from './LegalAndCourtSystem';
 import { RoadmapFeaturesManager } from './RoadmapFeaturesManager';
+import { PrisonerOfWarSystem } from './PrisonerOfWarSystem';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -122,6 +123,9 @@ export class GameEngine {
   // Roadmap Features Manager (v2.5.0) - Integrates 20 new features
   private roadmapFeaturesManager: RoadmapFeaturesManager;
   
+  // Prisoner of War System (v2.5.1) - Kriegsgefangene und deren Behandlung
+  private prisonerOfWarSystem: PrisonerOfWarSystem;
+  
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -192,6 +196,9 @@ export class GameEngine {
     // Initialize Roadmap Features Manager (v2.5.0) - 20 new features
     this.roadmapFeaturesManager = new RoadmapFeaturesManager();
     
+    // Initialize Prisoner of War System (v2.5.1)
+    this.prisonerOfWarSystem = new PrisonerOfWarSystem();
+    
     // Initialize all data asynchronously (fire-and-forget is intentional - 
     // systems will be ready before game starts, as startGame() is user-triggered)
     this.initializeSystems();
@@ -231,7 +238,9 @@ export class GameEngine {
         this.artSystem.initialize(),
         this.scientificDiscoverySystem.initialize(),
         this.legalSystem.initialize(),
-        this.militaryUnitSystem.initialize()
+        this.militaryUnitSystem.initialize(),
+        // v2.5.1: Prisoner of War System
+        this.prisonerOfWarSystem.initialize()
       ]);
       console.log('All roadmap feature systems initialized successfully');
     } catch (error) {
@@ -315,6 +324,9 @@ export class GameEngine {
     
     // Process naval system monthly updates (v2.3.5)
     this.navalSystem.monthlyUpdate(this.currentYear, this.currentMonth);
+    
+    // Process Prisoner of War system monthly updates (v2.5.1)
+    this.prisonerOfWarSystem.update(this.currentYear, this.currentMonth);
     
     // Note: Many newly integrated systems don't have processMonth() methods yet
     // They are available via accessor methods for UI and manual triggering
@@ -935,6 +947,14 @@ export class GameEngine {
    */
   public getRoadmapFeaturesManager(): RoadmapFeaturesManager {
     return this.roadmapFeaturesManager;
+  }
+  
+  /**
+   * Get Prisoner of War System (v2.5.1)
+   * Manages capture, treatment, and exchange of prisoners of war
+   */
+  public getPrisonerOfWarSystem(): PrisonerOfWarSystem {
+    return this.prisonerOfWarSystem;
   }
   
   // ===== Trade Routes Management API (v2.6.0) =====
