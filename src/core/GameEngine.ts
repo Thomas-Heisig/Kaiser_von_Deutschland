@@ -310,6 +310,9 @@ export class GameEngine {
     this.socialNetworkSystem.processInformationSpread(this.citizenSystem, this.currentYear, this.currentMonth);
     this.socialNetworkSystem.processMovements(this.citizenSystem, this.currentYear, this.currentMonth);
     
+    // Process migration between regions (v2.1.5)
+    this.processMigrations();
+    
     // Process naval system monthly updates (v2.3.5)
     this.navalSystem.monthlyUpdate(this.currentYear, this.currentMonth);
     
@@ -1206,6 +1209,172 @@ export class GameEngine {
     // Base pressure from population
     const totalPop = this.citizenSystem.getPopulation();
     return Math.min(100, totalPop / 1000);
+  }
+  
+  // Migration processing constants
+  private static readonly MIGRATION_CONSTANTS = {
+    DEFAULT_EMPLOYMENT: 70 as number,
+    DEFAULT_WAGES: 50 as number,
+    DEFAULT_SAFETY: 80 as number,
+    DEFAULT_INFRASTRUCTURE: 50 as number,
+    DEFAULT_FOOD: 70 as number,
+    DEFAULT_DISEASE: 10 as number,
+    MIN_DISTANCE: 300 as number,
+    MAX_DISTANCE_VARIANCE: 400 as number,
+    BASE_CULTURAL_SIMILARITY: 0.5 as number,
+    CULTURAL_VARIANCE: 0.3 as number
+  };
+  
+  /**
+   * Process migrations between regions (v2.1.5)
+   * Calculates region attractiveness and moves citizens accordingly
+   */
+  private processMigrations(): void {
+    // Get all active regions
+    const activeRegions = this.getActiveRegions();
+    if (activeRegions.length < 2) return; // Need at least 2 regions for migration
+    
+    // Calculate attractiveness for each region
+    const attractivenessMap = new Map<string, { 
+      attractiveness: number;
+      data: any;
+    }>();
+    
+    for (const regionId of activeRegions) {
+      // Get region data from players (aggregate across all players)
+      let employment = GameEngine.MIGRATION_CONSTANTS.DEFAULT_EMPLOYMENT;
+      let wages = GameEngine.MIGRATION_CONSTANTS.DEFAULT_WAGES;
+      let safety = GameEngine.MIGRATION_CONSTANTS.DEFAULT_SAFETY;
+      let infrastructure = GameEngine.MIGRATION_CONSTANTS.DEFAULT_INFRASTRUCTURE;
+      let food = GameEngine.MIGRATION_CONSTANTS.DEFAULT_FOOD;
+      let disease = GameEngine.MIGRATION_CONSTANTS.DEFAULT_DISEASE;
+      
+      // Calculate based on player kingdoms in this region (simplified)
+      for (const player of this.players.values()) {
+        // Simplified: use kingdom stats as proxy for region
+        const kingdom = player.kingdom;
+        employment = kingdom.happiness;
+        wages = Math.min(100, kingdom.resources.gold / 100);
+        safety = kingdom.military.morale; // Higher morale = safer region
+        infrastructure = Math.min(100, (
+          (kingdom.infrastructure.roads || 0) +
+          (kingdom.infrastructure.markets || 0) +
+          (kingdom.infrastructure.farms || 0)
+        ) * 5);
+        food = Math.min(100, kingdom.resources.food / 10);
+      }
+      
+      const attractiveness = this.migrationSystem.calculateRegionAttractiveness(
+        regionId,
+        employment,
+        wages,
+        safety,
+        infrastructure,
+        food,
+        disease
+      );
+      
+      attractivenessMap.set(regionId, { 
+        attractiveness: attractiveness.totalScore,
+        data: attractiveness
+      });
+      
+      // Update migration desires for citizens in this region
+      this.citizenSystem.updateMigrationDesires(regionId, attractiveness.totalScore);
+    }
+    
+    // Process migration flows between regions
+    for (const fromRegionId of activeRegions) {
+      const fromData = attractivenessMap.get(fromRegionId);
+      if (!fromData) continue;
+      
+      const fromPopulation = this.citizenSystem.getRegionalPopulation(fromRegionId);
+      if (fromPopulation === 0) continue;
+      
+      // Build neighbor regions map
+      const neighbors = new Map<string, any>();
+      const distances = new Map<string, number>();
+      const culturalSimilarities = new Map<string, number>();
+      
+      for (const toRegionId of activeRegions) {
+        if (toRegionId === fromRegionId) continue;
+        
+        const toData = attractivenessMap.get(toRegionId);
+        if (toData) {
+          neighbors.set(toRegionId, toData.data);
+          // Simplified distance calculation (could be improved with real geography)
+          distances.set(toRegionId, 
+            GameEngine.MIGRATION_CONSTANTS.MIN_DISTANCE + 
+            Math.random() * GameEngine.MIGRATION_CONSTANTS.MAX_DISTANCE_VARIANCE
+          );
+          // Simplified cultural similarity (could be improved with region traits)
+          culturalSimilarities.set(toRegionId, 
+            GameEngine.MIGRATION_CONSTANTS.BASE_CULTURAL_SIMILARITY + 
+            Math.random() * GameEngine.MIGRATION_CONSTANTS.CULTURAL_VARIANCE
+          );
+        }
+      }
+      
+      // Calculate migration flows
+      const flows = this.migrationSystem.processMigrations(
+        fromRegionId,
+        fromPopulation,
+        fromData.data,
+        neighbors,
+        distances,
+        culturalSimilarities
+      );
+      
+      // Apply migrations
+      for (const flow of flows) {
+        // Get candidates willing to migrate
+        const candidates = this.citizenSystem.getMigrationCandidates(flow.fromRegion, flow.count);
+        
+        // Migrate each candidate
+        for (const citizen of candidates) {
+          const success = this.citizenSystem.migrateCitizen(
+            citizen.id,
+            flow.toRegion,
+            this.currentYear,
+            this.currentMonth,
+            flow.reason.type
+          );
+          
+          if (success) {
+            // Apply the migration flow (tracking)
+            this.migrationSystem.applyMigrationFlow(flow);
+          }
+        }
+      }
+    }
+    
+    // Cleanup old migration records
+    this.migrationSystem.cleanupOldMigrations();
+  }
+  
+  /**
+   * Get list of active regions (regions with population or player presence)
+   */
+  private getActiveRegions(): string[] {
+    const regions = new Set<string>();
+    
+    // Add regions with citizens
+    const allCitizens = this.citizenSystem.getAllCitizens();
+    for (const citizen of allCitizens) {
+      if (citizen.isAlive) {
+        regions.add(citizen.regionId);
+      }
+    }
+    
+    // Add a few default German regions if none exist
+    if (regions.size === 0) {
+      regions.add('preussen');
+      regions.add('bayern');
+      regions.add('sachsen');
+      regions.add('hanse');
+    }
+    
+    return Array.from(regions);
   }
   
   /**

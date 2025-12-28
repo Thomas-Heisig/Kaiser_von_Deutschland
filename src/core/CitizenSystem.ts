@@ -2,6 +2,21 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
+// Migration constants
+const MIGRATION_DESIRE_CONSTANTS = {
+  UNHAPPY_INCREASE: 10,
+  HAPPY_DECREASE: 5,
+  YOUNG_ADULT_BONUS: 3,
+  FAMILY_PENALTY: 5,
+  UNHAPPY_THRESHOLD: 50,
+  HAPPY_THRESHOLD: 70,
+  LOW_ATTRACTIVENESS_THRESHOLD: 40,
+  HIGH_ATTRACTIVENESS_THRESHOLD: 60,
+  YOUNG_ADULT_MIN_AGE: 18,
+  YOUNG_ADULT_MAX_AGE: 35,
+  FAMILY_THRESHOLD: 3
+} as const;
+
 /**
  * Beruf eines Bürgers
  */
@@ -569,6 +584,91 @@ export class CitizenSystem {
       description: 'Kind geboren'
     };
     mother.lifeEvents.push(event);
+  }
+  
+  /**
+   * Migriert einen Bürger von einer Region zu einer anderen
+   */
+  public migrateCitizen(citizenId: string, toRegionId: string, year: number, month: number, reason: string): boolean {
+    const citizen = this.citizens.get(citizenId);
+    if (!citizen || !citizen.isAlive) return false;
+    
+    const fromRegionId = citizen.regionId;
+    
+    // Update regional tracking
+    this.removeFromRegion(citizenId, fromRegionId);
+    this.addToRegion(citizenId, toRegionId);
+    
+    // Update citizen
+    citizen.regionId = toRegionId;
+    citizen.migrationDesire = Math.max(0, citizen.migrationDesire - 50); // Reset desire
+    
+    // Record event
+    const event: LifeEvent = {
+      year,
+      month,
+      type: 'migration',
+      description: `Migrierte von ${fromRegionId} nach ${toRegionId} wegen ${reason}`
+    };
+    citizen.lifeEvents.push(event);
+    
+    return true;
+  }
+  
+  /**
+   * Holt Bürger mit hohem Migrationswunsch aus einer Region
+   */
+  public getMigrationCandidates(regionId: string, count: number): Citizen[] {
+    const regionCitizens = this.getCitizensByRegion(regionId)
+      .filter(c => c.isAlive && !c.isPlayerCharacter); // Don't migrate player characters
+    
+    // Sort by migration desire and take top candidates
+    return regionCitizens
+      .sort((a, b) => b.migrationDesire - a.migrationDesire)
+      .slice(0, count);
+  }
+  
+  /**
+   * Aktualisiert den Migrationswunsch basierend auf Bedürfnissen
+   */
+  public updateMigrationDesires(regionId: string, attractiveness: number): void {
+    const citizens = this.getCitizensByRegion(regionId);
+    
+    for (const citizen of citizens) {
+      if (!citizen.isAlive || citizen.isPlayerCharacter) continue;
+      
+      // Lower attractiveness increases migration desire
+      const avgNeeds = Object.values(citizen.needs).reduce((a, b) => a + b, 0) / Object.keys(citizen.needs).length;
+      
+      // If needs are not met or attractiveness is low, increase migration desire
+      if (avgNeeds < MIGRATION_DESIRE_CONSTANTS.UNHAPPY_THRESHOLD || 
+          attractiveness < MIGRATION_DESIRE_CONSTANTS.LOW_ATTRACTIVENESS_THRESHOLD) {
+        citizen.migrationDesire = Math.min(100, 
+          citizen.migrationDesire + Math.random() * MIGRATION_DESIRE_CONSTANTS.UNHAPPY_INCREASE
+        );
+      } else if (avgNeeds > MIGRATION_DESIRE_CONSTANTS.HAPPY_THRESHOLD && 
+                 attractiveness > MIGRATION_DESIRE_CONSTANTS.HIGH_ATTRACTIVENESS_THRESHOLD) {
+        // If happy and region is good, decrease migration desire
+        citizen.migrationDesire = Math.max(0, 
+          citizen.migrationDesire - Math.random() * MIGRATION_DESIRE_CONSTANTS.HAPPY_DECREASE
+        );
+      }
+      
+      // Age factor: young adults more likely to migrate
+      if (citizen.age >= MIGRATION_DESIRE_CONSTANTS.YOUNG_ADULT_MIN_AGE && 
+          citizen.age <= MIGRATION_DESIRE_CONSTANTS.YOUNG_ADULT_MAX_AGE) {
+        citizen.migrationDesire = Math.min(100, 
+          citizen.migrationDesire + Math.random() * MIGRATION_DESIRE_CONSTANTS.YOUNG_ADULT_BONUS
+        );
+      }
+      
+      // Family factor: people with families less likely to migrate
+      if (citizen.familyRelations.length > MIGRATION_DESIRE_CONSTANTS.FAMILY_THRESHOLD) {
+        citizen.migrationDesire = Math.max(0, 
+          citizen.migrationDesire - Math.random() * MIGRATION_DESIRE_CONSTANTS.FAMILY_PENALTY
+        );
+      }
+    }
   }
   
   /**

@@ -8,6 +8,7 @@ import { NotificationSystem } from './NotificationSystem';
 import { HelpSystem } from './HelpSystem';
 import { RoadmapFeaturesUI } from './RoadmapFeaturesUI';
 import { TradeRoutesPanel } from './TradeRoutesPanel';
+import { MigrationPanel } from './MigrationPanel';
 
 export class GameUI {
   private game: GameEngine;
@@ -20,6 +21,7 @@ export class GameUI {
   private helpSystem: HelpSystem;
   private roadmapFeaturesUI?: RoadmapFeaturesUI;
   private tradeRoutesPanel?: TradeRoutesPanel;
+  private migrationPanel?: MigrationPanel;
   private _currentPlayerId?: string;
 
   // UI-Elemente Referenzen
@@ -310,9 +312,13 @@ export class GameUI {
                   🌟 Erweiterte Features (v2.5.0)
                   <br><small style="opacity: 0.9;">Universitäten, Bibliotheken, Spionage, Kolonien & mehr</small>
                 </button>
-                <button id="show-trade-routes-btn" class="btn-special" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                <button id="show-trade-routes-btn" class="btn-special" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 10px;">
                   🚢 Handelsrouten (v2.6.0)
                   <br><small style="opacity: 0.9;">Verwalte Handelsrouten & Transport</small>
+                </button>
+                <button id="show-migration-panel-btn" class="btn-special" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+                  🚶 Migrations-Ströme (v2.1.5)
+                  <br><small style="opacity: 0.9;">Bevölkerungsbewegung zwischen Regionen</small>
                 </button>
               </div>
             </div>
@@ -437,6 +443,11 @@ export class GameUI {
     // Trade Routes Button (v2.6.0)
     this.mainView.querySelector('#show-trade-routes-btn')?.addEventListener('click', () => {
       this.showTradeRoutesPanel(player);
+    });
+
+    // Migration Panel Button (v2.1.5)
+    this.mainView.querySelector('#show-migration-panel-btn')?.addEventListener('click', () => {
+      this.showMigrationPanel();
     });
 
     // Steuersatz
@@ -795,6 +806,16 @@ export class GameUI {
       '🌟 Erweiterte Features',
       'Willkommen zu den neuen Roadmap-Features von v2.5.0!'
     );
+  }
+
+  private showMigrationPanel(): void {
+    // Create migration panel if it doesn't exist
+    if (!this.migrationPanel) {
+      this.migrationPanel = new MigrationPanel(this.game);
+    }
+    
+    // Show the panel
+    this.migrationPanel.show();
   }
 
   private showTradeRoutesPanel(player: Player): void {
