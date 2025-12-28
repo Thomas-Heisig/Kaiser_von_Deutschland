@@ -165,6 +165,7 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **📦 Versorgungslogistik**: Versorgungslinien, Winterquartiere, Lager für Armeen
 - **🏰 Belagerungs-System**: Stadtbelagerungen mit Werkzeugen (Katapulte, Kanonen), Mauern, Versorgung
 - **🛡️ Befestigungssystem**: Stadtmauern von Holzpalisaden bis Bunkern
+- **⚓ Marinekriegsführung**: 8 Schiffstypen, 10 Naval-Technologien, Seeschlachten, Blockaden, Piraterie
 - **🕵️ Spionage-System**: Agentennetzwerke, Missionen, Sabotage, Attentate, Doppelagenten
 - **🏙️ Stadtbezirks-System**: Slums, Nobelviertel, Gentrifizierung, Kriminalität
 - **🌙 Tag/Nacht-Zyklus**: Tagesrhythmus mit unterschiedlichen Aktivitäten (Märkte morgens, Theater abends)
