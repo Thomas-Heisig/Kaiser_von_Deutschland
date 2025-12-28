@@ -14,4 +14,4 @@ export { MigrationRunner } from './MigrationRunner';
 export { Migration001InitialSchema } from './migrations/001_initial_schema';
 
 // Repositories
-export { PlayerRepository } from './repositories/PlayerRepository';
+export * from './repositories';

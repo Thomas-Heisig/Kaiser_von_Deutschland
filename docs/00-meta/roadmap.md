@@ -622,7 +622,7 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] SQLite Schema Design ✅ (001_initial_schema)
 - [x] Migration System ✅ (MigrationRunner + BaseMigration)
 - [x] Repository Pattern für Kern-Systeme ✅ (PlayerRepository als Beispiel)
-- [ ] Repository Pattern für alle Systeme (Citizen, Building, etc.)
+- [x] Repository Pattern für alle Systeme ✅ (CitizenRepository, BuildingRepository, TechnologyRepository - Dezember 2025)
 - [ ] Daten-Migration von LocalForage zu SQLite
 - [ ] GameEngine Integration (Save/Load mit DatabaseAdapter)
 - [ ] Performance-Testing mit 100k+ Datensätzen
