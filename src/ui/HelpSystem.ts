@@ -22,6 +22,8 @@ export interface DocumentationFile {
 export class HelpSystem {
   private container: HTMLElement;
   private isOpen: boolean = false;
+  // TODO: Will be used for tracking current file in future features
+  // @ts-expect-error - Unused until file tracking features are implemented
   private currentFile: string | null = null;
 
   // Documentation structure

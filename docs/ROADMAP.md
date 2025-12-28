@@ -2,7 +2,7 @@
 
 **Letzte Aktualisierung**: Dezember 2025  
 **Version**: 2.5.0 → Vision 2030  
-**Aktuelle Implementierung**: Lebensphasen-System + 20 Features aus verschiedenen Kapiteln (siehe ✅ Markierungen)
+**Aktuelle Implementierung**: Lebensphasen-System (v2.5.0) + 20 Roadmap Features + Dokumentations-System
 
 Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel in eine Plattform, von einer Simulation in eine lebendige, atmende historische Welt. Die Vision ist ehrgeizig, aber modular genug, um schrittweise realisiert zu werden.
 
@@ -42,7 +42,7 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - ✅ Responsive UI mit Dark Theme
 - ✅ TypeScript-basierte Architektur
 
-#### 🎮 NEU: Lebensphasen-basiertes Gameplay (v2.5.0) ✅
+#### 🎮 Lebensphasen-basiertes Gameplay (v2.5.0) ✅
 - ✅ **Intro-Sequenz & Charakter-Erstellung**
   - ✅ 5 philosophische Fragen für Persönlichkeitsprofil
   - ✅ 4 Persönlichkeitswerte (Charisma, Intellekt, Pragmatismus, Spiritualität)
@@ -68,6 +68,21 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
   - ✅ Aufstiegsbedingungen (Jahre, Fertigkeiten, Prestige, Spezial-Aufgaben)
   - ✅ Automatischer Beförderungs-Check
   - ✅ Karriere-Fortschritt-Tracking
+
+#### 📚 Dokumentations- & Hilfe-System (v2.5.0) ✅ **NEU!**
+- ✅ **In-Game Dokumentation**
+  - ✅ Dokumentations-Viewer direkt im Spiel
+  - ✅ 📖 Hilfe-Button im Header
+  - ✅ Zugriff auf alle Markdown-Dokumentationen
+  - ✅ Strukturierte Navigation (Schnelleinstieg, Features, Entwicklung, etc.)
+  - ✅ Suchfunktion für Dokumentation
+  - ✅ Markdown-zu-HTML-Konverter
+  - ✅ Responsive Design für mobile Geräte
+- ✅ **Dokumentations-Reorganisation**
+  - ✅ Vollständiger Dokumentations-Index (INDEX.md)
+  - ✅ Strukturierte Dokumentation (00-meta bis 99-appendix)
+  - ✅ Reports-Ordner für Implementierungsberichte
+  - ✅ Umfassende Dokumentations-Standards
 
 ---
 
