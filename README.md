@@ -10,8 +10,8 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Aktuelle Version:** v2.3.1  
-> **In Entwicklung:** v2.4.0 - Database Integration & Documentation Update  
+> **Aktuelle Version:** v2.4.0  
+> **In Entwicklung:** Gameplay System Integration - 17 neue Systeme ins Gameplay integriert  
 > Siehe [ROADMAP](docs/00-meta/roadmap.md) für geplante Features und [STATUS](docs/00-meta/status.md) für Details.
 
 ## ✨ Hauptmerkmale
@@ -138,6 +138,22 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **⚖️ 10 Rechtssysteme**: Von Stammesrecht bis EU-Recht
 - **💰 12 Steuersysteme**: Von Zehnt bis CO2-Steuer
 - **⚔️ 15 Militäreinheiten**: Von Miliz bis Mechanisierte Infanterie
+
+### 🎮 Integrierte Gameplay-Systeme (v2.4.0 - NEU!)
+- **⛪ Religionssystem**: 10 Religionen, religiöse Gebäude, Konversion, religiöse Spannungen
+- **🚶 Migrationssystem**: Bevölkerungsbewegungen zwischen Regionen basierend auf Wirtschaft, Sicherheit, Lebensqualität
+- **📈 Soziale Mobilitätssystem**: Klassenwechsel, Berufsaufstieg, soziale Bewegungen
+- **🌾 Hungersnot-System**: Regionale Hungersnöte mit Ursachen und Auswirkungen
+- **💰 Ökonomische Kohorten**: Skalierbare Wirtschaft für bis zu 80 Millionen Bürger
+- **⚔️ Belagerungs-System**: Stadtbelagerungen mit Werkzeugen, Mauern, Versorgung
+- **🕵️ Spionage-System**: Agentennetzwerke, Missionen, Sabotage, Attentate
+- **🏙️ Stadtbezirks-System**: Slums, Nobelviertel, Gentrifizierung, Kriminalität
+- **🌙 Tag/Nacht-Zyklus**: Tagesrhythmus mit unterschiedlichen Aktivitäten
+- **🎨 Kunst & Kultur**: Künstler, Kunstwerke, Aufführungen, kulturelle Kreise
+- **📰 Informationsverbreitung**: Nachrichten, Gerüchte, Propaganda, soziale Netzwerke
+- **⚖️ Rechtssystem & Gerichte**: Gerichtsverfahren, Richter, Gefängnisse, Bürokratie
+- **📜 Historische Events**: Erweiterte Event-Datenbank mit Event-Ketten
+- **⚔️ Militär-Erweiterungen**: Formationen, Geländeeffekte, Wettereinflüsse, Versorgungslinien
 
 ## 🚀 Technologie-Stack
 
