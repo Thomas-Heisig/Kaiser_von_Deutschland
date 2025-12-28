@@ -599,12 +599,14 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] ADR-0001: Database Technology Selection ✅
 - [x] Dokumentation: Persistence Architecture ✅
 - [x] Neue Dokumentationsstruktur implementiert ✅
-- [ ] DatabaseAdapter Interface implementieren
-- [ ] sql.js Integration für Browser
-- [ ] SQLite Schema Design
-- [ ] Migration System
-- [ ] Repository Pattern für alle Systeme
+- [x] DatabaseAdapter Interface implementieren ✅ (Dezember 2025)
+- [x] sql.js Integration für Browser ✅ (BrowserDatabaseAdapter)
+- [x] SQLite Schema Design ✅ (001_initial_schema)
+- [x] Migration System ✅ (MigrationRunner + BaseMigration)
+- [x] Repository Pattern für Kern-Systeme ✅ (PlayerRepository als Beispiel)
+- [ ] Repository Pattern für alle Systeme (Citizen, Building, etc.)
 - [ ] Daten-Migration von LocalForage zu SQLite
+- [ ] GameEngine Integration (Save/Load mit DatabaseAdapter)
 - [ ] Performance-Testing mit 100k+ Datensätzen
 - [ ] Cloud-Sync Prototype
 
@@ -621,8 +623,8 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
   - [x] Role Perspectives (5 Perspektiven) ✅
 - [x] Game Design Dokumentation ✅
   - [x] Mode Selection System ✅
+- [x] Development Guides ✅ (Database Usage Guide)
 - [ ] Domains Dokumentation vervollständigen
-- [ ] Development Guides
 - [ ] Operations Guides
 
 #### 🔹 Gameplay-Modi-System (v2.4.0) 🆕
