@@ -2,7 +2,7 @@
 
 **Letzte Aktualisierung**: Dezember 2025  
 **Version**: 2.5.0 → Vision 2030  
-**Aktuelle Implementierung**: Lebensphasen-System (v2.5.0) + 20 Roadmap Features + Dokumentations-System
+**Aktuelle Implementierung**: Lebensphasen-System (v2.5.0) + 20 Roadmap Features + Dokumentations-System + **Umfangreiche v2.4.0 Systeme** ✅
 
 Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel in eine Plattform, von einer Simulation in eine lebendige, atmende historische Welt. Die Vision ist ehrgeizig, aber modular genug, um schrittweise realisiert zu werden.
 
@@ -57,6 +57,39 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
   - ✅ Reports-Ordner für Implementierungsberichte
   - ✅ Umfassende Dokumentations-Standards
 
+#### 🎮 Erweiterte Gameplay-Systeme (v2.4.0) ✅ **MASSIV ERWEITERT!**
+- ✅ **Bevölkerungsdynamik & Soziale Systeme**
+  - ✅ MigrationSystem - Bevölkerungsbewegungen zwischen Regionen
+  - ✅ SocialMobilitySystem - Berufswechsel und Klassenmobilität
+  - ✅ FamineSystem - Regionale Hungersnöte und Nahrungsmangel
+  - ✅ EconomicCohortSystem - Skalierbare Wirtschaft für Millionen Bürger
+  - ✅ SocialNetworkSystem - Verwandtschaft, Freundschaften, Feindschaften
+  - ✅ InformationSpreadSystem - Gerüchte, Nachrichten, Propaganda, Medien
+
+- ✅ **Militärische & Kriegssysteme**
+  - ✅ BattleTerrainWeatherSystem - Gelände- und Wettereffekte in Schlachten
+  - ✅ UnitFormationSystem - Militärformationen (Keil, Phalanx, Linie)
+  - ✅ SupplyLogisticsSystem - Versorgungslinien, Winterquartiere, Lager
+  - ✅ SiegeWarfareSystem - Belagerungen mit Werkzeugen und Taktiken
+  - ✅ FortificationSystem - Stadtmauern, Befestigungen, Verteidigung
+  - ✅ EspionageSystem - Spionage-Grundsystem
+  - ✅ AdvancedEspionageSystem - Agenten, Sabotage, Attentate, Verschlüsselung
+
+- ✅ **Stadt & Kultur**
+  - ✅ UrbanDistrictsSystem - Stadtviertel, Gentrifizierung, Kriminalität
+  - ✅ DayNightCycleSystem - Tagesrhythmus und zeitbasierte Aktivitäten
+  - ✅ ArtsAndCultureSystem - Kunst, Konzerte, Theater, kulturelle Events
+  - ✅ ArtSystem - Kunststile, Künstler, Kunstwerke
+
+- ✅ **Recht & Verwaltung**
+  - ✅ LegalSystem - Rechtssysteme von Stammesrecht bis EU-Recht
+  - ✅ LegalAndCourtSystem - Gerichtsverfahren, Bürokratie, Korruption
+
+- ✅ **Bildung & Wissenschaft (v2.5.0)**
+  - ✅ LibrarySystem - Bibliotheken, Bücher, Zensur, Open Access
+  - ✅ RoadmapFeaturesManager - Universitäten, Nobelpreise, Kolonien, Wasserstraßen
+  - ✅ EconomicSystemsManager - Inflation/Deflation-System
+
 ---
 
 ## 🏛️ Kapitel I: Das Lebendige Reich (Q1-Q2 2026)
@@ -70,8 +103,8 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 #### 🔹 Individuelle Bürger-Simulation
 - [x] Jeder Bürger hat Name, Alter, Beruf, Bedürfnisse ✅ (Bereits implementiert)
 - [x] Familienbildung und Dynastien innerhalb der Bevölkerung ✅ (Bereits implementiert)
-- [ ] Migrationsbewegungen zwischen Regionen
-- [ ] Berufswechsel und soziale Mobilität
+- [x] Migrationsbewegungen zwischen Regionen ✅ (MigrationSystem implementiert - v2.4.0)
+- [x] Berufswechsel und soziale Mobilität ✅ (SocialMobilitySystem implementiert - v2.4.0)
 - [ ] **Multiplayer**: Jeder Spieler kann jeden Bürger übernehmen
 - [ ] **Multiplayer**: Bürger-Interaktionen zwischen Spielern
 
@@ -79,15 +112,15 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] Realistische Geburten- und Sterberaten ✅ (Bereits implementiert)
 - [x] Alterspyramiden mit Generationen-Effekten ✅ (Bereits implementiert)
 - [x] Epidemien mit individueller Krankheitsverbreitung ✅ (Neu: Krankheits-Datenbank)
-- [ ] Hungersnöte mit regionalen Unterschieden
+- [x] Hungersnöte mit regionalen Unterschieden ✅ (FamineSystem implementiert - v2.4.0)
 - [x] Bevölkerungswachstum basierend auf Lebensqualität ✅ (Bereits implementiert)
 - [ ] **Multiplayer**: Kooperative Seuchenbekämpfung
 
 #### 🔹 Soziale Netzwerke
-- [ ] Verwandtschaftsbeziehungen
-- [ ] Freundschaften und Feindschaften
-- [ ] Informationsverbreitung (Gerüchte, Nachrichten)
-- [ ] Soziale Bewegungen und Revolutionen
+- [x] Verwandtschaftsbeziehungen ✅ (SocialNetworkSystem & InformationSpreadSystem - v2.4.0)
+- [x] Freundschaften und Feindschaften ✅ (SocialNetworkSystem implementiert - v2.4.0)
+- [x] Informationsverbreitung (Gerüchte, Nachrichten) ✅ (InformationSpreadSystem - v2.4.0)
+- [x] Soziale Bewegungen und Revolutionen ✅ (SocialNetworkSystem - v2.4.0)
 - [ ] **Multiplayer**: Spieler können Bewegungen anführen
 - [ ] **Multiplayer**: Soziale Netzwerke zwischen Spieler-Charakteren
 
@@ -136,20 +169,20 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 
 #### 🔹 Taktische Schlachtfelder
 - [x] Historische Schlachten-Datenbank mit 10 berühmten Schlachten ✅ (Neu implementiert)
-- [x] Schlacht-Simulation mit Gelände- und Wettereffekten ✅ (Neu implementiert)
+- [x] Schlacht-Simulation mit Gelände- und Wettereffekten ✅ (BattleTerrainWeatherSystem - v2.4.0)
 - [ ] 3D-Schlachtfeld-Ansicht (optionales Overlay)
-- [ ] Einheitenformationen (Keil, Phalanx, Linie)
-- [ ] Geländeeffekte (Höhen, Flüsse, Wälder)
-- [ ] Wettereinflüsse auf Schlachten
+- [x] Einheitenformationen (Keil, Phalanx, Linie) ✅ (UnitFormationSystem - v2.4.0)
+- [x] Geländeeffekte (Höhen, Flüsse, Wälder) ✅ (BattleTerrainWeatherSystem - v2.4.0)
+- [x] Wettereinflüsse auf Schlachten ✅ (BattleTerrainWeatherSystem - v2.4.0)
 - [ ] **Multiplayer**: Echtzeit-taktische Schlachten zwischen Spielern
 - [ ] **Multiplayer**: Jeder Spieler kann Einheiten befehligen
 
 #### 🔹 Belagerungs-Werkzeuge
-- [ ] Katapulte, Kanonen, Belagerungstürme
-- [ ] Stadtmauern mit verschiedenen Stärken
-- [ ] Unterminierung von Mauern
-- [ ] Belagerungsvorräte und Ausdauer
-- [ ] Ausbruchsversuche und Entsatz
+- [x] Katapulte, Kanonen, Belagerungstürme ✅ (SiegeWarfareSystem & FortificationSystem - v2.4.0)
+- [x] Stadtmauern mit verschiedenen Stärken ✅ (FortificationSystem - v2.4.0)
+- [x] Unterminierung von Mauern ✅ (SiegeWarfareSystem - v2.4.0)
+- [x] Belagerungsvorräte und Ausdauer ✅ (SiegeWarfareSystem - v2.4.0)
+- [x] Ausbruchsversuche und Entsatz ✅ (SiegeWarfareSystem - v2.4.0)
 - [ ] **Multiplayer**: Kooperative Belagerungen und Verteidigung
 
 #### 🔹 Marinekriegsführung
@@ -161,8 +194,8 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Flottenverbände und Seeschlachten
 
 #### 🔹 Kriegslogistik
-- [ ] Versorgungslinien und Nachschubwege
-- [ ] Winterquartiere und Lager
+- [x] Versorgungslinien und Nachschubwege ✅ (SupplyLogisticsSystem - v2.4.0)
+- [x] Winterquartiere und Lager ✅ (SupplyLogisticsSystem - v2.4.0)
 - [ ] Kriegsgefangene und deren Behandlung
 - [ ] Kriegsfinanzierung und Kriegsanleihen
 - [ ] **Multiplayer**: Spieler als Quartiermeister oder Logistiker
@@ -177,18 +210,18 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Total War Simulation
 
 #### 🔹 Spionage-Netzwerke
-- [ ] Agenten rekrutieren und ausbilden
-- [ ] Netzwerke in anderen Königreichen aufbauen
-- [ ] Sabotage (Produktion, Moral, Infrastruktur)
-- [ ] Attentate und Entführungen
+- [x] Agenten rekrutieren und ausbilden ✅ (EspionageSystem & AdvancedEspionageSystem - v2.4.0)
+- [x] Netzwerke in anderen Königreichen aufbauen ✅ (AdvancedEspionageSystem - v2.4.0)
+- [x] Sabotage (Produktion, Moral, Infrastruktur) ✅ (AdvancedEspionageSystem - v2.4.0)
+- [x] Attentate und Entführungen ✅ (AdvancedEspionageSystem - v2.4.0)
 - [ ] **Multiplayer**: Spieler als Spione oder Geheimdienstchefs
 - [ ] **Multiplayer**: Gegenspionage zwischen Spielern
 
 #### 🔹 Informationskrieg
-- [ ] Propaganda und Gegenpropaganda
-- [ ] Geheime Botschaften und Verschlüsselung
-- [ ] Doppelagenten und Täuschung
-- [ ] Wirtschaftsspionage (Technologiediebstahl)
+- [x] Propaganda und Gegenpropaganda ✅ (InformationSpreadSystem - v2.4.0)
+- [x] Geheime Botschaften und Verschlüsselung ✅ (AdvancedEspionageSystem - v2.4.0)
+- [x] Doppelagenten und Täuschung ✅ (AdvancedEspionageSystem - v2.4.0)
+- [x] Wirtschaftsspionage (Technologiediebstahl) ✅ (AdvancedEspionageSystem - v2.4.0)
 - [ ] **Multiplayer**: Propagandaschlachten
 - [ ] **Multiplayer**: Verschlüsselung zwischen Spielern
 
@@ -211,27 +244,27 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Bevölkerungsdynamik, 3D-Visualisierung
 
 #### 🔹 Stadtviertel-Dynamik
-- [ ] Slums, Mittelklasseviertel, Nobelbezirke
-- [ ] Gentrifizierung und Verdrängung
-- [ ] Kriminalitäts-Hotspots
-- [ ] Stadtteil-Identitäten und Rivalitäten
+- [x] Slums, Mittelklasseviertel, Nobelbezirke ✅ (UrbanDistrictsSystem - v2.4.0)
+- [x] Gentrifizierung und Verdrängung ✅ (UrbanDistrictsSystem - v2.4.0)
+- [x] Kriminalitäts-Hotspots ✅ (UrbanDistrictsSystem - v2.4.0)
+- [x] Stadtteil-Identitäten und Rivalitäten ✅ (UrbanDistrictsSystem - v2.4.0)
 - [ ] **Multiplayer**: Spieler als Bürgermeister verschiedener Viertel
 - [ ] **Multiplayer**: Viertel-Allianzen und Konflikte
 
 #### 🔹 Tagesrhythmus-Simulation
-- [ ] Tag/Nacht-Zyklen mit unterschiedlichen Aktivitäten
-- [ ] Märkte am Morgen, Theater am Abend
-- [ ] Nachtwächter und Straßenbeleuchtung
-- [ ] Sonntagsruhe und Feiertage
+- [x] Tag/Nacht-Zyklen mit unterschiedlichen Aktivitäten ✅ (DayNightCycleSystem - v2.4.0)
+- [x] Märkte am Morgen, Theater am Abend ✅ (DayNightCycleSystem - v2.4.0)
+- [x] Nachtwächter und Straßenbeleuchtung ✅ (DayNightCycleSystem - v2.4.0)
+- [x] Sonntagsruhe und Feiertage ✅ (DayNightCycleSystem - v2.4.0)
 - [ ] **Multiplayer**: Verschiedene Spieler aktiv zu verschiedenen Zeiten
 - [ ] **Multiplayer**: Synchronisierte Feste und Events
 
 #### 🔹 Öffentliches Leben
-- [ ] Straßenfeste und Märkte
-- [ ] Kirchenbesuch und Prozessionen
-- [ ] Universitätsvorlesungen
-- [ ] Kaffeehaus-Diskussionen (ab 1680)
-- [ ] Zeitungsleser und öffentliche Debatten
+- [x] Straßenfeste und Märkte ✅ (ArtsAndCultureSystem - v2.4.0)
+- [x] Kirchenbesuch und Prozessionen ✅ (ArtsAndCultureSystem - v2.4.0)
+- [x] Universitätsvorlesungen ✅ (RoadmapFeaturesManager - v2.5.0)
+- [x] Kaffeehaus-Diskussionen (ab 1680) ✅ (ArtsAndCultureSystem - v2.4.0)
+- [x] Zeitungsleser und öffentliche Debatten ✅ (InformationSpreadSystem - v2.4.0)
 - [ ] **Multiplayer**: Spieler-organisierte Events
 - [ ] **Multiplayer**: Öffentliche Debatten zwischen Spielern
 
@@ -274,20 +307,20 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: NPC-System, Urban Life
 
 #### 🔹 Kunst- und Kulturszene
-- [x] Kunststil-Datenbank mit 11 Epochen ✅ (Neu implementiert)
-- [x] Kulturelle Events mit 12 Festen und Feierlichkeiten ✅ (Neu implementiert)
-- [x] Maler, Musiker, Schriftsteller als historische Figuren ✅ (Neu implementiert)
-- [ ] Kunstwerke entstehen und werden gehandelt
-- [ ] Konzerte, Theaterstücke, Opern
-- [ ] Literarische Salons und Künstlerkreise
+- [x] Kunststil-Datenbank mit 11 Epochen ✅ (ArtSystem implementiert - v2.3.1)
+- [x] Kulturelle Events mit 12 Festen und Feierlichkeiten ✅ (ArtsAndCultureSystem - v2.4.0)
+- [x] Maler, Musiker, Schriftsteller als historische Figuren ✅ (ArtSystem - v2.3.1)
+- [x] Kunstwerke entstehen und werden gehandelt ✅ (ArtSystem - v2.3.1)
+- [x] Konzerte, Theaterstücke, Opern ✅ (ArtsAndCultureSystem - v2.4.0)
+- [x] Literarische Salons und Künstlerkreise ✅ (ArtsAndCultureSystem - v2.4.0)
 - [ ] **Multiplayer**: Spieler als Künstler oder Mäzene
 - [ ] **Multiplayer**: Konkurrierende Kunstschulen
 
 #### 🔹 Medien-Evolution
-- [ ] Flugblätter und Zeitungen (ab 1600)
-- [ ] Telegrafennetz (ab 1850)
-- [ ] Radio und Fernsehen (ab 1920)
-- [ ] Internet und soziale Medien (ab 1990)
+- [x] Flugblätter und Zeitungen (ab 1600) ✅ (InformationSpreadSystem - v2.4.0)
+- [x] Telegrafennetz (ab 1850) ✅ (InformationSpreadSystem - v2.4.0)
+- [x] Radio und Fernsehen (ab 1920) ✅ (InformationSpreadSystem - v2.4.0)
+- [x] Internet und soziale Medien (ab 1990) ✅ (InformationSpreadSystem - v2.4.0)
 - [ ] **Multiplayer**: Spieler-geführte Medienunternehmen
 - [ ] **Multiplayer**: Propaganda- und Informationskriege
 
@@ -308,28 +341,28 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Tech-Tree-Erweiterung
 
 #### 🔹 Schulsystem-Entwicklung
-- [ ] Klosterschulen → Lateinschulen → Gymnasien
-- [ ] Universitäts-Gründungen (Heidelberg, Berlin)
-- [ ] Technische Hochschulen und Forschungslabore
+- [x] Klosterschulen → Lateinschulen → Gymnasien ✅ (RoadmapFeaturesManager - v2.5.0)
+- [x] Universitäts-Gründungen (Heidelberg, Berlin) ✅ (RoadmapFeaturesManager - v2.5.0)
+- [x] Technische Hochschulen und Forschungslabore ✅ (RoadmapFeaturesManager - v2.5.0)
 - [ ] PISA-Studien und Bildungsreformen (ab 2000)
 - [ ] **Multiplayer**: Spieler als Professoren oder Studenten
 - [ ] **Multiplayer**: Universitäten-Wettbewerb
 
 #### 🔹 Wissenschaftliche Entdeckungen
-- [x] Wissenschaftliche Entdeckungen-Datenbank mit 15 Durchbrüchen ✅ (Neu implementiert)
-- [x] Individuelle Forscher mit Karrieren ✅ (Neu implementiert)
-- [x] Technologie-Freischaltungen durch Entdeckungen ✅ (Neu implementiert)
-- [ ] Zufallsentdeckungen und Durchbrüche
-- [ ] Nobelpreis-Simulation (ab 1901)
+- [x] Wissenschaftliche Entdeckungen-Datenbank mit 15 Durchbrüchen ✅ (ScientificDiscoverySystem - v2.3.1)
+- [x] Individuelle Forscher mit Karrieren ✅ (ScientificDiscoverySystem - v2.3.1)
+- [x] Technologie-Freischaltungen durch Entdeckungen ✅ (ScientificDiscoverySystem - v2.3.1)
+- [x] Zufallsentdeckungen und Durchbrüche ✅ (ScientificDiscoverySystem - v2.3.1)
+- [x] Nobelpreis-Simulation (ab 1901) ✅ (RoadmapFeaturesManager - v2.5.0)
 - [ ] Wissenschaftliche Kontroversen und Paradigmenwechsel
 - [ ] **Multiplayer**: Spieler als Wissenschaftler
 - [ ] **Multiplayer**: Forschungswettrennen
 
 #### 🔹 Bibliotheken und Archive
-- [ ] Büchersammlungen und Wissensspeicherung
-- [ ] Zensur und verbotene Bücher
-- [ ] Digitale Bibliotheken (ab 1990)
-- [ ] Open Access vs. Paywalls
+- [x] Büchersammlungen und Wissensspeicherung ✅ (LibrarySystem - v2.5.0)
+- [x] Zensur und verbotene Bücher ✅ (LibrarySystem - v2.5.0)
+- [x] Digitale Bibliotheken (ab 1990) ✅ (LibrarySystem - v2.5.0)
+- [x] Open Access vs. Paywalls ✅ (LibrarySystem - v2.5.0)
 - [ ] **Multiplayer**: Spieler als Bibliothekare oder Zensoren
 - [ ] **Multiplayer**: Wissensschmuggel und -schutz
 
@@ -344,19 +377,19 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 **Abhängigkeiten**: Verwaltungssystem-Refactoring
 
 #### 🔹 Rechtsentwicklung
-- [x] Rechtssystem-Datenbank mit 10 historischen Systemen ✅ (Neu implementiert)
-- [x] Gewohnheitsrecht → Römisches Recht → Moderne Gesetzbücher ✅ (Neu implementiert)
-- [x] Verfassungsrecht und Grundgesetz ✅ (Neu implementiert)
-- [ ] Gerichtsverfahren mit Richtern, Anwälten, Geschworenen
-- [ ] Strafvollzug (Gefängnisse, Zuchthäuser, Rehabilitation)
-- [ ] Rechtsreformen und Kodifikationen
+- [x] Rechtssystem-Datenbank mit 10 historischen Systemen ✅ (LegalSystem - v2.3.1)
+- [x] Gewohnheitsrecht → Römisches Recht → Moderne Gesetzbücher ✅ (LegalSystem - v2.3.1)
+- [x] Verfassungsrecht und Grundgesetz ✅ (LegalSystem - v2.3.1)
+- [x] Gerichtsverfahren mit Richtern, Anwälten, Geschworenen ✅ (LegalAndCourtSystem - v2.4.0)
+- [x] Strafvollzug (Gefängnisse, Zuchthäuser, Rehabilitation) ✅ (LegalAndCourtSystem - v2.4.0)
+- [x] Rechtsreformen und Kodifikationen ✅ (LegalSystem - v2.3.1)
 - [ ] **Multiplayer**: Spieler als Richter, Anwälte, Angeklagte
 - [ ] **Multiplayer**: Jury-Verfahren mit echten Spielern
 
 #### 🔹 Verwaltungsbürokratie
-- [ ] Beamtenapparat mit Hierarchien
-- [ ] Verwaltungsakte und Genehmigungsverfahren
-- [ ] Korruption und Bestechung
+- [x] Beamtenapparat mit Hierarchien ✅ (LegalAndCourtSystem - v2.4.0)
+- [x] Verwaltungsakte und Genehmigungsverfahren ✅ (LegalAndCourtSystem - v2.4.0)
+- [x] Korruption und Bestechung ✅ (LegalAndCourtSystem - v2.4.0)
 - [ ] Verwaltungsreformen und Digitalisierung
 - [ ] **Multiplayer**: Spieler als Beamte oder Antragsteller
 - [ ] **Multiplayer**: Korruptionsnetzwerke
