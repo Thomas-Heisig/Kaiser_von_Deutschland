@@ -672,6 +672,87 @@ export class CitizenSystem {
   }
   
   /**
+   * Ändert den Beruf eines Bürgers
+   */
+  public changeProfession(
+    citizenId: string, 
+    newProfession: Profession, 
+    year: number, 
+    month: number,
+    reason: string = 'Karrierewechsel'
+  ): boolean {
+    const citizen = this.citizens.get(citizenId);
+    if (!citizen || !citizen.isAlive) return false;
+    
+    const oldProfession = citizen.profession;
+    citizen.profession = newProfession;
+    citizen.professionLevel = 0; // Start at beginner level in new profession
+    citizen.income = this.calculateBaseIncome(newProfession);
+    
+    // Record life event
+    const event: LifeEvent = {
+      year,
+      month,
+      type: 'profession_change',
+      description: `Berufswechsel von ${oldProfession} zu ${newProfession} - ${reason}`
+    };
+    citizen.lifeEvents.push(event);
+    
+    return true;
+  }
+  
+  /**
+   * Holt Statistiken über Berufsverteilung
+   */
+  public getProfessionDistribution(): Map<string, number> {
+    const distribution = new Map<string, number>();
+    
+    for (const citizen of this.citizens.values()) {
+      if (!citizen.isAlive) continue;
+      
+      const count = distribution.get(citizen.profession) || 0;
+      distribution.set(citizen.profession, count + 1);
+    }
+    
+    return distribution;
+  }
+  
+  /**
+   * Berechnet durchschnittliche Werte für die Bevölkerung
+   */
+  public getAverageStats(): {
+    education: number;
+    wealth: number;
+    connections: number;
+    age: number;
+  } {
+    const aliveCitizens = this.getAliveCitizens();
+    if (aliveCitizens.length === 0) {
+      return { education: 50, wealth: 1000, connections: 50, age: 30 };
+    }
+    
+    let totalEducation = 0;
+    let totalWealth = 0;
+    let totalConnections = 0;
+    let totalAge = 0;
+    
+    for (const citizen of aliveCitizens) {
+      totalEducation += citizen.skills.literacy;
+      totalWealth += citizen.wealth;
+      totalConnections += citizen.socialRelations.length * 10; // Rough estimate
+      totalAge += citizen.age;
+    }
+    
+    const count = aliveCitizens.length;
+    return {
+      education: totalEducation / count,
+      wealth: totalWealth / count,
+      connections: totalConnections / count,
+      age: totalAge / count
+    };
+  }
+  
+  /**
    * Löscht alle Bürger (für Tests oder Neubeginn)
    */
   public clear(): void {

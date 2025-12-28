@@ -329,6 +329,9 @@ export class GameEngine {
       // Yearly processes for population
       this.socialNetworkSystem.generateSocialRelations(this.citizenSystem, this.currentYear);
       
+      // Process career changes and social mobility (v2.1.5)
+      this.processCareerChanges();
+      
       // Yearly processes for ecological systems
       this.processEcologicalYear();
       
@@ -1146,6 +1149,64 @@ export class GameEngine {
         cohorts: this.economicCohortSystem.getCohorts()
       }
     };
+  }
+  
+  /**
+   * Process career changes and social mobility (v2.1.5)
+   */
+  private processCareerChanges(): void {
+    const population = this.citizenSystem.getPopulation();
+    if (population === 0) return;
+    
+    // Get profession distribution and average stats
+    const professionDistribution = this.citizenSystem.getProfessionDistribution();
+    const avgStats = this.citizenSystem.getAverageStats();
+    
+    // Calculate social stability based on player kingdoms
+    let avgSocialStability = 50;
+    if (this.players.size > 0) {
+      let totalStability = 0;
+      for (const player of this.players.values()) {
+        // Use happiness as a proxy for social stability
+        totalStability += player.kingdom.happiness;
+      }
+      avgSocialStability = totalStability / this.players.size;
+    }
+    
+    // Process aggregate career changes
+    const changes = this.socialMobilitySystem.processCareerChanges(
+      population,
+      professionDistribution,
+      avgStats.education,
+      avgStats.wealth,
+      avgStats.connections,
+      avgStats.age,
+      avgSocialStability,
+      0.05 // 5% of population attempts career change per year
+    );
+    
+    // Apply the career changes to actual citizens
+    for (const change of changes.values()) {
+      if (change.count === 0) continue;
+      
+      // Find citizens with the 'from' profession and change some of them
+      const candidates = this.citizenSystem.getAllCitizens()
+        .filter(c => c.isAlive && c.profession === change.from && !c.isPlayerCharacter);
+      
+      // Randomly select citizens to change careers
+      const shuffled = candidates.sort(() => Math.random() - 0.5);
+      const toChange = shuffled.slice(0, Math.min(change.count, shuffled.length));
+      
+      for (const citizen of toChange) {
+        this.citizenSystem.changeProfession(
+          citizen.id,
+          change.to as any,
+          this.currentYear,
+          this.currentMonth,
+          'Karrierewechsel durch soziale Mobilität'
+        );
+      }
+    }
   }
   
   /**

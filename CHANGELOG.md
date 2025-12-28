@@ -5,6 +5,44 @@ All notable changes to Kaiser von Deutschland will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added - 📈 Berufswechsel & Soziale Mobilität (Career Changes & Social Mobility)
+
+#### Core Systems
+- **SocialMobilitySystem**: Automated career change processing
+  - Career paths from 12 professions with difficulty ratings
+  - Social class system (lower, working, middle, upper_middle, upper, nobility)
+  - Probability-based career transitions based on education, wealth, connections, age
+  - Social stability affects mobility rates
+  - Upward, downward, and lateral mobility tracking
+  - Individual citizen career change attempts for player-controlled citizens
+  - Aggregate career change processing for large populations (scalable)
+  - Yearly processing of ~5% population attempting career changes
+
+- **CitizenSystem Enhancements**:
+  - `changeProfession()` method for career transitions
+  - `getProfessionDistribution()` for population analysis
+  - `getAverageStats()` for education, wealth, connections, and age averages
+  - Automatic profession change recording in citizen life events
+
+#### User Interface
+- **SocialMobilityPanel**: Beautiful modal panel for statistics
+  - Overall mobility statistics (total transitions, upward/downward/lateral percentages)
+  - Success rate tracking
+  - Mobility breakdown by social class with animated progress bars
+  - Top 10 popular career transitions visualization
+  - Auto-updates every 2 seconds
+  - Responsive design with gradient styling
+  - Accessible via "📈 Berufswechsel" button in Kingdom view
+
+#### Game Integration
+- Yearly career change processing in game loop
+- Considers kingdom happiness as social stability factor
+- Citizens change professions based on system calculations
+- Life events recorded for all career changes
+- Compatible with existing migration and demographic systems
+
 ## [2.1.5] - 2025-12-27
 
 ### Added - 🧬 Bevölkerungsdynamik (Population Dynamics)
