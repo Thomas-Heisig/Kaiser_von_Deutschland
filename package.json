@@ -1,8 +1,8 @@
 {
   "name": "kaiser-von-deutschland",
-  "version": "2.3.1",
+  "version": "2.5.1",
   "type": "module",
-  "description": "Historical Kingdom Simulator - Role-play from year 0 to the future with 20+ new features: Historical Figures, Battles, Diseases, Transport, Art, Science & more!",
+  "description": "Historical Kingdom Simulator - Role-play from year 0 to the future with Prisoners of War system and 20+ integrated features!",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
