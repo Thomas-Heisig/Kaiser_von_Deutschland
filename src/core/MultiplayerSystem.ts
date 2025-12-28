@@ -1,7 +1,7 @@
 // src/core/MultiplayerSystem.ts
 
 export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error';
-export type PlayerType = 'human' | 'ai_ollama' | 'ai_basic';
+export type PlayerType = 'human';
 
 export interface NetworkPlayer {
   id: string;
@@ -11,7 +11,6 @@ export interface NetworkPlayer {
   isHost: boolean;
   isReady: boolean;
   lastActivity: number;
-  ollamaModel?: string;
 }
 
 export interface ChatMessage {
@@ -36,8 +35,6 @@ export interface GameAction {
 
 export interface MultiplayerConfig {
   maxPlayers: number;
-  allowAI: boolean;
-  allowOllama: boolean;
   requirePassword: boolean;
   password?: string;
   turnBased: boolean;
@@ -138,8 +135,6 @@ export class MultiplayerSystem {
       hostId: hostPlayer.id,
       config: {
         maxPlayers: config.maxPlayers || 6,
-        allowAI: config.allowAI ?? true,
-        allowOllama: config.allowOllama ?? true,
         requirePassword: config.requirePassword ?? false,
         password: config.password,
         turnBased: config.turnBased ?? false,
@@ -254,38 +249,6 @@ export class MultiplayerSystem {
     }
 
     this.emit('connectionStatusChanged', this.connectionStatus);
-  }
-
-  /**
-   * Add AI player to session
-   */
-  public addAIPlayer(
-    type: PlayerType = 'ai_basic',
-    options?: {
-      name?: string;
-      ollamaModel?: string;
-    }
-  ): boolean {
-    if (!this.session) return false;
-    if (!this.session.config.allowAI) return false;
-    if (type === 'ai_ollama' && !this.session.config.allowOllama) return false;
-    if (this.session.players.length >= this.session.config.maxPlayers) return false;
-
-    const aiPlayer: NetworkPlayer = {
-      id: this.generatePlayerId(),
-      name: options?.name || `AI ${type === 'ai_ollama' ? 'Ollama' : 'Bot'} ${this.session.players.length + 1}`,
-      type,
-      isHost: false,
-      isReady: true,
-      lastActivity: Date.now(),
-      ollamaModel: options?.ollamaModel
-    };
-
-    this.session.players.push(aiPlayer);
-    this.emit('playerJoined', aiPlayer);
-    this.emit('sessionUpdated', this.session);
-
-    return true;
   }
 
   /**
@@ -571,10 +534,6 @@ export class MultiplayerSystem {
    */
   private generateSessionId(): string {
     return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-  }
-
-  private generatePlayerId(): string {
-    return `player_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private generateMessageId(): string {
