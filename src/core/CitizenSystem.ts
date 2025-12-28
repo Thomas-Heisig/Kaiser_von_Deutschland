@@ -572,6 +572,80 @@ export class CitizenSystem {
   }
   
   /**
+   * Migriert einen Bürger von einer Region zu einer anderen
+   */
+  public migrateCitizen(citizenId: string, toRegionId: string, year: number, month: number, reason: string): boolean {
+    const citizen = this.citizens.get(citizenId);
+    if (!citizen || !citizen.isAlive) return false;
+    
+    const fromRegionId = citizen.regionId;
+    
+    // Update regional tracking
+    this.removeFromRegion(citizenId, fromRegionId);
+    this.addToRegion(citizenId, toRegionId);
+    
+    // Update citizen
+    citizen.regionId = toRegionId;
+    citizen.migrationDesire = Math.max(0, citizen.migrationDesire - 50); // Reset desire
+    
+    // Record event
+    const event: LifeEvent = {
+      year,
+      month,
+      type: 'migration',
+      description: `Migrierte von ${fromRegionId} nach ${toRegionId} wegen ${reason}`
+    };
+    citizen.lifeEvents.push(event);
+    
+    return true;
+  }
+  
+  /**
+   * Holt Bürger mit hohem Migrationswunsch aus einer Region
+   */
+  public getMigrationCandidates(regionId: string, count: number): Citizen[] {
+    const regionCitizens = this.getCitizensByRegion(regionId)
+      .filter(c => c.isAlive && !c.isPlayerCharacter); // Don't migrate player characters
+    
+    // Sort by migration desire and take top candidates
+    return regionCitizens
+      .sort((a, b) => b.migrationDesire - a.migrationDesire)
+      .slice(0, count);
+  }
+  
+  /**
+   * Aktualisiert den Migrationswunsch basierend auf Bedürfnissen
+   */
+  public updateMigrationDesires(regionId: string, attractiveness: number): void {
+    const citizens = this.getCitizensByRegion(regionId);
+    
+    for (const citizen of citizens) {
+      if (!citizen.isAlive || citizen.isPlayerCharacter) continue;
+      
+      // Lower attractiveness increases migration desire
+      const avgNeeds = Object.values(citizen.needs).reduce((a, b) => a + b, 0) / Object.keys(citizen.needs).length;
+      
+      // If needs are not met or attractiveness is low, increase migration desire
+      if (avgNeeds < 50 || attractiveness < 40) {
+        citizen.migrationDesire = Math.min(100, citizen.migrationDesire + Math.random() * 10);
+      } else if (avgNeeds > 70 && attractiveness > 60) {
+        // If happy and region is good, decrease migration desire
+        citizen.migrationDesire = Math.max(0, citizen.migrationDesire - Math.random() * 5);
+      }
+      
+      // Age factor: young adults more likely to migrate
+      if (citizen.age >= 18 && citizen.age <= 35) {
+        citizen.migrationDesire = Math.min(100, citizen.migrationDesire + Math.random() * 3);
+      }
+      
+      // Family factor: people with families less likely to migrate
+      if (citizen.familyRelations.length > 3) {
+        citizen.migrationDesire = Math.max(0, citizen.migrationDesire - Math.random() * 5);
+      }
+    }
+  }
+  
+  /**
    * Löscht alle Bürger (für Tests oder Neubeginn)
    */
   public clear(): void {
