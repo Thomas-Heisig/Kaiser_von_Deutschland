@@ -14,6 +14,10 @@ import {
   CareerCategory
 } from './LifePhaseTypes';
 
+// Konstanten für Validierung
+const TIME_ALLOCATION_TOLERANCE = 0.1;
+const BUDGET_ALLOCATION_TOLERANCE = 0.1;
+
 /**
  * Budget-Allokation für den Monat
  */
@@ -150,7 +154,7 @@ export class MonthlyPlannerSystem {
     const total = allocation.work + allocation.family + 
                   allocation.education + allocation.leisure + allocation.sleep;
     
-    if (Math.abs(total - 24) > 0.1) {
+    if (Math.abs(total - 24) > TIME_ALLOCATION_TOLERANCE) {
       console.error('Zeit-Verteilung muss 24 Stunden ergeben!');
       return false;
     }
@@ -181,7 +185,7 @@ export class MonthlyPlannerSystem {
                   allocation.education + allocation.infrastructure + 
                   allocation.social + allocation.reserves;
     
-    if (Math.abs(total - 100) > 0.1) {
+    if (Math.abs(total - 100) > BUDGET_ALLOCATION_TOLERANCE) {
       console.error('Budget-Verteilung muss 100% ergeben!');
       return false;
     }

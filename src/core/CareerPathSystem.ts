@@ -217,12 +217,12 @@ export class CareerPathSystem {
       return result;
     }
 
-    // Prüfe Erfahrung
+    // Prüfe Erfahrung (in aktueller Stufe)
     if (this.playerProgress.yearsInCurrentStage < nextStage.minYearsExperience) {
       result.eligible = false;
       const missing = nextStage.minYearsExperience - this.playerProgress.yearsInCurrentStage;
       result.missingRequirements.push(
-        `Noch ${missing} Jahr(e) Erfahrung erforderlich`
+        `Noch ${missing} Jahr(e) Erfahrung in aktueller Stufe erforderlich`
       );
     }
 

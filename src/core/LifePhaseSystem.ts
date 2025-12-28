@@ -113,7 +113,7 @@ export class LifePhaseSystem {
    * Gibt alle verfügbaren Epochen zurück
    */
   getEpochs(): EpochDefinition[] {
-    return this.epochs;
+    return [...this.epochs];
   }
 
   /**
