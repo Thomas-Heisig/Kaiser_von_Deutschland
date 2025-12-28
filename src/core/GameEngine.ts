@@ -42,6 +42,7 @@ import { InformationSpreadSystem } from './InformationSpreadSystem';
 import { LegalAndCourtSystem } from './LegalAndCourtSystem';
 import { RoadmapFeaturesManager } from './RoadmapFeaturesManager';
 import { PrisonerOfWarSystem } from './PrisonerOfWarSystem';
+import { WarFinancingSystem } from './WarFinancingSystem';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -126,6 +127,9 @@ export class GameEngine {
   // Prisoner of War System (v2.5.1) - Kriegsgefangene und deren Behandlung
   private prisonerOfWarSystem: PrisonerOfWarSystem;
   
+  // War Financing System (v2.3.6) - Kriegsfinanzierung und Kriegsanleihen
+  private warFinancingSystem: WarFinancingSystem;
+  
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -198,6 +202,9 @@ export class GameEngine {
     
     // Initialize Prisoner of War System (v2.5.1)
     this.prisonerOfWarSystem = new PrisonerOfWarSystem();
+    
+    // Initialize War Financing System (v2.3.6)
+    this.warFinancingSystem = new WarFinancingSystem();
     
     // Initialize all data asynchronously (fire-and-forget is intentional - 
     // systems will be ready before game starts, as startGame() is user-triggered)
@@ -955,6 +962,14 @@ export class GameEngine {
    */
   public getPrisonerOfWarSystem(): PrisonerOfWarSystem {
     return this.prisonerOfWarSystem;
+  }
+  
+  /**
+   * Get War Financing System (v2.3.6)
+   * Manages war financing methods, war bonds, loans, and debt repayment
+   */
+  public getWarFinancingSystem(): WarFinancingSystem {
+    return this.warFinancingSystem;
   }
   
   // ===== Trade Routes Management API (v2.6.0) =====
