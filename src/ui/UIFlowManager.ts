@@ -2,6 +2,9 @@
 import * as PIXI from 'pixi.js';
 import { PixiUISystem, defaultTheme } from './PixiUISystem';
 import { GameEngine } from '../core/GameEngine';
+import { RoleSwitchingPanel } from './RoleSwitchingPanel';
+import { TimeControlsPanel } from './TimeControlsPanel';
+import { CharacterDashboard } from './CharacterDashboard';
 
 /**
  * UI Flow Manager - Manages the three-step UI flow:
@@ -38,6 +41,12 @@ export class UIFlowManager {
   
   // Animation
   private animationTime: number = 0;
+  
+  // Life Simulation UI Panels
+  private roleSwitchingPanel?: RoleSwitchingPanel;
+  private timeControlsPanel?: TimeControlsPanel;
+  private characterDashboard?: CharacterDashboard;
+  private playerId: string = 'player1'; // Default player ID
   
   // Setup data
   private setupData: Partial<GameSetupData> = {
@@ -383,29 +392,54 @@ export class UIFlowManager {
     // Top information bar
     const topBar = this.createTopBar(width);
     container.addChild(topBar);
+    
+    // Character Dashboard (Top Left)
+    this.characterDashboard = new CharacterDashboard(this.gameEngine, this.playerId);
+    const dashboardContainer = this.characterDashboard.getContainer();
+    dashboardContainer.x = 10;
+    dashboardContainer.y = 80;
+    container.addChild(dashboardContainer);
+    
+    // Time Controls (Top Right)
+    this.timeControlsPanel = new TimeControlsPanel(this.gameEngine);
+    const timeControlsContainer = this.timeControlsPanel.getContainer();
+    timeControlsContainer.x = width - 410;
+    timeControlsContainer.y = 80;
+    container.addChild(timeControlsContainer);
 
-    // Left information panel
+    // Left information panel (below character dashboard)
     const leftPanel = this.createLeftPanel(height);
     leftPanel.x = 10;
-    leftPanel.y = 80;
+    leftPanel.y = 340;
     container.addChild(leftPanel);
 
     // Central visualization (role-dependent)
     const centralViz = this.createCentralVisualization(width, height);
-    centralViz.x = 280;
-    centralViz.y = 80;
+    centralViz.x = 370;
+    centralViz.y = 210;
     container.addChild(centralViz);
 
     // Right slider panel (status-based)
     const rightPanel = this.createRightSliderPanel(height);
     rightPanel.x = width - 270;
-    rightPanel.y = 80;
+    rightPanel.y = 210;
     container.addChild(rightPanel);
 
     // Bottom button panel
     const bottomPanel = this.createBottomPanel(width);
     bottomPanel.y = height - 100;
     container.addChild(bottomPanel);
+    
+    // Role Switching Panel (initially hidden)
+    this.roleSwitchingPanel = new RoleSwitchingPanel(this.gameEngine, this.playerId);
+    const roleSwitchingContainer = this.roleSwitchingPanel.getContainer();
+    roleSwitchingContainer.x = (width - 800) / 2;
+    roleSwitchingContainer.y = (height - 600) / 2;
+    roleSwitchingContainer.visible = false;
+    container.addChild(roleSwitchingContainer);
+    
+    // Initialize first character if game is running
+    this.initializeFirstCharacter();
 
     return container;
   }
@@ -1118,22 +1152,25 @@ export class UIFlowManager {
     bg.container.x = 10;
 
     const buttons = [
-      { label: 'Nächstes Jahr', icon: '⏭️', variant: 'primary' as const },
-      { label: 'Pause', icon: '⏸️', variant: 'secondary' as const },
-      { label: 'Speichern', icon: '💾', variant: 'secondary' as const },
-      { label: 'Einstellungen', icon: '⚙️', variant: 'secondary' as const },
+      { label: 'Charakter wechseln', icon: '👤', variant: 'primary' as const, action: 'switchRole' },
+      { label: 'Nächstes Jahr', icon: '⏭️', variant: 'primary' as const, action: 'nextYear' },
+      { label: 'Pause', icon: '⏸️', variant: 'secondary' as const, action: 'pause' },
+      { label: 'Speichern', icon: '💾', variant: 'secondary' as const, action: 'save' },
+      { label: 'Einstellungen', icon: '⚙️', variant: 'secondary' as const, action: 'settings' },
     ];
 
     let xOffset = 20;
     buttons.forEach(btn => {
       const button = this.uiSystem.createButton(
         `${btn.icon} ${btn.label}`,
-        200,
+        180,
         50,
         () => {
-          if (btn.label === 'Nächstes Jahr') {
+          if (btn.action === 'switchRole') {
+            this.showRoleSwitchingPanel();
+          } else if (btn.action === 'nextYear') {
             alert('Jahr fortschreiten...');
-          } else if (btn.label === 'Einstellungen') {
+          } else if (btn.action === 'settings') {
             this.showSetupScreen();
           } else {
             alert(`${btn.label} geklickt!`);
@@ -1144,7 +1181,7 @@ export class UIFlowManager {
       button.container.x = xOffset;
       button.container.y = 15;
       bg.content.addChild(button.container);
-      xOffset += 220;
+      xOffset += 200;
     });
 
     panel.addChild(bg.container);
@@ -1246,6 +1283,71 @@ export class UIFlowManager {
   public getCurrentScreen(): UIScreen {
     return this.currentScreen;
   }
+  
+  /**
+   * Show role switching panel
+   */
+  private showRoleSwitchingPanel(): void {
+    if (this.roleSwitchingPanel) {
+      this.roleSwitchingPanel.show();
+    }
+  }
+  
+  /**
+   * Initialize first character for player
+   */
+  private initializeFirstCharacter(): void {
+    // Create player session
+    const roleSwitchingSystem = this.gameEngine.getRoleSwitchingSystem();
+    const session = roleSwitchingSystem.getSession(this.playerId);
+    
+    if (!session) {
+      roleSwitchingSystem.createSession(this.playerId);
+    }
+    
+    // Create some initial citizens if none exist
+    const citizenSystem = this.gameEngine.getCitizenSystem();
+    const allCitizens = citizenSystem.getAllCitizens();
+    
+    if (allCitizens.length === 0) {
+      // Create a few initial characters
+      for (let i = 0; i < 20; i++) {
+        citizenSystem.createCitizen({
+          firstName: `Character${i}`,
+          lastName: `Familie${i}`,
+          gender: i % 2 === 0 ? 'male' : 'female',
+          age: 20 + Math.floor(Math.random() * 40),
+          birthYear: this.gameEngine.getCurrentYear() - (20 + Math.floor(Math.random() * 40)),
+          birthMonth: Math.floor(Math.random() * 12) + 1,
+          profession: ['farmer', 'merchant', 'soldier', 'scholar', 'noble'][Math.floor(Math.random() * 5)] as any,
+          regionId: 'region1',
+          socialClass: i < 5 ? 'noble' : i < 15 ? 'middle' : 'peasant'
+        });
+      }
+    }
+    
+    // Select first character if no character is currently selected
+    const currentSession = roleSwitchingSystem.getSession(this.playerId);
+    if (currentSession && !currentSession.currentCitizenId) {
+      const citizens = citizenSystem.getAllCitizens();
+      if (citizens.length > 0) {
+        roleSwitchingSystem.switchRole(
+          this.playerId,
+          citizens[0].id,
+          (id) => citizenSystem.getCitizen(id),
+          (id, updates) => citizenSystem.updateCitizen(id, updates),
+          this.gameEngine.getCurrentYear(),
+          1,
+          'Initialisierung'
+        );
+        
+        // Update dashboard
+        if (this.characterDashboard) {
+          this.characterDashboard.update();
+        }
+      }
+    }
+  }
 
   /**
    * Cleanup
@@ -1253,5 +1355,16 @@ export class UIFlowManager {
   public destroy(): void {
     this.clearScreens();
     this.app.stage.removeChild(this.screenContainer);
+    
+    // Cleanup life simulation panels
+    if (this.roleSwitchingPanel) {
+      this.roleSwitchingPanel.destroy();
+    }
+    if (this.timeControlsPanel) {
+      this.timeControlsPanel.destroy();
+    }
+    if (this.characterDashboard) {
+      this.characterDashboard.destroy();
+    }
   }
 }

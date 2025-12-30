@@ -497,6 +497,17 @@ export class CitizenSystem {
   }
   
   /**
+   * Aktualisiert einen Bürger mit partiellen Updates
+   */
+  public updateCitizen(citizenId: string, updates: Partial<Citizen>): boolean {
+    const citizen = this.citizens.get(citizenId);
+    if (!citizen) return false;
+    
+    Object.assign(citizen, updates);
+    return true;
+  }
+  
+  /**
    * Verarbeitet monatliche Updates für alle Bürger
    */
   public processMonth(currentYear: number, currentMonth: number): void {
