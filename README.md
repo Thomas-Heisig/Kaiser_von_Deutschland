@@ -10,10 +10,14 @@ Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
 
-> **Aktuelle Version:** v2.5.1 → v2.3.6  
-> **Neu in 2.3.6:** 💰 **Kriegsfinanzierung & Kriegsanleihen** - Finanziere Kriege mit historischen Methoden!
+> **Aktuelle Version:** v2.6.0  
+> **NEU in 2.6.0:** 🎭 **Life Simulation System** - Wechsle nahtlos zwischen Charakteren und erlebe die Geschichte aus verschiedenen Perspektiven!
+> - **👤 Rollenwechsel-System**: Spiele jederzeit jeden lebenden Charakter
+> - **🤖 AI Controller**: Intelligente KI steuert nicht-gespielte Charaktere
+> - **⏱️ Drei Zeit-Modi**: Detail (1s=1 Tag), Ausgewogen (1s=1 Monat), Strategisch (1s=1 Jahr)
+> - **🎨 Dynamische Ansichten**: UI passt sich der Rolle an (Kaiser, Bauer, Händler, etc.)
 > **Neu in 2.5.1:** ⚔️ **Kriegsgefangene-System (PoW)** - Manage prisoners of war with historical accuracy!
-> **Neu in 2.6.0:** 🚢 **Handelsrouten & Transport-System** - Verwalte globale Handelsrouten!
+> **Neu in 2.3.6:** 💰 **Kriegsfinanzierung & Kriegsanleihen** - Finanziere Kriege mit historischen Methoden!
 > **Neu in 2.5.0:** 🎮 **Lebensphasen-basiertes Gameplay-System** + **20 Roadmap Features**  
 > **MASSIV ERWEITERT in v2.4.0:** 🚀 **17 neue Kernsysteme** für Population, Krieg, Spionage, Städte, Kultur & Recht!  
 > Siehe [ROADMAP](docs/00-meta/roadmap.md) für geplante Features und [STATUS](docs/00-meta/status.md) für Details.
@@ -100,6 +104,19 @@ Wirtschaft, Militär, Soziales, Kultur und Politik - alles detailliert simuliert
 - **Kriegserklärungen**: Kriegssystem mit Causus Belli, Verbündeten und Kriegspunkten
 - **Friedensverhandlungen**: Friedensangebote mit Bedingungen für Gold, Territorium und Handel
 - **Multiplayer**: Verhandlungen zwischen echten Spielern, Mehrspieler-Verträge
+
+### 🎭 Life Simulation System (v2.6.0 - NEU!)
+- **👤 Rollenwechsel**: Wechsle nahtlos zwischen allen lebenden Charakteren
+- **🤖 AI Controller**: 4-Schichten-KI-System (Grundbedürfnisse, Rollen, Beziehungen, Ambitionen)
+- **4 AI-Typen**: Reactive, Proactive, Historical, Dynamic
+- **⏱️ Drei Zeit-Modi**: Detail (1s=1 Tag), Ausgewogen (1s=1 Monat), Strategisch (1s=1 Jahr)
+- **🎨 Dynamische Ansichten**: UI passt sich der Rolle an (8 verschiedene Ansichtstypen)
+- **📊 Charakter-Dashboard**: Vermögen, Ruf, Gesundheit, Glück, Bedürfnisse
+- **🔄 Meta-Wissen**: Wissen bleibt über Charakterwechsel erhalten
+- **💡 Empfohlene Charaktere**: Basierend auf Familie und sozialen Beziehungen
+- **🎯 Rollenspezifische Ziele**: Jeder Beruf hat eigene AI-Verhaltensweisen
+
+**Siehe [LIFE_SIMULATION.md](docs/LIFE_SIMULATION.md) für Details**
 
 ### 🎮 Lebensphasen-basiertes Gameplay (v2.5.0 - NEU!)
 - **🎬 Intro-Sequenz**: Historisches Cinematic + Philosophische Fragen für Persönlichkeitsprofil
