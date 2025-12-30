@@ -343,10 +343,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Propaganda- und Informationskriege
 
 #### 🔹 Mode und Trends
-- [ ] Kleidungsstile pro Epoche
-- [ ] Modehäuser und Trendsetter
-- [ ] Jugendkulturen (ab 1950)
-- [ ] Subkulturen und Gegenkulturen
+- [x] Kleidungsstile pro Epoche ✅ (FashionSystem - v2.6.1)
+- [x] Modehäuser und Trendsetter ✅ (FashionSystem - v2.6.1)
+- [x] Jugendkulturen (ab 1950) ✅ (FashionSystem - v2.6.1)
+- [x] Subkulturen und Gegenkulturen ✅ (FashionSystem - v2.6.1)
 - [ ] **Multiplayer**: Spieler setzen Trends
 - [ ] **Multiplayer**: Modewettbewerbe und -shows
 
@@ -362,7 +362,7 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [x] Klosterschulen → Lateinschulen → Gymnasien ✅ (RoadmapFeaturesManager - v2.5.0)
 - [x] Universitäts-Gründungen (Heidelberg, Berlin) ✅ (RoadmapFeaturesManager - v2.5.0)
 - [x] Technische Hochschulen und Forschungslabore ✅ (RoadmapFeaturesManager - v2.5.0)
-- [ ] PISA-Studien und Bildungsreformen (ab 2000)
+- [x] PISA-Studien und Bildungsreformen (ab 2000) ✅ (EducationReformsSystem - v2.6.1)
 - [ ] **Multiplayer**: Spieler als Professoren oder Studenten
 - [ ] **Multiplayer**: Universitäten-Wettbewerb
 
@@ -413,10 +413,10 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Korruptionsnetzwerke
 
 #### 🔹 Bürgerrechte-Entwicklung
-- [ ] Grundrechte und Verfassungen
-- [ ] Wahlrecht-Erweiterungen
-- [ ] Gleichberechtigungsbewegungen
-- [ ] Datenschutz und Privatsphäre (ab 1970)
+- [x] Grundrechte und Verfassungen ✅ (CivilRightsSystem - v2.6.1)
+- [x] Wahlrecht-Erweiterungen ✅ (CivilRightsSystem - v2.6.1)
+- [x] Gleichberechtigungsbewegungen ✅ (CivilRightsSystem - v2.6.1)
+- [x] Datenschutz und Privatsphäre (ab 1970) ✅ (CivilRightsSystem - v2.6.1)
 - [ ] **Multiplayer**: Spieler organisieren Bürgerrechtsbewegungen
 - [ ] **Multiplayer**: Verfassungsdebatten
 
@@ -439,11 +439,11 @@ Diese erweiterte Roadmap transformiert "Kaiser von Deutschland" von einem Spiel 
 - [ ] **Multiplayer**: Steuerreform-Debatten
 
 #### 🔹 Währungs- und Finanzsystem
-- [ ] Münzprägung und Geldwert
-- [ ] Bankengründungen und Börsen
-- [ ] Inflation und Deflation
-- [ ] Finanzkrisen und -blasen
-- [ ] Kryptowährungen (ab 2009)
+- [x] Münzprägung und Geldwert ✅ (CurrencyFinancialSystem - v2.6.1)
+- [x] Bankengründungen und Börsen ✅ (CurrencyFinancialSystem - v2.6.1)
+- [x] Inflation und Deflation ✅ (CurrencyFinancialSystem - v2.6.1)
+- [x] Finanzkrisen und -blasen ✅ (CurrencyFinancialSystem - v2.6.1)
+- [x] Kryptowährungen (ab 2009) ✅ (CurrencyFinancialSystem - v2.6.1)
 - [ ] **Multiplayer**: Spieler als Banker oder Spekulanten
 - [ ] **Multiplayer**: Börsenhandel zwischen Spielern
 
