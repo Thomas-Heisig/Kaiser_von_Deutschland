@@ -550,7 +550,7 @@ export class AIControllerManager {
    */
   public createSnapshot(): any {
     const controllersArray: any[] = [];
-    for (const [citizenId, controller] of this.controllers) {
+    for (const [_citizenId, controller] of this.controllers) {
       controllersArray.push(controller.createSnapshot());
     }
     return {
