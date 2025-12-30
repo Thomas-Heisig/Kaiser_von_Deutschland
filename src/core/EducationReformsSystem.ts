@@ -216,7 +216,7 @@ export class EducationReformsSystem {
   /**
    * Get available reforms
    */
-  getAvailableReforms(year: number): EducationReform[] {
+  getAvailableReforms(_year: number): EducationReform[] {
     return Array.from(this.reforms.values()).filter(reform => {
       // Check if already implemented
       if (this.activeReforms.has(reform.id)) return false;
@@ -328,7 +328,7 @@ export class EducationReformsSystem {
    */
   private updateActiveReforms(_year: number, _deltaTime: number): void {
     for (const [id, reform] of this.activeReforms) {
-      const yearsSinceImplementation = year - reform.yearImplemented;
+      const yearsSinceImplementation = _year - reform.yearImplemented;
 
       // Check if reform is fully implemented
       if (yearsSinceImplementation >= reform.duration) {
