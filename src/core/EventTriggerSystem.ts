@@ -1,6 +1,7 @@
 // src/core/EventTriggerSystem.ts
 
 import { HistoricalEventSystem } from './HistoricalEventSystem';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Bedingungstyp für Event-Trigger
@@ -98,7 +99,7 @@ export class EventTriggerSystem {
    * Erstellt ein neues Custom Event Template
    */
   public createCustomEvent(template: Omit<CustomEventTemplate, 'id' | 'createdAt'>): CustomEventTemplate {
-    const id = `custom_event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const id = `custom_event_${uuidv4()}`;
     const fullTemplate: CustomEventTemplate = {
       ...template,
       id,
@@ -267,7 +268,9 @@ export class EventTriggerSystem {
         return false;
         
       case 'custom_script':
-        // Für zukünftige Erweiterung - könnte eval() verwenden (sicherheitsrelevant!)
+        // TODO: Implement safe custom script evaluation
+        // Security note: Never use eval() directly - use a safe expression parser
+        // or sandboxed scripting environment (e.g., vm2, isolated-vm)
         console.warn('Custom script conditions not yet implemented');
         return false;
         

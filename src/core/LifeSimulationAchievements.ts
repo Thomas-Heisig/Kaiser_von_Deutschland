@@ -123,7 +123,8 @@ export class LifeSimulationAchievements {
         rarity: 'epic',
         points: 100,
         condition: () => {
-          // Wird manuell freigeschaltet wenn Klasse sich ändert
+          // TODO: Manually triggered achievement - implement tracking when social class changes
+          // Should be unlocked when a character transitions from 'peasant' to 'noble' class
           return false;
         }
       },
@@ -189,7 +190,8 @@ export class LifeSimulationAchievements {
         rarity: 'legendary',
         points: 150,
         condition: () => {
-          // Muss manuell verfolgt werden
+          // TODO: Manually triggered achievement - track family lineage in RoleSwitchingSystem
+          // Should be unlocked when player has controlled 3 generations of same family
           return false;
         }
       },

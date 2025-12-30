@@ -134,10 +134,14 @@ export class SocialNetworkGraph {
    * Erstellt einen Knoten
    */
   private createNode(citizen: Citizen): GraphNode {
+    // Initial positions are randomized but will be adjusted by force-directed layout
+    const initialWidth = this.app ? this.app.screen.width : 800;
+    const initialHeight = this.app ? this.app.screen.height : 600;
+    
     return {
       citizen,
-      x: Math.random() * 800,
-      y: Math.random() * 600,
+      x: Math.random() * initialWidth,
+      y: Math.random() * initialHeight,
       vx: 0,
       vy: 0,
       connections: 0

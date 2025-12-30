@@ -759,8 +759,20 @@ export class GameEngine {
   /**
    * Holt Snapshots aller RoleSwitching-Sessions für alle Spieler
    */
-  private getRoleSwitchingSnapshots(): any[] {
-    const snapshots: any[] = [];
+  private getRoleSwitchingSnapshots(): Array<{
+    playerId: string;
+    currentCitizenId: string | null;
+    previousCitizenIds: string[];
+    switchHistory: any[];
+    metaKnowledge: Record<string, any>;
+  }> {
+    const snapshots: Array<{
+      playerId: string;
+      currentCitizenId: string | null;
+      previousCitizenIds: string[];
+      switchHistory: any[];
+      metaKnowledge: Record<string, any>;
+    }> = [];
     for (const playerId of this.players.keys()) {
       const snapshot = this.roleSwitchingSystem.createSessionSnapshot(playerId);
       if (snapshot) {

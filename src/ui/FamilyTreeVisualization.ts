@@ -429,7 +429,8 @@ export class FamilyTreeVisualization {
     }
     
     const width = maxX - minX;
-    // const height = maxY - minY; // Unused for now
+    // Note: height calculation reserved for future vertical centering feature
+    // const height = maxY - minY;
     
     // Zentrieren
     this.container.x = (this.app.screen.width - width) / 2 - minX;
