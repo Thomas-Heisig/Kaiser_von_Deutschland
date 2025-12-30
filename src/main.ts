@@ -1,40 +1,59 @@
 // src/main.ts
 import { GameEngine } from './core/GameEngine';
-import { GameUI } from './ui/GameUI';
+import { UIFlowManager } from './ui/UIFlowManager';
+import * as PIXI from 'pixi.js';
 import '/styles/main.css';
 
 class KaiserIIGame {
   private engine: GameEngine;
-  private ui: GameUI;
+  private app: PIXI.Application;
 
   constructor() {
     this.engine = new GameEngine({
       maxPlayers: 4,
       difficulty: 2,
       gameSpeed: 1,
-      randomEvents: true
+      randomEvents: true,
+      startingYear: 1200,
     });
 
-    this.ui = new GameUI(this.engine, 'app');
+    this.app = new PIXI.Application();
     
-    this.initializeDemoGame();
+    this.initializeUI();
   }
 
-  private async initializeDemoGame(): Promise<void> {
-    // Demo-Spieler für schnellen Start
+  private async initializeUI(): Promise<void> {
     try {
-      const player = this.engine.addPlayer({
-        name: 'Heinrich',
-        gender: 'male',
-        kingdomName: 'Mittelreich',
-        difficulty: 2
+      // Clear loading screen
+      const appContainer = document.getElementById('app');
+      if (!appContainer) {
+        throw new Error('App container not found');
+      }
+
+      // Initialize PixiJS application
+      await this.app.init({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        backgroundColor: 0x1a1a2e,
+        antialias: true,
+        resolution: window.devicePixelRatio || 1,
+        autoDensity: true,
       });
-      
-      // Start game automatically for demo so Next Year works
-      await this.engine.startGame();
-      this.ui.showKingdomView(player);
+
+      appContainer.innerHTML = '';
+      appContainer.appendChild(this.app.canvas);
+
+      // Initialize UI Flow Manager
+      new UIFlowManager(this.app, this.engine);
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        this.app.renderer.resize(window.innerWidth, window.innerHeight);
+      });
+
+      console.log('✨ Kaiser II Game initialized successfully');
     } catch (error) {
-      console.error('Demo-Spieler konnte nicht erstellt werden:', error);
+      console.error('Failed to initialize game:', error);
     }
   }
 }
@@ -47,5 +66,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Globale Exporte für Entwicklertools
 (window as any).KaiserII = {
   GameEngine,
-  GameUI
+  UIFlowManager,
 };
