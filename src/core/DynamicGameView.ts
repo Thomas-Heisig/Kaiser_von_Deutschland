@@ -494,4 +494,22 @@ export class DynamicGameView {
   public getCurrentViewType(): ViewType {
     return this.currentViewType;
   }
+  
+  /**
+   * Erstellt Snapshot für Speichern
+   */
+  public createSnapshot(): any {
+    return {
+      currentViewType: this.currentViewType,
+      // Context wird nicht gespeichert, da er aus dem Charakter neu erstellt wird
+    };
+  }
+  
+  /**
+   * Lädt Snapshot
+   */
+  public loadSnapshot(snapshot: any): void {
+    this.currentViewType = snapshot.currentViewType || ViewType.DEFAULT;
+    this.currentContext = undefined; // Wird beim nächsten switchToCharacter neu erstellt
+  }
 }

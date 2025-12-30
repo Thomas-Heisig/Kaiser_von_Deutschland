@@ -448,6 +448,32 @@ export class AIController implements IAIController {
   public getDecisionHistory(): AIDecision[] {
     return [...this.decisions];
   }
+  
+  /**
+   * Erstellt Snapshot für Speichern
+   */
+  public createSnapshot(): any {
+    return {
+      citizenId: this.citizenId,
+      aiType: this.aiType,
+      goals: this.goals,
+      decisions: this.decisions,
+      lastUpdateYear: this.lastUpdateYear,
+      lastUpdateMonth: this.lastUpdateMonth
+    };
+  }
+  
+  /**
+   * Lädt Snapshot
+   */
+  public static loadSnapshot(snapshot: any): AIController {
+    const controller = new AIController(snapshot.citizenId, snapshot.aiType);
+    controller.goals = snapshot.goals || [];
+    controller.decisions = snapshot.decisions || [];
+    controller.lastUpdateYear = snapshot.lastUpdateYear || 0;
+    controller.lastUpdateMonth = snapshot.lastUpdateMonth || 0;
+    return controller;
+  }
 }
 
 /**
@@ -517,5 +543,31 @@ export class AIControllerManager {
    */
   public getAllControllers(): Map<string, AIController> {
     return new Map(this.controllers);
+  }
+  
+  /**
+   * Erstellt Snapshot für Speichern
+   */
+  public createSnapshot(): any {
+    const controllersArray: any[] = [];
+    for (const [_citizenId, controller] of this.controllers) {
+      controllersArray.push(controller.createSnapshot());
+    }
+    return {
+      controllers: controllersArray
+    };
+  }
+  
+  /**
+   * Lädt Snapshot
+   */
+  public loadSnapshot(snapshot: any): void {
+    this.controllers.clear();
+    if (snapshot.controllers) {
+      for (const controllerSnapshot of snapshot.controllers) {
+        const controller = AIController.loadSnapshot(controllerSnapshot);
+        this.controllers.set(controller.citizenId, controller);
+      }
+    }
   }
 }
