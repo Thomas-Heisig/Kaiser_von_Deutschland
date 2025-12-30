@@ -296,8 +296,109 @@ export class GameEngine {
     this.gameState = GameState.RUNNING;
     this.emit('gameStateChanged', { state: this.gameState });
 
+    // Initialize life simulation for the first player (v2.6.0)
+    this.initializeLifeSimulation();
+
     // start auto tick (monthly)
     this.startAutoTick();
+  }
+
+  /**
+   * Initializes the life simulation system (v2.6.0)
+   * Creates player session, generates initial citizens, and assigns first character
+   */
+  private initializeLifeSimulation(): void {
+    // Get first player
+    const players = Array.from(this.players.values());
+    if (players.length === 0) return;
+    
+    const player = players[0];
+    const playerId = player.id;
+    
+    console.log('🎮 Initializing Life Simulation for player:', playerId);
+    
+    // 1. Create player session for role switching
+    this.roleSwitchingSystem.createSession(playerId);
+    console.log('✅ Player session created');
+    
+    // 2. Generate initial citizens if none exist
+    const existingCitizens = this.citizenSystem.getAllCitizens();
+    if (existingCitizens.length === 0) {
+      this.generateInitialCitizens();
+      console.log('✅ Initial citizens generated');
+    }
+    
+    // 3. Assign first living citizen to player
+    const allCitizens = this.citizenSystem.getAllCitizens().filter(c => c.isAlive);
+    if (allCitizens.length > 0) {
+      // Find an interesting starting character (noble or merchant preferred)
+      const preferredCitizen = allCitizens.find(c => 
+        c.socialClass === 'noble' || c.socialClass === 'middle'
+      ) || allCitizens[0];
+      
+      const success = this.roleSwitchingSystem.switchRole(
+        playerId,
+        preferredCitizen.id,
+        (id) => this.citizenSystem.getCitizen(id),
+        (id, updates) => this.citizenSystem.updateCitizen(id, updates),
+        this.currentYear,
+        this.currentMonth,
+        'Spielstart - Erster Charakter'
+      );
+      
+      if (success) {
+        console.log(`✅ Erster Charakter zugewiesen: ${preferredCitizen.firstName} ${preferredCitizen.lastName} (${preferredCitizen.profession})`);
+      } else {
+        console.error('❌ Fehler beim Zuweisen des ersten Charakters');
+      }
+    } else {
+      console.warn('⚠️ Keine lebenden Bürger verfügbar');
+    }
+  }
+  
+  /**
+   * Generates initial population for the game
+   */
+  private generateInitialCitizens(): void {
+    const regions = ['preussen', 'bayern', 'sachsen', 'hanse', 'schwaben'];
+    const maleNames = ['Heinrich', 'Friedrich', 'Wilhelm', 'Karl', 'Ludwig', 'Otto', 'Konrad', 'Albrecht'];
+    const femaleNames = ['Elisabeth', 'Margarete', 'Anna', 'Katharina', 'Agnes', 'Gertrud', 'Hedwig'];
+    const lastNames = ['von Berg', 'Schmidt', 'Müller', 'Weber', 'Fischer', 'Wagner', 'Becker', 'Schulz'];
+    const professions: Array<any> = ['farmer', 'artisan', 'merchant', 'soldier', 'scholar', 'clergy', 'noble'];
+    
+    // Generate 50-100 initial citizens
+    const citizenCount = 50 + Math.floor(Math.random() * 50);
+    
+    for (let i = 0; i < citizenCount; i++) {
+      const gender: 'male' | 'female' = Math.random() > 0.5 ? 'male' : 'female';
+      const firstName = gender === 'male' 
+        ? maleNames[Math.floor(Math.random() * maleNames.length)]
+        : femaleNames[Math.floor(Math.random() * femaleNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const age = 18 + Math.floor(Math.random() * 50);
+      const birthYear = this.currentYear - age;
+      const profession = professions[Math.floor(Math.random() * professions.length)];
+      const regionId = regions[Math.floor(Math.random() * regions.length)];
+      
+      // Determine social class based on profession
+      let socialClass: 'peasant' | 'middle' | 'noble' | 'royal' = 'peasant';
+      if (profession === 'noble') socialClass = 'noble';
+      else if (profession === 'merchant' || profession === 'scholar' || profession === 'clergy') socialClass = 'middle';
+      
+      this.citizenSystem.createCitizen({
+        firstName,
+        lastName,
+        gender,
+        age,
+        birthYear,
+        birthMonth: Math.floor(Math.random() * 12) + 1,
+        profession,
+        regionId,
+        socialClass
+      });
+    }
+    
+    console.log(`Generated ${citizenCount} initial citizens across ${regions.length} regions`);
   }
 
   private startAutoTick(): void {
