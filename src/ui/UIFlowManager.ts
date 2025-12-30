@@ -106,11 +106,21 @@ export class UIFlowManager {
   }
 
   /**
-   * Start render loop for animations
+   * Start render loop for animations and UI updates
    */
   private startRenderLoop(): void {
     this.app.ticker.add(() => {
       this.animationTime += 0.016; // Approximate 60 FPS
+      
+      // Update life simulation UI panels if on game screen (v2.6.0)
+      if (this.currentScreen === 'game') {
+        if (this.characterDashboard) {
+          this.characterDashboard.update();
+        }
+        if (this.timeControlsPanel) {
+          this.timeControlsPanel.updateDisplay();
+        }
+      }
     });
   }
 
@@ -1290,6 +1300,8 @@ export class UIFlowManager {
   private showRoleSwitchingPanel(): void {
     if (this.roleSwitchingPanel) {
       this.roleSwitchingPanel.show();
+      // Show recommended characters by default
+      this.roleSwitchingPanel.showRecommendedCharacters();
     }
   }
   
@@ -1297,55 +1309,25 @@ export class UIFlowManager {
    * Initialize first character for player
    */
   private initializeFirstCharacter(): void {
-    // Create player session
+    // This method is called when the game screen is created.
+    // If the game hasn't started yet, the GameEngine will handle initialization in startGame().
+    // This method ensures the UI is updated if characters already exist.
+    
     const roleSwitchingSystem = this.gameEngine.getRoleSwitchingSystem();
+    
+    // Check if session exists
     const session = roleSwitchingSystem.getSession(this.playerId);
     
+    // If no session and we have citizens, game hasn't started yet - GameEngine will handle it
     if (!session) {
-      roleSwitchingSystem.createSession(this.playerId);
+      console.log('⏳ Waiting for game to start - GameEngine will initialize life simulation');
+      return;
     }
     
-    // Create some initial citizens if none exist
-    const citizenSystem = this.gameEngine.getCitizenSystem();
-    const allCitizens = citizenSystem.getAllCitizens();
-    
-    if (allCitizens.length === 0) {
-      // Create a few initial characters
-      for (let i = 0; i < 20; i++) {
-        citizenSystem.createCitizen({
-          firstName: `Character${i}`,
-          lastName: `Familie${i}`,
-          gender: i % 2 === 0 ? 'male' : 'female',
-          age: 20 + Math.floor(Math.random() * 40),
-          birthYear: this.gameEngine.getCurrentYear() - (20 + Math.floor(Math.random() * 40)),
-          birthMonth: Math.floor(Math.random() * 12) + 1,
-          profession: ['farmer', 'merchant', 'soldier', 'scholar', 'noble'][Math.floor(Math.random() * 5)] as any,
-          regionId: 'region1',
-          socialClass: i < 5 ? 'noble' : i < 15 ? 'middle' : 'peasant'
-        });
-      }
-    }
-    
-    // Select first character if no character is currently selected
-    const currentSession = roleSwitchingSystem.getSession(this.playerId);
-    if (currentSession && !currentSession.currentCitizenId) {
-      const citizens = citizenSystem.getAllCitizens();
-      if (citizens.length > 0) {
-        roleSwitchingSystem.switchRole(
-          this.playerId,
-          citizens[0].id,
-          (id) => citizenSystem.getCitizen(id),
-          (id, updates) => citizenSystem.updateCitizen(id, updates),
-          this.gameEngine.getCurrentYear(),
-          1,
-          'Initialisierung'
-        );
-        
-        // Update dashboard
-        if (this.characterDashboard) {
-          this.characterDashboard.update();
-        }
-      }
+    // Update dashboard if we already have a character
+    if (session.currentCitizenId && this.characterDashboard) {
+      this.characterDashboard.update();
+      console.log('✅ Character dashboard updated');
     }
   }
 
