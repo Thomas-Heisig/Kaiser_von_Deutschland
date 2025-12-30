@@ -41,7 +41,7 @@ export class UIFlowManager {
   
   // Setup data
   private setupData: Partial<GameSetupData> = {
-    playerName: '',
+    playerName: 'Heinrich',
     era: 1200,
     profession: 'König',
     age: 25,
@@ -49,6 +49,7 @@ export class UIFlowManager {
     gameSpeed: 1,
     enableRandomEvents: true,
     gender: 'male',
+    kingdomName: 'Mittelreich',
   };
 
   constructor(app: PIXI.Application, gameEngine: GameEngine) {
@@ -60,7 +61,39 @@ export class UIFlowManager {
     this.app.stage.addChild(this.screenContainer);
     
     this.startRenderLoop();
+    this.setupKeyboardShortcuts();
     this.showStartScreen();
+  }
+
+  /**
+   * Setup keyboard shortcuts
+   */
+  private setupKeyboardShortcuts(): void {
+    window.addEventListener('keydown', (e) => {
+      // Escape key - go back
+      if (e.key === 'Escape') {
+        if (this.currentScreen === 'setup') {
+          this.showStartScreen();
+        } else if (this.currentScreen === 'game') {
+          this.showSetupScreen();
+        }
+      }
+      
+      // Enter key - continue/start
+      if (e.key === 'Enter') {
+        if (this.currentScreen === 'start') {
+          this.showSetupScreen();
+        } else if (this.currentScreen === 'setup') {
+          this.startGame();
+        }
+      }
+      
+      // F1 - Help
+      if (e.key === 'F1') {
+        e.preventDefault();
+        this.showDocumentation();
+      }
+    });
   }
 
   /**
@@ -212,6 +245,18 @@ export class UIFlowManager {
     version.y = 350;
     content.addChild(version);
 
+    // Keyboard shortcuts hint
+    const shortcuts = this.uiSystem.createText(
+      '⌨ Tastenkürzel: Enter = Weiter | F1 = Hilfe | Esc = Zurück',
+      {
+        fontSize: 12,
+        fill: defaultTheme.colors.textMuted,
+      }
+    );
+    shortcuts.anchor.set(0.5);
+    shortcuts.y = 380;
+    content.addChild(shortcuts);
+
     container.addChild(content);
 
     // Add floating particles animation
@@ -305,6 +350,18 @@ export class UIFlowManager {
     );
     startBtn.container.x = width - 350;
     buttonPanel.addChild(startBtn.container);
+
+    // Keyboard shortcuts hint
+    const shortcuts = this.uiSystem.createText(
+      '⌨ Enter = Starten | Esc = Zurück | F1 = Hilfe',
+      {
+        fontSize: 12,
+        fill: defaultTheme.colors.textMuted,
+      }
+    );
+    shortcuts.x = width / 2 - 150;
+    shortcuts.y = 20;
+    buttonPanel.addChild(shortcuts);
 
     container.addChild(buttonPanel);
 
@@ -1099,18 +1156,45 @@ export class UIFlowManager {
    */
   private showDocumentation(): void {
     alert(
-      'Kaiser von Deutschland - Dokumentation\n\n' +
-      'Willkommen bei der historischen Königreichssimulation!\n\n' +
-      'Gameplay:\n' +
-      '- Verwalte dein Königreich über Jahrhunderte\n' +
-      '- Treffe politische und wirtschaftliche Entscheidungen\n' +
-      '- Baue Gebäude und entwickle Technologien\n' +
-      '- Führe Kriege oder schließe Frieden\n\n' +
-      'Steuerung:\n' +
-      '- Maus: Alle Interaktionen\n' +
-      '- Tasten 1-5: Ansichten wechseln\n' +
-      '- Leertaste: Spezialeffekte\n\n' +
-      'Weitere Informationen in der README.md'
+      '⚜️ Kaiser von Deutschland - Dokumentation\n\n' +
+      '═══════════════════════════════════════\n\n' +
+      '📖 Willkommen bei der historischen Königreichssimulation!\n\n' +
+      'SPIELABLAUF:\n' +
+      '1. Startseite: Überblick über das Spiel\n' +
+      '2. Einstellungen: Spieler und Königreich konfigurieren\n' +
+      '3. Hauptspiel: Interaktives Gameplay\n\n' +
+      'GAMEPLAY:\n' +
+      '• Verwalte dein Königreich über Jahrhunderte (Jahr 0 - 2050)\n' +
+      '• Treffe politische und wirtschaftliche Entscheidungen\n' +
+      '• Baue Gebäude und entwickle Technologien\n' +
+      '• Führe Kriege oder schließe Frieden\n' +
+      '• Erlebe historische Ereignisse\n\n' +
+      'ROLLEN:\n' +
+      '• Kaiser/König: Politische Führung\n' +
+      '• Bürgermeister: Städteverwaltung\n' +
+      '• Händler: Wirtschaft und Handel\n' +
+      '• Bauer/Arbeiter: Produktion\n' +
+      '• Gelehrter: Forschung und Bildung\n\n' +
+      'STEUERUNG:\n' +
+      '⌨ Tastenkürzel:\n' +
+      '  • Enter = Weiter/Starten\n' +
+      '  • Esc = Zurück\n' +
+      '  • F1 = Diese Hilfe\n' +
+      '🖱 Maus: Alle Interaktionen mit Buttons und Panels\n\n' +
+      'FEATURES:\n' +
+      '✓ 15 verschiedene Spielerrollen\n' +
+      '✓ 27+ historische Ereignisse\n' +
+      '✓ 23 Gebäudetypen\n' +
+      '✓ 24 Technologien\n' +
+      '✓ Umfangreiches Wirtschaftssystem\n' +
+      '✓ Kriegsführung und Diplomatie\n' +
+      '✓ Bevölkerungssimulation\n' +
+      '✓ Multiplayer (bis zu 6 Spieler)\n\n' +
+      '═══════════════════════════════════════\n\n' +
+      'Weitere Informationen:\n' +
+      '📄 README.md im Projektordner\n' +
+      '🌐 GitHub: Thomas-Heisig/Kaiser_von_Deutschland\n\n' +
+      'Viel Erfolg beim Regieren! 👑'
     );
   }
 
@@ -1120,12 +1204,12 @@ export class UIFlowManager {
   private async startGame(): Promise<void> {
     // Validate setup
     if (!this.setupData.playerName || this.setupData.playerName.trim() === '') {
-      alert('Bitte geben Sie einen Spielernamen ein!');
+      alert('❌ Fehler: Bitte geben Sie einen Spielernamen ein!\n\nDer Spielername wird für Ihr Königreich benötigt.');
       return;
     }
 
     if (!this.setupData.kingdomName || this.setupData.kingdomName.trim() === '') {
-      alert('Bitte geben Sie einen Königreichsnamen ein!');
+      alert('❌ Fehler: Bitte geben Sie einen Königreichsnamen ein!\n\nIhr Königreich braucht einen Namen!');
       return;
     }
 
@@ -1144,10 +1228,15 @@ export class UIFlowManager {
       // Show game screen
       this.showGameScreen();
 
-      console.log('Game started with player:', player);
+      console.log('✨ Game started successfully with player:', player);
+      console.log('📊 Setup data:', this.setupData);
     } catch (error) {
-      console.error('Failed to start game:', error);
-      alert('Fehler beim Starten des Spiels!');
+      console.error('❌ Failed to start game:', error);
+      alert(
+        '❌ Fehler beim Starten des Spiels!\n\n' +
+        'Details: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler') +
+        '\n\nBitte versuchen Sie es erneut.'
+      );
     }
   }
 
