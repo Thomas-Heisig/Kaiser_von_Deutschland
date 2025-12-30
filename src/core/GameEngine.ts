@@ -43,6 +43,10 @@ import { LegalAndCourtSystem } from './LegalAndCourtSystem';
 import { RoadmapFeaturesManager } from './RoadmapFeaturesManager';
 import { PrisonerOfWarSystem } from './PrisonerOfWarSystem';
 import { WarFinancingSystem } from './WarFinancingSystem';
+import { AIControllerManager } from './AIController';
+import { RoleSwitchingSystem } from './RoleSwitchingSystem';
+import { TimeSystem, TimeMode } from './TimeSystem';
+import { DynamicGameView } from './DynamicGameView';
 import localforage from 'localforage';
 
 export enum GameState {
@@ -130,6 +134,12 @@ export class GameEngine {
   // War Financing System (v2.3.6) - Kriegsfinanzierung und Kriegsanleihen
   private warFinancingSystem: WarFinancingSystem;
   
+  // Life Simulation Systems (v2.6.0) - Role Switching and Dynamic Views
+  private aiControllerManager: AIControllerManager;
+  private roleSwitchingSystem: RoleSwitchingSystem;
+  private timeSystem: TimeSystem;
+  private dynamicGameView: DynamicGameView;
+  
   private config: GameConfig;
   private eventTarget: EventTarget;
 
@@ -205,6 +215,12 @@ export class GameEngine {
     
     // Initialize War Financing System (v2.3.6)
     this.warFinancingSystem = new WarFinancingSystem();
+    
+    // Initialize Life Simulation Systems (v2.6.0)
+    this.aiControllerManager = new AIControllerManager();
+    this.roleSwitchingSystem = new RoleSwitchingSystem(this.aiControllerManager);
+    this.timeSystem = new TimeSystem(this.config.startingYear, TimeMode.BALANCED);
+    this.dynamicGameView = new DynamicGameView();
     
     // Initialize all data asynchronously (fire-and-forget is intentional - 
     // systems will be ready before game starts, as startGame() is user-triggered)
@@ -334,6 +350,16 @@ export class GameEngine {
     
     // Process Prisoner of War system monthly updates (v2.5.1)
     this.prisonerOfWarSystem.update(this.currentYear, this.currentMonth);
+    
+    // Process AI controllers for all non-player characters (v2.6.0)
+    this.aiControllerManager.updateAll(
+      (id) => this.citizenSystem.getCitizen(id),
+      this.currentYear,
+      this.currentMonth
+    );
+    
+    // Update time system (v2.6.0)
+    this.timeSystem.update(16); // ~60 FPS update rate
     
     // Note: Many newly integrated systems don't have processMonth() methods yet
     // They are available via accessor methods for UI and manual triggering
@@ -970,6 +996,38 @@ export class GameEngine {
    */
   public getWarFinancingSystem(): WarFinancingSystem {
     return this.warFinancingSystem;
+  }
+  
+  /**
+   * Get AI Controller Manager (v2.6.0)
+   * Manages AI for non-player characters
+   */
+  public getAIControllerManager(): AIControllerManager {
+    return this.aiControllerManager;
+  }
+  
+  /**
+   * Get Role Switching System (v2.6.0)
+   * Enables seamless switching between different characters
+   */
+  public getRoleSwitchingSystem(): RoleSwitchingSystem {
+    return this.roleSwitchingSystem;
+  }
+  
+  /**
+   * Get Time System (v2.6.0)
+   * Manages game time with three speed modes
+   */
+  public getTimeSystem(): TimeSystem {
+    return this.timeSystem;
+  }
+  
+  /**
+   * Get Dynamic Game View (v2.6.0)
+   * Provides context-aware visualization based on current character role
+   */
+  public getDynamicGameView(): DynamicGameView {
+    return this.dynamicGameView;
   }
   
   // ===== Trade Routes Management API (v2.6.0) =====
