@@ -755,6 +755,20 @@ export class GameEngine {
     
     return (kingdomScore + playerScore) / difficultyMultiplier;
   }
+  
+  /**
+   * Holt Snapshots aller RoleSwitching-Sessions für alle Spieler
+   */
+  private getRoleSwitchingSnapshots(): any[] {
+    const snapshots: any[] = [];
+    for (const playerId of this.players.keys()) {
+      const snapshot = this.roleSwitchingSystem.createSessionSnapshot(playerId);
+      if (snapshot) {
+        snapshots.push(snapshot);
+      }
+    }
+    return snapshots;
+  }
 
   // Speicherfunktionen
   public async saveGame(slot: string = 'default'): Promise<void> {
@@ -767,6 +781,11 @@ export class GameEngine {
       climateSystem: this.climateSystem.serialize(),
       landscapeSystem: this.landscapeSystem.serialize(),
       animalPopulationSystem: this.animalPopulationSystem.serialize(),
+      // Life Simulation Systems (v2.6.0)
+      aiControllerManager: this.aiControllerManager.createSnapshot(),
+      roleSwitchingSessions: this.getRoleSwitchingSnapshots(),
+      timeSystem: this.timeSystem.createSnapshot(),
+      dynamicGameView: this.dynamicGameView.createSnapshot(),
       savedAt: new Date().toISOString()
     };
 
@@ -820,6 +839,22 @@ export class GameEngine {
     }
     if (saveData.animalPopulationSystem) {
       this.animalPopulationSystem = AnimalPopulationSystem.deserialize(saveData.animalPopulationSystem);
+    }
+    
+    // Load Life Simulation Systems (v2.6.0)
+    if (saveData.aiControllerManager) {
+      this.aiControllerManager.loadSnapshot(saveData.aiControllerManager);
+    }
+    if (saveData.roleSwitchingSessions) {
+      for (const sessionSnapshot of saveData.roleSwitchingSessions) {
+        this.roleSwitchingSystem.loadSessionSnapshot(sessionSnapshot);
+      }
+    }
+    if (saveData.timeSystem) {
+      this.timeSystem.loadSnapshot(saveData.timeSystem);
+    }
+    if (saveData.dynamicGameView) {
+      this.dynamicGameView.loadSnapshot(saveData.dynamicGameView);
     }
     
     this.emit('gameLoaded', { slot });
