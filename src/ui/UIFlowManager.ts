@@ -1297,9 +1297,6 @@ export class UIFlowManager {
   /**
    * Show role switching panel
    */
-  /**
-   * Show role switching panel
-   */
   private showRoleSwitchingPanel(): void {
     if (this.roleSwitchingPanel) {
       this.roleSwitchingPanel.show();

@@ -364,7 +364,7 @@ export class GameEngine {
     const maleNames = ['Heinrich', 'Friedrich', 'Wilhelm', 'Karl', 'Ludwig', 'Otto', 'Konrad', 'Albrecht'];
     const femaleNames = ['Elisabeth', 'Margarete', 'Anna', 'Katharina', 'Agnes', 'Gertrud', 'Hedwig'];
     const lastNames = ['von Berg', 'Schmidt', 'Müller', 'Weber', 'Fischer', 'Wagner', 'Becker', 'Schulz'];
-    const professions: Array<any> = ['farmer', 'artisan', 'merchant', 'soldier', 'scholar', 'clergy', 'noble'];
+    const professions = ['farmer', 'artisan', 'merchant', 'soldier', 'scholar', 'clergy', 'noble'] as const;
     
     // Generate 50-100 initial citizens
     const citizenCount = 50 + Math.floor(Math.random() * 50);
