@@ -269,7 +269,7 @@ export class RoleSwitchingPanel {
       (id) => citizenSystem.getCitizen(id),
       (id, updates) => citizenSystem.updateCitizen(id, updates),
       this.gameEngine.getCurrentYear(),
-      1, // currentMonth - würde vom GameEngine kommen
+      this.gameEngine.getCurrentMonth(),
       'Spielerwahl'
     );
     
