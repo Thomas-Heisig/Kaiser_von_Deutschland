@@ -34,7 +34,7 @@ export class RoleSwitchingPanel {
     // Panel-Hintergrund
     const background = new PIXI.Graphics();
     background.rect(0, 0, 800, 600);
-    background.fill(0x1a1a2e, 0.95);
+    background.fill({ color: 0x1a1a2e, alpha: 0.95 });
     background.stroke({ width: 2, color: 0x4a90e2 });
     this.container.addChild(background);
     
@@ -203,7 +203,7 @@ export class RoleSwitchingPanel {
     // Hintergrund
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, 740, 35);
-    bg.fill(0x2a2a4a, 0.8);
+    bg.fill({ color: 0x2a2a4a, alpha: 0.8 });
     bg.eventMode = 'static';
     bg.cursor = 'pointer';
     
@@ -211,13 +211,13 @@ export class RoleSwitchingPanel {
     bg.on('pointerover', () => {
       bg.clear();
       bg.rect(0, 0, 740, 35);
-      bg.fill(0x3a3a5a, 0.9);
+      bg.fill({ color: 0x3a3a5a, alpha: 0.9 });
     });
     
     bg.on('pointerout', () => {
       bg.clear();
       bg.rect(0, 0, 740, 35);
-      bg.fill(0x2a2a4a, 0.8);
+      bg.fill({ color: 0x2a2a4a, alpha: 0.8 });
     });
     
     // Click-Handler
@@ -298,20 +298,20 @@ export class RoleSwitchingPanel {
     
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, 120, 35);
-    bg.fill(0x4a90e2);
+    bg.fill({ color: 0x4a90e2 });
     bg.eventMode = 'static';
     bg.cursor = 'pointer';
     
     bg.on('pointerover', () => {
       bg.clear();
       bg.rect(0, 0, 120, 35);
-      bg.fill(0x5aa0f2);
+      bg.fill({ color: 0x5aa0f2 });
     });
     
     bg.on('pointerout', () => {
       bg.clear();
       bg.rect(0, 0, 120, 35);
-      bg.fill(0x4a90e2);
+      bg.fill({ color: 0x4a90e2 });
     });
     
     bg.on('pointertap', onClick);

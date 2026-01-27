@@ -5,6 +5,15 @@
 
 Willkommen bei Kaiser von Deutschland! Dieses Handbuch führt Sie durch alle Aspekte des Spiels.
 
+## 🚧 Entwicklungsstatus
+
+> **⚠️ Hinweis:** Das Spiel befindet sich im **ersten Entwicklungsstadium**.  
+> 
+> - Die beschriebenen Features sind größtenteils implementiert
+> - Einige Funktionen befinden sich noch in der Entwicklung
+> - Das Gameplay wird kontinuierlich verbessert und ausbalanciert
+> - Eine vollständig spielbare Version wird bald verfügbar sein
+
 ---
 
 ## 📋 Inhaltsverzeichnis

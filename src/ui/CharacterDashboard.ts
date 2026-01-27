@@ -33,7 +33,7 @@ export class CharacterDashboard {
     // Hintergrund
     const background = new PIXI.Graphics();
     background.rect(0, 0, 350, 250);
-    background.fill(0x1a1a2e, 0.9);
+    background.fill({ color: 0x1a1a2e, alpha: 0.9 });
     background.stroke({ width: 2, color: 0xffd700 });
     this.container.addChild(background);
     
@@ -170,13 +170,13 @@ export class CharacterDashboard {
         if (stat.max) {
           const barBg = new PIXI.Graphics();
           barBg.rect(150, yOffset + 2, 150, 10);
-          barBg.fill(0x333333);
+          barBg.fill({ color: 0x333333 });
           this.statsContainer.addChild(barBg);
           
           const barFill = new PIXI.Graphics();
           const fillWidth = (stat.value / stat.max) * 150;
           barFill.rect(150, yOffset + 2, fillWidth, 10);
-          barFill.fill(stat.color);
+          barFill.fill({ color: stat.color });
           this.statsContainer.addChild(barFill);
         }
         
@@ -235,7 +235,7 @@ export class CharacterDashboard {
     // Bar Background
     const barBg = new PIXI.Graphics();
     barBg.rect(25, 5, 70, 10);
-    barBg.fill(0x333333);
+    barBg.fill({ color: 0x333333 });
     container.addChild(barBg);
     
     // Bar Fill
@@ -243,7 +243,7 @@ export class CharacterDashboard {
     const fillWidth = (value / 100) * 70;
     const color = value > 66 ? 0x44ff44 : value > 33 ? 0xffaa44 : 0xff4444;
     barFill.rect(25, 5, fillWidth, 10);
-    barFill.fill(color);
+    barFill.fill({ color });
     container.addChild(barFill);
     
     return container;

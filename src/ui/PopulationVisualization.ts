@@ -89,14 +89,14 @@ export class PopulationVisualization {
       const maleBar = new PIXI.Graphics();
       const maleWidth = (pyramid.male[i].percentage / maxPercentage) * maxBarWidth;
       maleBar.rect(centerX - maleWidth, y, maleWidth, barHeight - 4);
-      maleBar.fill(0x4a90e2);
+      maleBar.fill({ color: 0x4a90e2 });
       pyramidContainer.addChild(maleBar);
       
       // Frauen (rechts, rosa)
       const femaleBar = new PIXI.Graphics();
       const femaleWidth = (pyramid.female[i].percentage / maxPercentage) * maxBarWidth;
       femaleBar.rect(centerX, y, femaleWidth, barHeight - 4);
-      femaleBar.fill(0xe94b8a);
+      femaleBar.fill({ color: 0xe94b8a });
       pyramidContainer.addChild(femaleBar);
       
       // Altersgruppe Label
@@ -144,7 +144,7 @@ export class PopulationVisualization {
     
     const maleSquare = new PIXI.Graphics();
     maleSquare.rect(0, 0, 20, 20);
-    maleSquare.fill(0x4a90e2);
+    maleSquare.fill({ color: 0x4a90e2 });
     legend.addChild(maleSquare);
     
     const maleLabel = new PIXI.Text({
@@ -161,7 +161,7 @@ export class PopulationVisualization {
     
     const femaleSquare = new PIXI.Graphics();
     femaleSquare.rect(120, 0, 20, 20);
-    femaleSquare.fill(0xe94b8a);
+    femaleSquare.fill({ color: 0xe94b8a });
     legend.addChild(femaleSquare);
     
     const femaleLabel = new PIXI.Text({
@@ -251,7 +251,7 @@ export class PopulationVisualization {
     const size = citizen.age < 18 ? 3 : (citizen.age > 60 ? 5 : 4);
     
     sprite.circle(0, 0, size);
-    sprite.fill(color);
+    sprite.fill({ color });
     
     // Interaktivität
     sprite.eventMode = 'static';
@@ -280,7 +280,7 @@ export class PopulationVisualization {
     
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, 200, 120);
-    bg.fill(0x2c3e50);
+    bg.fill({ color: 0x2c3e50 });
     bg.stroke({ width: 2, color: 0xecf0f1 });
     tooltip.addChild(bg);
     

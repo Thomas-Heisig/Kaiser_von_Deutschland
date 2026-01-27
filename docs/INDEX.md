@@ -3,6 +3,20 @@
 **Version**: 2.5.0  
 **Letzte Aktualisierung**: Dezember 2025
 
+## 🚧 Entwicklungsstatus
+
+> **⚠️ WICHTIGER HINWEIS:** Dieses Spiel befindet sich noch im **ersten Entwicklungsstadium** (Alpha-Phase).  
+>
+> Die Kernfunktionalität ist implementiert, aber das Spiel wird kontinuierlich weiterentwickelt.  
+> Eine vollständig spielbare und ausbalancierte Version wird in den kommenden Monaten verfügbar sein.
+>
+> **Aktueller Stand:**
+> - ✅ Grundlegende Spielmechanik funktionsfähig
+> - ✅ Hauptsysteme (Population, Wirtschaft, Politik) implementiert
+> - 🔄 UI/UX-Optimierung in Arbeit
+> - 🔄 Gameplay-Balancing läuft
+> - 📝 Dokumentation wird fortlaufend ergänzt
+
 ## Schnellzugriff
 
 ### 🎮 Für Spieler
