@@ -264,7 +264,7 @@ export class Graphics {
     // Gelände-Höhenkarte zeichnen
     const background = new PIXI.Graphics();
     background.rect(0, 0, width, height);
-    background.fill(terrainColors.base);
+    background.fill({ color: terrainColors.base });
     this.terrainLayer.addChild(background);
 
     // Geländemerkmale basierend auf Terrain-Daten
@@ -377,11 +377,11 @@ export class Graphics {
       
       // Baumkrone
       tree.circle(tx, ty, 4 + Math.random() * 3);
-      tree.fill(0x228b22);
+      tree.fill({ color: 0x228b22 });
       
       // Baumstamm
       tree.rect(tx - 1, ty + 3, 2, 6);
-      tree.fill(0x8b4513);
+      tree.fill({ color: 0x8b4513 });
       
       container.addChild(tree);
     }
@@ -410,7 +410,7 @@ export class Graphics {
     mountain.lineTo(x - width / 2, y + height);
     mountain.lineTo(x + width / 2, y + height);
     mountain.closePath();
-    mountain.fill(color);
+    mountain.fill({ color });
     
     // Schnee auf Spitze (wenn hoch genug)
     if (height > 60) {
@@ -418,7 +418,7 @@ export class Graphics {
       mountain.lineTo(x - width / 4, y + height * 0.3);
       mountain.lineTo(x + width / 4, y + height * 0.3);
       mountain.closePath();
-      mountain.fill(0xffffff);
+      mountain.fill({ color: 0xffffff });
     }
     
     this.terrainLayer.addChild(mountain);
@@ -440,7 +440,7 @@ export class Graphics {
   private drawHill(color: number, x: number, y: number, width: number, height: number): void {
     const hill = new PIXI.Graphics();
     hill.ellipse(x, y, width / 2, height / 2);
-    hill.fill(color);
+    hill.fill({ color });
     
     this.terrainLayer.addChild(hill);
   }
@@ -549,44 +549,44 @@ export class Graphics {
     
     // Hauptgebäude
     graphics.rect(0, 0, 120, 80);
-    graphics.fill(0x7f5539);
+    graphics.fill({ color: 0x7f5539 });
     
     // Türme
     graphics.rect(-10, 10, 20, 60); // Linker Turm
-    graphics.fill(0x5b3d2a);
+    graphics.fill({ color: 0x5b3d2a });
     graphics.rect(110, 10, 20, 60); // Rechter Turm
-    graphics.fill(0x5b3d2a);
+    graphics.fill({ color: 0x5b3d2a });
     
     // Turmspitzen
     graphics.moveTo(0, 10);
     graphics.lineTo(10, 0);
     graphics.lineTo(20, 10);
     graphics.closePath();
-    graphics.fill(0x8b4513);
+    graphics.fill({ color: 0x8b4513 });
     
     graphics.moveTo(120, 10);
     graphics.lineTo(130, 0);
     graphics.lineTo(140, 10);
     graphics.closePath();
-    graphics.fill(0x8b4513);
+    graphics.fill({ color: 0x8b4513 });
     
     // Tor
     graphics.rect(50, 60, 20, 20);
-    graphics.fill(0x8b4513);
+    graphics.fill({ color: 0x8b4513 });
     
     // Fenster
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 2; j++) {
         graphics.rect(20 + i * 30, 20 + j * 20, 8, 12);
-        graphics.fill(0xf0e68c);
+        graphics.fill({ color: 0xf0e68c });
       }
     }
     
     // Flagge
     graphics.rect(60, -20, 3, 20);
-    graphics.fill(0xff0000);
+    graphics.fill({ color: 0xff0000 });
     graphics.rect(60, -20, 15, 10);
-    graphics.fill(0xff0000);
+    graphics.fill({ color: 0xff0000 });
     
     castle.addChild(graphics);
     this.infrastructureLayer.addChild(castle);
@@ -597,27 +597,27 @@ export class Graphics {
     
     // Gebäudegrundform
     building.rect(x - size/2, y - size/2, size, size);
-    building.fill(color);
+    building.fill({ color });
     
     // Gebäudedetails basierend auf Typ
     switch (type) {
       case 'market':
         building.rect(x - size/4, y - size/2 - 5, size/2, 5); // Dach
-        building.fill(0xb58300);
+        building.fill({ color: 0xb58300 });
         building.rect(x - size/4, y - size/4, size/2, 2); // Theke
-        building.fill(0xffffff);
+        building.fill({ color: 0xffffff });
         break;
         
       case 'farm':
         building.arc(x, y - size/2, size/3, 0, Math.PI); // Strohdach
-        building.fill(0x556b2f);
+        building.fill({ color: 0x556b2f });
         break;
         
       case 'barracks':
         building.rect(x - size/2, y - size/2, size, size/3); // Dach
-        building.fill(0x8b0000);
+        building.fill({ color: 0x8b0000 });
         building.rect(x - size/4, y - size/6, size/2, size/3); // Tor
-        building.fill(0xffffff);
+        building.fill({ color: 0xffffff });
         break;
         
       case 'church':
@@ -625,9 +625,9 @@ export class Graphics {
         building.lineTo(x, y - size);
         building.lineTo(x + size/2, y - size/2);
         building.closePath();
-        building.fill(0xd4af37); // Kirchturmspitze
+        building.fill({ color: 0xd4af37 }); // Kirchturmspitze
         building.rect(x - size/6, y - size/2, size/3, size/2); // Turm
-        building.fill(0xd4af37);
+        building.fill({ color: 0xd4af37 });
         break;
     }
     
@@ -727,11 +727,11 @@ export class Graphics {
     
     // Körper
     soldier.rect(x - 3, y - 8, 6, 16);
-    soldier.fill(color);
+    soldier.fill({ color });
     
     // Kopf
     soldier.circle(x, y - 12, 4);
-    soldier.fill(0xffdbac);
+    soldier.fill({ color: 0xffdbac });
     
     // Waffe basierend auf Typ
     switch (type) {
@@ -751,7 +751,7 @@ export class Graphics {
         soldier.stroke({ width: 2, color: 0x8b4513 });
         // Pferd
         soldier.rect(x - 6, y + 4, 12, 6);
-        soldier.fill(0x8b4513);
+        soldier.fill({ color: 0x8b4513 });
         break;
         
       case 'archer':
@@ -775,14 +775,14 @@ export class Graphics {
       
       // Katapult
       engine.rect(offset - 10, -5, 20, 10); // Basis
-      engine.fill(0x8b4513);
+      engine.fill({ color: 0x8b4513 });
       
       engine.rect(offset - 2, -15, 4, 10); // Arm
-      engine.fill(0xa0522d);
+      engine.fill({ color: 0xa0522d });
       
       // Gegengewicht
       engine.rect(offset - 8, 5, 16, 8);
-      engine.fill(0x696969);
+      engine.fill({ color: 0x696969 });
       
       container.addChild(engine);
     }
@@ -867,11 +867,11 @@ export class Graphics {
     ship.lineTo(x + 8, y + 5);
     ship.lineTo(x - 8, y + 5);
     ship.closePath();
-    ship.fill(0x8b4513);
+    ship.fill({ color: 0x8b4513 });
     
     // Mast
     ship.rect(x - 1, y - 15, 2, 15);
-    ship.fill(0xa0522d);
+    ship.fill({ color: 0xa0522d });
     
     // Segel
     ship.moveTo(x, y - 15);
@@ -879,7 +879,7 @@ export class Graphics {
     ship.lineTo(x + 8, y);
     ship.lineTo(x, y - 10);
     ship.closePath();
-    ship.fill(0xffffff);
+    ship.fill({ color: 0xffffff });
     
     return ship;
   }
@@ -947,7 +947,7 @@ export class Graphics {
       
       // Main node
       node.circle(x, y, size);
-      node.fill(color);
+      node.fill({ color });
       
       this.overlayLayer.addChild(node);
       
@@ -1064,7 +1064,7 @@ export class Graphics {
         const y = Math.random() * height;
         const size = Math.random() * 2;
         star.circle(x, y, size);
-        star.fill(0xffffff);
+        star.fill({ color: 0xffffff });
         this.overlayLayer.addChild(star);
       }
     }
@@ -1106,7 +1106,7 @@ export class Graphics {
     for (let i = 0; i < 20; i++) {
       const particle = new PIXI.Graphics();
       particle.circle(0, 0, 2 + Math.random() * 3);
-      particle.fill(0xFFD700);
+      particle.fill({ color: 0xFFD700 });
       particle.x = x;
       particle.y = y;
       

@@ -32,7 +32,7 @@ export class TimeControlsPanel {
     // Kompakter Hintergrund
     const background = new PIXI.Graphics();
     background.rect(0, 0, 400, 120);
-    background.fill(0x1a1a2e, 0.9);
+    background.fill({ color: 0x1a1a2e, alpha: 0.9 });
     background.stroke({ width: 2, color: 0x4a90e2 });
     this.container.addChild(background);
     
@@ -173,14 +173,14 @@ export class TimeControlsPanel {
     
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, 40, 40);
-    bg.fill(0x4a90e2);
+    bg.fill({ color: 0x4a90e2 });
     bg.eventMode = 'static';
     bg.cursor = 'pointer';
     
     bg.on('pointerover', () => {
       bg.clear();
       bg.rect(0, 0, 40, 40);
-      bg.fill(0x5aa0f2);
+      bg.fill({ color: 0x5aa0f2 });
       
       // Zeige Tooltip (vereinfacht)
       if (tooltip) {
@@ -191,7 +191,7 @@ export class TimeControlsPanel {
     bg.on('pointerout', () => {
       bg.clear();
       bg.rect(0, 0, 40, 40);
-      bg.fill(0x4a90e2);
+      bg.fill({ color: 0x4a90e2 });
     });
     
     bg.on('pointertap', onClick);

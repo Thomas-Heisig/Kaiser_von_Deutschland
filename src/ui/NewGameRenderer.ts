@@ -581,7 +581,7 @@ export class NewGameRenderer {
     tree.lineTo(x - 4, y + 20);
     tree.lineTo(x + 4, y + 20);
     tree.closePath();
-    tree.fill(0x8B4513);
+    tree.fill({ color: 0x8B4513 });
     
     // Krone (mehrere Ebenen)
     const crownLevels = [
@@ -596,7 +596,7 @@ export class NewGameRenderer {
       tree.lineTo(x, level.y + level.size / 2);
       tree.lineTo(x - level.size / 2, level.y);
       tree.closePath();
-      tree.fill(level.color);
+      tree.fill({ color: level.color });
     });
     
     this.isometricLayer.addChild(tree);
@@ -645,7 +645,7 @@ export class NewGameRenderer {
     castle.lineTo(x + baseWidth / 2, y + baseHeight / 2 + buildingHeight);
     castle.lineTo(x, y + buildingHeight);
     castle.closePath();
-    castle.fill(0x8B7355);
+    castle.fill({ color: 0x8B7355 });
     
     // Rechte Seite
     castle.moveTo(x, y);
@@ -653,7 +653,7 @@ export class NewGameRenderer {
     castle.lineTo(x - baseWidth / 2, y + baseHeight / 2 + buildingHeight);
     castle.lineTo(x, y + buildingHeight);
     castle.closePath();
-    castle.fill(0x6B5345);
+    castle.fill({ color: 0x6B5345 });
     
     // Dach
     castle.moveTo(x, y - 20);
@@ -661,7 +661,7 @@ export class NewGameRenderer {
     castle.lineTo(x, y + baseHeight - 20);
     castle.lineTo(x - baseWidth / 2, y + baseHeight / 2 - 20);
     castle.closePath();
-    castle.fill(0xDC143C);
+    castle.fill({ color: 0xDC143C });
     
     // Türme
     this.drawIsometricTower(castle, x - 30, y + 10);
@@ -670,7 +670,7 @@ export class NewGameRenderer {
     // Flagge
     const flag = new PIXI.Graphics();
     flag.rect(x - 5, y - 40, 15, 10);
-    flag.fill(0xFF0000);
+    flag.fill({ color: 0xFF0000 });
     castle.addChild(flag);
     
     this.isometricLayer.addChild(castle);
@@ -686,7 +686,7 @@ export class NewGameRenderer {
     parent.lineTo(x + towerWidth / 2, y + 10 + towerHeight);
     parent.lineTo(x, y + towerHeight);
     parent.closePath();
-    parent.fill(0x9B8B7A);
+    parent.fill({ color: 0x9B8B7A });
     
     // Turmspitze
     parent.moveTo(x, y - 15);
@@ -694,7 +694,7 @@ export class NewGameRenderer {
     parent.lineTo(x, y + 5);
     parent.lineTo(x - towerWidth / 2, y - 5);
     parent.closePath();
-    parent.fill(0x8B0000);
+    parent.fill({ color: 0x8B0000 });
   }
 
   private drawIsometricBuilding(x: number, y: number, _type: string, color: number, icon: string): void {
@@ -714,7 +714,7 @@ export class NewGameRenderer {
     graphics.lineTo(width / 2, height / 2 + buildingHeight);
     graphics.lineTo(0, buildingHeight);
     graphics.closePath();
-    graphics.fill(color);
+    graphics.fill({ color });
     
     // Rechte Seite (dunkler)
     graphics.moveTo(0, 0);
@@ -730,7 +730,7 @@ export class NewGameRenderer {
     graphics.lineTo(0, height - 10);
     graphics.lineTo(-width / 2, height / 2 - 10);
     graphics.closePath();
-    graphics.fill(0x8B4513);
+    graphics.fill({ color: 0x8B4513 });
     
     building.addChild(graphics);
     
@@ -781,11 +781,11 @@ export class NewGameRenderer {
     
     // Körper
     citizen.rect(x - 2, y - 6, 4, 12);
-    citizen.fill(this.randomCitizenColor());
+    citizen.fill({ color: this.randomCitizenColor() });
     
     // Kopf
     citizen.circle(x, y - 8, 3);
-    citizen.fill(0xFFDBAC);
+    citizen.fill({ color: 0xFFDBAC });
     
     this.isometricLayer.addChild(citizen);
     
@@ -809,7 +809,7 @@ export class NewGameRenderer {
     // Hintergrund
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, width, height);
-    bg.fill(0x2C5F2D);
+    bg.fill({ color: 0x2C5F2D });
     this.mapLayer.addChild(bg);
     
     // Regionen zeichnen
@@ -873,7 +873,7 @@ export class NewGameRenderer {
     
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, width, this.app.screen.height);
-    bg.fill(0x1a1a2e);
+    bg.fill({ color: 0x1a1a2e });
     this.mapLayer.addChild(bg);
     
     const title = new PIXI.Text({
@@ -928,7 +928,7 @@ export class NewGameRenderer {
       // Balken
       const bar = new PIXI.Graphics();
       bar.rect(startX + 150, y, barWidth, barHeight);
-      bar.fill(popClass.color);
+      bar.fill({ color: popClass.color });
       this.mapLayer.addChild(bar);
       
       // Wert
@@ -954,7 +954,7 @@ export class NewGameRenderer {
     
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, this.app.screen.width, this.app.screen.height);
-    bg.fill(0x2C3E50);
+    bg.fill({ color: 0x2C3E50 });
     this.mapLayer.addChild(bg);
     
     const title = new PIXI.Text({
@@ -1036,7 +1036,7 @@ export class NewGameRenderer {
     
     const bg = new PIXI.Graphics();
     bg.rect(0, 0, this.app.screen.width, this.app.screen.height);
-    bg.fill(0x16213E);
+    bg.fill({ color: 0x16213E });
     this.mapLayer.addChild(bg);
     
     const title = new PIXI.Text({
@@ -1076,7 +1076,7 @@ export class NewGameRenderer {
       slice.moveTo(centerX, centerY);
       slice.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
       slice.closePath();
-      slice.fill(resource.color);
+      slice.fill({ color: resource.color });
       this.mapLayer.addChild(slice);
       
       // Label
@@ -1289,7 +1289,7 @@ export class NewGameRenderer {
       }
       
       particle.circle(0, 0, size);
-      particle.fill(color);
+      particle.fill({ color });
       particle.x = x;
       particle.y = y;
       
