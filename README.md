@@ -6,6 +6,18 @@
 
 Eine umfassende historische Königreichssimulation von Jahr 0 bis in die Zukunft - Ein modernes Remake des Klassikers "Kaiser" mit massiven Erweiterungen.
 
+## 🚧 Entwicklungsstatus
+
+> **⚠️ WICHTIGER HINWEIS:** Dieses Spiel befindet sich noch in einer **frühen Entwicklungsphase** (Alpha-Stadium).  
+> 
+> - ✅ **Grundlegende Systeme** sind implementiert und funktionsfähig
+> - 🔄 **Aktive Entwicklung** - Neue Features werden kontinuierlich hinzugefügt
+> - 🎮 **Spielbare Version** ist verfügbar, aber noch nicht vollständig ausbalanciert
+> - 🐛 **Bugs und Unvollständigkeiten** sind zu erwarten
+> - 🚀 **Vollständige spielbare Version** wird in den kommenden Monaten verfügbar sein
+>
+> Feedback und Bug-Reports sind herzlich willkommen! Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
+
 ## 🎮 Spielkonzept
 
 Kaiser von Deutschland ist eine komplexe Strategie- und Rollenspielsimulation, die es Spielern ermöglicht, verschiedene historische und moderne Rollen zu übernehmen - vom einfachen Arbeiter bis zum mächtigen Kaiser. Das Spiel deckt eine Zeitspanne von über 2000 Jahren ab und kombiniert historische Genauigkeit mit strategischer Tiefe.
